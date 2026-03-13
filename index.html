@@ -24,6 +24,7 @@
         .btn-detalle.open { transform: rotate(180deg); }
 
         input, select { background: #1e293b !important; color: white !important; border: 1px solid #334155 !important; }
+        ::placeholder { color: #64748b !important; }
     </style>
 </head>
 <body>
@@ -45,17 +46,20 @@
         <main class="max-w-7xl mx-auto p-8 grid grid-cols-1 md:grid-cols-4 gap-8">
             <aside class="space-y-2">
                 <button onclick="showTab('inicio', this)" class="w-full text-left p-4 rounded-lg sidebar-card active-tab font-semibold">📊 Totales</button>
-                <button onclick="showTab('vacaciones', this)" class="w-full text-left p-4 rounded-lg sidebar-card font-semibold">📅 Alta / Solicitud</button>
+                <button id="btn-pestaña-form" onclick="showTab('vacaciones', this)" class="w-full text-left p-4 rounded-lg sidebar-card font-semibold">📅 Alta / Solicitud</button>
             </aside>
 
             <section class="md:col-span-3">
                 <div id="inicio" class="tab-content active bg-slate-900 p-6 rounded-2xl border border-slate-800">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-xl font-bold">Resumen de Vacaciones</h2>
-                        <button onclick="cargarDatosExcel()" class="bg-blue-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-500 transition">🔄 Actualizar Datos</button>
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+                        <h2 class="text-xl font-bold">Resumen General</h2>
+                        <div class="relative w-full md:w-64">
+                            <input type="text" id="buscador" onkeyup="filtrarNombres()" placeholder="🔍 Buscar empleado..." class="w-full p-2 pl-10 rounded-lg text-sm border border-slate-700">
+                        </div>
+                        <button onclick="cargarDatosExcel()" class="bg-blue-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-500 shrink-0">🔄 Actualizar</button>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm">
+                        <table class="w-full text-left text-sm" id="tabla-empleados">
                             <thead>
                                 <tr class="border-b border-slate-800 text-slate-500 uppercase text-[10px] font-extrabold tracking-widest">
                                     <th class="py-4 px-4">Empleado</th>
@@ -63,6 +67,7 @@
                                     <th class="py-4 px-2 text-center">Generadas</th>
                                     <th class="py-4 px-2 text-center">Gastadas</th>
                                     <th class="py-4 px-2 text-center">Saldo</th>
+                                    <th class="py-4 px-2 text-center">Acción</th>
                                 </tr>
                             </thead>
                             <tbody id="tabla-datos"></tbody>
@@ -72,39 +77,39 @@
 
                 <div id="vacaciones" class="tab-content bg-slate-900 p-8 rounded-2xl border border-slate-800">
                     <div class="max-w-md mx-auto space-y-4">
-                        <h2 class="text-xl font-bold text-center text-blue-400 uppercase">Gestión de Empleado</h2>
+                        <h2 id="titulo-form" class="text-xl font-bold text-center text-blue-400 uppercase">Gestión de Empleado</h2>
                         <select id="empresa" class="w-full p-3 rounded-lg text-sm">
                             <option>Transportes Antonio Belzunces S.L</option>
                             <option>Transportes Juan Belzunces S.L</option>
                             <option>Comercial Belzunces Rojas S.A</option>
                         </select>
-                        <input type="text" id="nombre" placeholder="Nombre completo del trabajador" class="w-full p-3 rounded-lg text-sm">
+                        <input type="text" id="nombre" placeholder="Nombre completo" class="w-full p-3 rounded-lg text-sm">
                         
                         <div>
-                            <label class="text-[10px] font-bold text-slate-500 ml-1">FECHA DE ALTA EN EMPRESA</label>
+                            <label class="text-[10px] font-bold text-slate-500 ml-1">FECHA DE ALTA</label>
                             <input type="date" id="nuevaFechaAlta" class="w-full p-3 rounded-lg text-sm">
                         </div>
 
                         <hr class="border-slate-800 my-4">
-                        <p class="text-[10px] text-center text-slate-500 uppercase italic">Opcional: Periodo de Vacaciones</p>
                         
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label class="text-[10px] font-bold text-slate-500 ml-1">INICIO</label>
+                                <label class="text-[10px] font-bold text-slate-500 ml-1">INICIO VACACIONES</label>
                                 <input type="date" id="fechaIni" onchange="calcularDias()" class="w-full p-3 rounded-lg text-sm">
                             </div>
                             <div>
-                                <label class="text-[10px] font-bold text-slate-500 ml-1">FIN</label>
+                                <label class="text-[10px] font-bold text-slate-500 ml-1">FIN VACACIONES</label>
                                 <input type="date" id="fechaFin" onchange="calcularDias()" class="w-full p-3 rounded-lg text-sm">
                             </div>
                         </div>
                         
                         <div class="bg-slate-800 p-4 rounded-xl flex justify-between items-center font-bold">
-                            <span class="text-slate-400">Días Calculados:</span>
+                            <span class="text-slate-400">Días:</span>
                             <span id="contadorDias" class="text-blue-400 text-xl">0</span>
                         </div>
                         
-                        <button onclick="enviarYDescargar()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold uppercase shadow-lg hover:bg-blue-500">Guardar Registro</button>
+                        <button onclick="enviarYDescargar()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold uppercase hover:bg-blue-500">Guardar</button>
+                        <button onclick="limpiarFormulario()" class="w-full text-[10px] text-slate-500 uppercase">Limpiar</button>
                     </div>
                 </div>
             </section>
@@ -127,7 +132,33 @@
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.sidebar-card').forEach(c => c.classList.remove('active-tab'));
             document.getElementById(id).classList.add('active');
-            btn.classList.add('active-tab');
+            if(btn) btn.classList.add('active-tab');
+        }
+
+        // Lógica del BUSCADOR
+        function filtrarNombres() {
+            const input = document.getElementById("buscador").value.toUpperCase();
+            const filas = document.getElementById("tabla-datos").getElementsByTagName("tr");
+            
+            for (let i = 0; i < filas.length; i++) {
+                // Solo filtramos las filas principales (las que no son detalle)
+                if (!filas[i].classList.contains('detalle-fila')) {
+                    const nombre = filas[i].getElementsByTagName("td")[0];
+                    if (nombre) {
+                        const texto = nombre.textContent || nombre.innerText;
+                        if (texto.toUpperCase().indexOf(input) > -1) {
+                            filas[i].style.display = "";
+                        } else {
+                            filas[i].style.display = "none";
+                            // También ocultamos su detalle si existe una fila siguiente de detalle
+                            if (filas[i+1] && filas[i+1].classList.contains('detalle-fila')) {
+                                filas[i+1].classList.remove('active');
+                                filas[i+1].style.display = "none";
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         function calcularDias() {
@@ -139,9 +170,19 @@
             }
         }
 
+        function editarInfo(nombre, alta, empresa, ini = "", fin = "") {
+            document.getElementById('nombre').value = nombre;
+            document.getElementById('nuevaFechaAlta').value = alta;
+            document.getElementById('empresa').value = empresa;
+            document.getElementById('fechaIni').value = ini;
+            document.getElementById('fechaFin').value = fin;
+            calcularDias();
+            showTab('vacaciones', document.getElementById('btn-pestaña-form'));
+        }
+
         async function cargarDatosExcel() {
             const tbody = document.getElementById('tabla-datos');
-            tbody.innerHTML = "<tr><td colspan='5' class='py-8 text-center italic text-slate-500'>Sincronizando con Excel...</td></tr>";
+            tbody.innerHTML = "<tr><td colspan='6' class='py-8 text-center italic text-slate-500'>Sincronizando...</td></tr>";
             
             try {
                 const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0&t=${Date.now()}`;
@@ -155,6 +196,7 @@
                     if (r.length < 4 || !r[3]) continue;
                     const limpiar = (t) => t ? t.replace(/"/g, '').trim() : '';
                     
+                    const empresa = limpiar(r[1]);
                     const nombre = limpiar(r[3]);
                     const fIni = limpiar(r[4]);
                     const fFin = limpiar(r[5]);
@@ -162,14 +204,18 @@
                     const fechaAltaExcel = limpiar(r[7]); 
 
                     if (!trabajadores[nombre]) {
-                        trabajadores[nombre] = { nombre, fAlta: fechaAltaExcel || "2025-01-01", periodos: [], disfrutados: 0 };
+                        trabajadores[nombre] = { nombre, empresa, fAlta: fechaAltaExcel || "2025-01-01", periodos: [] };
                     }
                     
                     if (fIni && fFin) {
-                        trabajadores[nombre].periodos.push(`• Del ${fIni} al ${fFin} (${diasFila} días)`);
-                        trabajadores[nombre].disfrutados += diasFila;
+                        if (diasFila === 0) {
+                            const index = trabajadores[nombre].periodos.findIndex(p => p.ini === fIni && p.fin === fFin && p.activo !== false);
+                            if (index !== -1) trabajadores[nombre].periodos[index].activo = false;
+                        } else {
+                            trabajadores[nombre].periodos.push({ ini: fIni, fin: fFin, dias: diasFila, activo: true });
+                        }
                     }
-                    if (fechaAltaExcel && fechaAltaExcel !== "") trabajadores[nombre].fAlta = fechaAltaExcel;
+                    if (fechaAltaExcel) trabajadores[nombre].fAlta = fechaAltaExcel;
                 }
 
                 tbody.innerHTML = "";
@@ -178,33 +224,44 @@
                     const alta = new Date(t.fAlta);
                     const diffDias = Math.floor((hoy - alta) / (1000 * 60 * 60 * 24));
                     const generadas = Math.max(0, (diffDias * (30 / 365)).toFixed(1));
-                    const saldo = (generadas - t.disfrutados).toFixed(1);
+                    const disfrutados = t.periodos.reduce((acc, p) => p.activo ? acc + p.dias : acc, 0);
+                    const saldo = (generadas - disfrutados).toFixed(1);
                     const idDetalle = `detalle-${index}`;
 
                     tbody.innerHTML += `
-                        <tr class="border-b border-slate-800 hover:bg-slate-800/50 transition cursor-pointer" onclick="toggleDetalle('${idDetalle}', 'icon-${index}')">
-                            <td class="py-4 px-4 font-bold text-white">
+                        <tr class="border-b border-slate-800 hover:bg-slate-800/50 transition cursor-pointer">
+                            <td class="py-4 px-4 font-bold text-white" onclick="toggleDetalle('${idDetalle}', 'icon-${index}')">
                                 <span id="icon-${index}" class="btn-detalle mr-2 text-blue-500 text-[10px]">▼</span> ${t.nombre}
                             </td>
                             <td class="py-4 px-2 text-xs text-slate-400 font-mono">${t.fAlta}</td>
                             <td class="py-4 px-2 text-center font-semibold text-slate-300">${generadas}</td>
-                            <td class="py-4 px-2 text-center font-semibold text-red-400">${t.disfrutados}</td>
+                            <td class="py-4 px-2 text-center font-semibold text-red-400">${disfrutados}</td>
                             <td class="py-4 px-2 text-center">
                                 <span class="inline-block ${saldo > 0 ? 'bg-green-600' : 'bg-red-600'} text-white font-black px-3 py-1 rounded-full text-xs">
                                     ${saldo}
                                 </span>
                             </td>
+                            <td class="py-4 px-2 text-center">
+                                <button onclick="editarInfo('${t.nombre}', '${t.fAlta}', '${t.empresa}')" class="text-blue-400 hover:text-white">✏️</button>
+                            </td>
                         </tr>
                         <tr id="${idDetalle}" class="detalle-fila">
-                            <td colspan="5" class="p-6 border-l-4 border-blue-500 bg-slate-800/30">
-                                <p class="text-[10px] font-bold text-blue-400 uppercase mb-2">Historial de Vacaciones:</p>
+                            <td colspan="6" class="p-6 border-l-4 border-blue-500 bg-slate-800/30">
                                 <ul class="text-xs space-y-1 text-slate-400">
-                                    ${t.periodos.length > 0 ? t.periodos.map(p => `<li>${p}</li>`).join('') : '<li>Sin vacaciones disfrutadas</li>'}
+                                    ${t.periodos.filter(p => p.activo).map(p => `
+                                        <li class="flex justify-between items-center bg-slate-900 p-2 rounded border border-slate-700 mb-1">
+                                            <span>Del ${p.ini} al ${p.fin} (${p.dias} días)</span>
+                                            <div class="space-x-2">
+                                                <button onclick="editarInfo('${t.nombre}', '${t.fAlta}', '${t.empresa}', '${p.ini}', '${p.fin}')" class="text-blue-400 text-[10px] uppercase font-bold">Editar</button>
+                                                <button onclick="eliminarFila('${t.nombre}', '${t.fAlta}', '${t.empresa}', '${p.ini}', '${p.fin}')" class="text-red-500 text-[10px] uppercase font-bold">Eliminar</button>
+                                            </div>
+                                        </li>
+                                    `).join('') || '<li>Sin registros activos</li>'}
                                 </ul>
                             </td>
                         </tr>`;
                 });
-            } catch (e) { console.error("Error al cargar:", e); }
+            } catch (e) { console.error(e); }
         }
 
         function toggleDetalle(filaId, iconId) {
@@ -212,6 +269,17 @@
             const icono = document.getElementById(iconId);
             fila.classList.toggle('active');
             icono.classList.toggle('open');
+            // Aseguramos que se vea si la fila principal es visible
+            fila.style.display = fila.classList.contains('active') ? "table-row" : "none";
+        }
+
+        function eliminarFila(nombre, alta, empresa, ini, fin) {
+            if(confirm("¿Seguro que quieres eliminar este periodo?")) {
+                const d = { empresa, puesto: "CONDUCTOR", nombre, inicio: ini, fin: fin, dias: 0, fechaAlta: alta };
+                fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) });
+                alert("Eliminando...");
+                setTimeout(cargarDatosExcel, 2000);
+            }
         }
 
         async function enviarYDescargar() {
@@ -224,36 +292,11 @@
                 dias: document.getElementById('contadorDias').innerText,
                 fechaAlta: document.getElementById('nuevaFechaAlta').value
             };
-
-            if (!d.nombre || !d.fechaAlta) return alert("Error: El Nombre y la Fecha de Alta son obligatorios.");
-
-            // Guardar en Excel
+            if (!d.nombre || !d.fechaAlta) return alert("Nombre y Alta obligatorios.");
             fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) });
-
-            if (d.inicio && d.fin) {
-                // Generar Word
-                const doc = new docx.Document({
-                    sections: [{
-                        children: [
-                            new docx.Paragraph({ text: d.empresa.toUpperCase(), bold: true, size: 28, color: "1e40af" }),
-                            new docx.Paragraph({ text: `SOLICITUD DE VACACIONES`, spacing: { before: 400 }, bold: true }),
-                            new docx.Paragraph({ text: `Trabajador: ${d.nombre.toUpperCase()}`, spacing: { before: 200 } }),
-                            new docx.Paragraph({ text: `Días: ${d.dias} (Del ${d.inicio} al ${d.fin})`, spacing: { before: 200 } }),
-                            new docx.Paragraph({ text: "\n\nFirma del trabajador: __________________________", spacing: { before: 1000 } })
-                        ]
-                    }]
-                });
-                docx.Packer.toBlob(doc).then(blob => {
-                    saveAs(blob, `Solicitud_Vacaciones_${d.nombre}.docx`);
-                    alert("Registro completado y Word descargado.");
-                    limpiarFormulario();
-                    setTimeout(cargarDatosExcel, 1500);
-                });
-            } else {
-                alert("Empleado " + d.nombre + " registrado correctamente (Sin vacaciones).");
-                limpiarFormulario();
-                setTimeout(cargarDatosExcel, 1500);
-            }
+            alert("Enviado.");
+            limpiarFormulario();
+            setTimeout(cargarDatosExcel, 2000);
         }
 
         function limpiarFormulario() {
