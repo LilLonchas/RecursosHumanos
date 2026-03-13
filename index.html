@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal RRHH | Leonardo Transportes</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/docx@7.1.0/build/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .sidebar-card { transition: all 0.3s ease; border-left: 4px solid transparent; cursor: pointer; }
+        .sidebar-card.active-tab { border-left: 4px solid #2563eb; background: #eff6ff; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <header class="bg-slate-900 text-white p-6 shadow-xl">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold tracking-tight uppercase italic text-blue-400">Leonardo Transportes</h1>
+                <p class="text-slate-400 text-[10px] uppercase tracking-[0.3em]">Portal del Empleado - Gestión de Vacaciones</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-4 md:p-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+        
+        <aside class="space-y-2">
+            <button onclick="showTab('inicio', this)" class="w-full text-left p-4 rounded-lg bg-white shadow-sm sidebar-card active-tab">
+                <p class="font-bold text-xs uppercase tracking-wider text-slate-500">🏠 Inicio</p>
+            </button>
+            <button onclick="showTab('vacaciones', this)" class="w-full text-left p-4 rounded-lg bg-white shadow-sm sidebar-card">
+                <p class="font-bold text-xs uppercase tracking-wider text-slate-500">📅 Solicitar Vacaciones</p>
+            </button>
+            <button onclick="showTab('incidencias', this)" class="w-full text-left p-4 rounded-lg bg-white shadow-sm sidebar-card">
+                <p class="font-bold text-xs uppercase tracking-wider text-slate-500">🚛 Reporte de Ruta</p>
+            </button>
+        </aside>
+
+        <section class="md:col-span-3">
+            
+            <div id="inicio" class="tab-content active space-y-6">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4 text-center">Panel de Control</h2>
+                    <p class="text-slate-500 text-center text-sm mb-6">Desde aquí puedes gestionar tu documentación oficial y solicitudes de descanso.</p>
+                </div>
+            </div>
+
+            <div id="vacaciones" class="tab-content bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                <div class="max-w-md mx-auto">
+                    <h2 class="text-xl font-bold mb-2 text-center text-blue-900 uppercase tracking-tighter">Solicitud Formal</h2>
+                    <p class="text-slate-400 text-center text-[10px] uppercase mb-8">El sistema calculará automáticamente el total de días</p>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase">Empresa</label>
+                            <select id="empresaSeleccionada" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-sm">
+                                <option value="LEONARDO TRANSPORTES S.L.">LEONARDO TRANSPORTES S.L.</option>
+                                <option value="LOGÍSTICA DEHESA S.A.">LOGÍSTICA DEHESA S.A.</option>
+                                <option value="RUTAS DEL SUR TRANS">RUTAS DEL SUR TRANS</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase">Puesto de Trabajo</label>
+                            <select id="puestoEmpleado" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-sm">
+                                <option value="CONDUCTOR DE TRÁILER">Conductor de Tráiler</option>
+                                <option value="CONDUCTOR DE REPARTO">Conductor de Reparto</option>
+                                <option value="OPERARIO DE ALMACÉN">Operario de Almacén</option>
+                                <option value="ADMINISTRATIVO/A">Administrativo/a</option>
+                                <option value="MECÁNICO">Mecánico</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase">Nombre Completo</label>
+                            <input type="text" id="nombreEmpleado" placeholder="Ej: Juan Pérez" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase">Inicio</label>
+                                <input type="date" id="fechaInicio" onchange="calcularDias()" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase">Regreso</label>
+                                <input type="date" id="fechaFin" onchange="calcularDias()" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 flex justify-between items-center">
+                            <span class="text-xs font-bold text-blue-700 uppercase">Total Días Solicitados:</span>
+                            <span id="contadorDias" class="text-lg font-black text-blue-900">0</span>
+                        </div>
+
+                        <button onclick="generarWordVacaciones()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold uppercase text-xs tracking-[0.2em] shadow-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-2">
+                            Descargar Documento Word
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="incidencias" class="tab-content bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-xl font-bold mb-4">Reporte de Ruta</h2>
+                <p class="text-sm text-slate-400">Módulo en construcción para el equipo de conductores.</p>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        function showTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.sidebar-card').forEach(card => card.classList.remove('active-tab'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active-tab');
+        }
+
+        function calcularDias() {
+            const inicio = document.getElementById('fechaInicio').value;
+            const fin = document.getElementById('fechaFin').value;
+            const display = document.getElementById('contadorDias');
+
+            if (inicio && fin) {
+                const f1 = new Date(inicio);
+                const f2 = new Date(fin);
+                const diff = f2 - f1;
+                const dias = (diff / (1000 * 60 * 60 * 24)) + 1; // Incluimos el día de inicio
+                
+                if (dias > 0) {
+                    display.innerText = dias;
+                } else {
+                    display.innerText = "0";
+                }
+            }
+        }
+
+        async function generarWordVacaciones() {
+            const empresa = document.getElementById('empresaSeleccionada').value;
+            const puesto = document.getElementById('puestoEmpleado').value;
+            const nombre = document.getElementById('nombreEmpleado').value;
+            const inicio = document.getElementById('fechaInicio').value;
+            const fin = document.getElementById('fechaFin').value;
+            const diasTotales = document.getElementById('contadorDias').innerText;
+
+            if (!nombre || !inicio || !fin || diasTotales === "0") {
+                alert("Por favor, revisa las fechas y los datos.");
+                return;
+            }
+
+            const doc = new docx.Document({
+                sections: [{
+                    children: [
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: empresa, bold: true, size: 24, color: "1e40af" })],
+                        }),
+                        new docx.Paragraph({
+                            border: { bottom: { color: "94a3b8", space: 1, value: "single", size: 6 } },
+                            children: [new docx.TextRun({ text: "COMUNICACIÓN DE RECURSOS HUMANOS", size: 18, italic: true })],
+                        }),
+                        new docx.Paragraph({ text: "", spacing: { after: 400 } }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "SOLICITUD DE VACACIONES", bold: true, size: 32 })],
+                            alignment: docx.AlignmentType.CENTER,
+                            spacing: { after: 600 },
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: `Yo, D./Dña. ${nombre.toUpperCase()}, con el puesto de ${puesto.toUpperCase()}, comunico a la dirección de ${empresa} mi solicitud de vacaciones:`, size: 22 })],
+                            spacing: { after: 400 },
+                        }),
+
+                        // Tabla mejorada con Total Días
+                        new docx.Table({
+                            width: { size: 100, type: docx.WidthType.PERCENTAGE },
+                            rows: [
+                                new docx.TableRow({
+                                    children: [
+                                        new docx.TableCell({ shading: { fill: "f1f5f9" }, children: [new docx.Paragraph({ children: [new docx.TextRun({ text: "FECHA INICIO", bold: true, size: 18 })], alignment: docx.AlignmentType.CENTER })] }),
+                                        new docx.TableCell({ shading: { fill: "f1f5f9" }, children: [new docx.Paragraph({ children: [new docx.TextRun({ text: "FECHA FIN", bold: true, size: 18 })], alignment: docx.AlignmentType.CENTER })] }),
+                                        new docx.TableCell({ shading: { fill: "e2e8f0" }, children: [new docx.Paragraph({ children: [new docx.TextRun({ text: "TOTAL DÍAS", bold: true, size: 18 })], alignment: docx.AlignmentType.CENTER })] }),
+                                    ],
+                                }),
+                                new docx.TableRow({
+                                    children: [
+                                        new docx.TableCell({ children: [new docx.Paragraph({ text: inicio, alignment: docx.AlignmentType.CENTER })] }),
+                                        new docx.TableCell({ children: [new docx.Paragraph({ text: fin, alignment: docx.AlignmentType.CENTER })] }),
+                                        new docx.TableCell({ children: [new docx.Paragraph({ children: [new docx.TextRun({ text: diasTotales, bold: true })], alignment: docx.AlignmentType.CENTER })] }),
+                                    ],
+                                }),
+                            ],
+                            spacing: { after: 800 },
+                        }),
+
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "Firma del trabajador:                           Sello empresa:", size: 22 })],
+                            spacing: { before: 1000 },
+                        }),
+                        new docx.Paragraph({ text: "\n\n__________________________               __________________________" }),
+                    ],
+                }],
+            });
+
+            docx.Packer.toBlob(doc).then(blob => {
+                saveAs(blob, `Vacaciones_${nombre}.docx`);
+            });
+        }
+    </script>
+</body>
+</html>
