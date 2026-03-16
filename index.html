@@ -64,9 +64,20 @@
                 <div id="inicio" class="tab-content active bg-slate-900 p-6 rounded-2xl border border-slate-800">
                     <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6 shrink-0">
                         <h2 class="text-xl font-bold">Resumen de Personal</h2>
-                        <div class="relative w-full md:w-64">
-                            <input type="text" id="buscador" onkeyup="filtrarNombres()" placeholder="🔍 Buscar nombre o empresa..." class="w-full p-2 pl-4 rounded-lg text-sm">
+                        
+                        <div class="flex gap-2 w-full md:w-auto">
+                            <select id="filtroEmpresa" onchange="filtrarNombres()" class="p-2 rounded-lg text-sm bg-slate-800 border border-slate-700 text-white font-semibold">
+                                <option value="">🏢 Todas las Empresas</option>
+                                <option value="ANTONIO">Antonio Belzunces</option>
+                                <option value="JUAN">Juan Belzunces</option>
+                                <option value="COMERCIAL">Comercial Belzunces</option>
+                            </select>
+
+                            <div class="relative w-full md:w-64">
+                                <input type="text" id="buscador" onkeyup="filtrarNombres()" placeholder="🔍 Buscar nombre..." class="w-full p-2 pl-4 rounded-lg text-sm">
+                            </div>
                         </div>
+
                         <button onclick="cargarDatosExcel()" class="bg-blue-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-500">🔄 Sincronizar</button>
                     </div>
 
@@ -130,7 +141,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyfcXTMDJHa3K2ZWwrHw7j-c4QxgjhLAWMG9bAHSj-7ui67Uww_pc4k6TbMnzFUGSNh9Q/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbydLWtx3oVQUUYSrdVl_PFcgV7d9ycyM1aBP3rTIRQaFZ1TWc1FAFawBjgeQqsScJviGg/exec";
         const SHEET_ID = "1u8I2q-Hz6COb6m0e9eeR5S_lOiGAIErHXEV_v3YxtGA";
         let datosGlobales = {};
         let editando = false;
@@ -162,7 +173,7 @@
 
             document.getElementById('empresa').value = t.empresaFull;
             document.getElementById('nombre').value = t.nombre;
-            document.getElementById('nombre').readOnly = true; // No permitir cambiar nombre para no duplicar en Excel
+            document.getElementById('nombre').readOnly = true; 
             document.getElementById('fechaAltaCalc').value = t.fAltaCalcRaw;
             document.getElementById('fechaAltaReal').value = t.fAltaRealRaw;
             document.getElementById('claveContrato').value = t.clave;
@@ -174,7 +185,7 @@
         function limpiarFormulario() {
             editando = false;
             document.getElementById('titulo-form').innerText = "Ficha del Empleado";
-            document.getElementById('btn-guardar').innerText = "Guardar y Limpiar Anterior";
+            document.getElementById('btn-guardar').innerText = "Guardar Cambios";
             document.getElementById('btn-guardar').classList.replace('bg-amber-600', 'bg-blue-600');
             document.getElementById('nombre').readOnly = false;
 
@@ -208,9 +219,24 @@
         }
 
         function filtrarNombres() {
-            const input = document.getElementById("buscador").value.toUpperCase().trim();
-            document.querySelectorAll("#tabla-datos tr:not(.detalle-fila)").forEach(f => {
-                f.style.display = f.innerText.toUpperCase().includes(input) ? "" : "none";
+            const inputNombre = document.getElementById("buscador").value.toUpperCase().trim();
+            const filtroEmpresa = document.getElementById("filtroEmpresa").value.toUpperCase();
+            const filas = document.querySelectorAll("#tabla-datos tr:not(.detalle-fila)");
+
+            filas.forEach(fila => {
+                const nombreFila = fila.cells[0].innerText.toUpperCase();
+                const empresaFila = fila.cells[1].innerText.toUpperCase();
+
+                const coincideNombre = nombreFila.includes(inputNombre);
+                const coincideEmpresa = filtroEmpresa === "" || empresaFila.includes(filtroEmpresa);
+
+                if (coincideNombre && coincideEmpresa) {
+                    fila.style.display = "";
+                } else {
+                    fila.style.display = "none";
+                    const index = fila.querySelector('.btn-detalle')?.id.replace('ic-', '');
+                    if (index) document.getElementById(`det-${index}`).classList.remove('active');
+                }
             });
         }
 
@@ -243,24 +269,18 @@
             const fAlta = document.getElementById('fechaAltaCalc').value;
             if (!nombreLimpio || !fAlta) return alert("Falta Nombre o Fecha Alta Cálculo.");
 
-            // Si NO estamos editando, borramos lo anterior para hacer limpieza
-            if (!editando) {
-                const ordenLimpieza = { nombre: nombreLimpio, dias: -1, accion: "BORRAR_COMPLETO" };
-                fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(ordenLimpieza) });
-            }
-
             const d = {
                 empresa: document.getElementById('empresa').value,
                 puesto: "CONDUCTOR",
                 nombre: nombreLimpio,
                 inicio: document.getElementById('fechaIni').value || "",
                 fin: document.getElementById('fechaFin').value || "",
-                dias: parseInt(document.getElementById('contadorDias').innerText),
+                dias: parseInt(document.getElementById('contadorDias').innerText) || 0,
                 fechaAlta: fAlta,
                 fechaAltaReal: document.getElementById('fechaAltaReal').value,
                 clave: document.getElementById('claveContrato').value,
                 baja: document.getElementById('fechaBaja').value || "ACTIVO",
-                accion: editando ? "EDITAR_MAESTRO" : "NUEVO" // Enviamos señal al Excel
+                accion: editando ? "EDITAR" : "NUEVO"
             };
 
             fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) });
