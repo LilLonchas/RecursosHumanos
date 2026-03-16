@@ -7,6 +7,8 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/docx@7.1.0/build/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f1f5f9; overflow: hidden; }
@@ -35,7 +37,6 @@
 
         .text-empresa { color: #94a3b8; font-size: 9px; font-weight: bold; text-transform: uppercase; }
         
-        /* Estilos para el autocompletado */
         .search-results { position: absolute; width: 100%; background: #1e293b; border: 1px solid #334155; z-index: 50; max-height: 150px; overflow-y: auto; border-radius: 0 0 8px 8px; }
         .search-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #334155; font-size: 13px; }
         .search-item:hover { background: #334155; }
@@ -106,10 +107,22 @@
                     <div class="max-w-md mx-auto space-y-6">
                         <h2 class="text-2xl font-black text-blue-400 uppercase italic">Registrar Vacaciones</h2>
                         
-                        <div class="relative">
-                            <label class="text-[10px] text-slate-500 uppercase font-bold">Buscar Empleado</label>
-                            <input type="text" id="vaca-search" onkeyup="buscarParaVaca(this.value)" placeholder="Escribe el nombre..." class="w-full p-4 rounded-xl text-lg font-bold">
-                            <div id="vaca-results" class="search-results hidden"></div>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-[10px] text-slate-500 uppercase font-bold">1. Filtrar por Empresa</label>
+                                <select id="vaca-filtro-empresa" class="w-full p-3 rounded-lg text-sm font-bold mt-1">
+                                    <option value="">Todas las empresas</option>
+                                    <option value="ANTONIO">Antonio Belzunces</option>
+                                    <option value="JUAN">Juan Belzunces</option>
+                                    <option value="COMERCIAL">Comercial Belzunces</option>
+                                </select>
+                            </div>
+
+                            <div class="relative">
+                                <label class="text-[10px] text-slate-500 uppercase font-bold">2. Buscar Empleado</label>
+                                <input type="text" id="vaca-search" onkeyup="buscarParaVaca(this.value)" placeholder="Escribe el nombre..." class="w-full p-4 rounded-xl text-lg font-bold mt-1">
+                                <div id="vaca-results" class="search-results hidden"></div>
+                            </div>
                         </div>
 
                         <div id="vaca-info-empleado" class="hidden bg-slate-800/50 p-4 rounded-xl border border-blue-500/30">
@@ -195,14 +208,25 @@
             if(btn) btn.classList.add('active-tab');
         }
 
-        // --- LÓGICA DE BÚSQUEDA PARA VACACIONES ---
+        // --- BÚSQUEDA PARA VACACIONES CON FILTRO EMPRESA ---
         function buscarParaVaca(val) {
             const resDiv = document.getElementById('vaca-results');
-            if (val.length < 2) { resDiv.classList.add('hidden'); return; }
+            const filtroEmpresa = document.getElementById('vaca-filtro-empresa').value.toUpperCase();
+            if (val.length < 1) { resDiv.classList.add('hidden'); return; }
             
-            const matches = Object.values(datosGlobales).filter(t => t.nombre.includes(val.toUpperCase())).slice(0, 5);
+            const matches = Object.values(datosGlobales).filter(t => {
+                const coincideNombre = t.nombre.includes(val.toUpperCase());
+                const coincideEmpresa = filtroEmpresa === "" || t.empresaFull.toUpperCase().includes(filtroEmpresa);
+                return coincideNombre && coincideEmpresa;
+            }).slice(0, 10);
+
             if (matches.length > 0) {
-                resDiv.innerHTML = matches.map(m => `<div class="search-item" onclick="seleccionarParaVaca('${m.nombre}')">${m.nombre} <span class="text-[9px] text-slate-500">(${m.empresaFull.split(' ')[1]})</span></div>`).join('');
+                resDiv.innerHTML = matches.map(m => `
+                    <div class="search-item" onclick="seleccionarParaVaca('${m.nombre.replace(/'/g, "\\'")}')">
+                        ${m.nombre} <br>
+                        <span class="text-[9px] text-blue-400 font-bold uppercase">${m.empresaFull.replace("Transportes ", "")}</span>
+                    </div>
+                `).join('');
                 resDiv.classList.remove('hidden');
             } else {
                 resDiv.classList.add('hidden');
@@ -245,15 +269,15 @@
                 fechaAltaReal: empleadoVacaSeleccionado.fAltaRealRaw,
                 clave: empleadoVacaSeleccionado.clave,
                 baja: empleadoVacaSeleccionado.bajaRaw,
-                accion: "NUEVO" // Añadimos una nueva fila de vacaciones
+                accion: "NUEVO"
             };
 
             fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) });
-            alert("Vacaciones registradas correctamente.");
+            alert("Vacaciones registradas.");
             location.reload();
         }
 
-        // --- LÓGICA DE GESTIÓN DE FICHA ---
+        // --- GESTIÓN DE FICHA ---
         function editarTrabajador(nombre) {
             const t = datosGlobales[nombre];
             if (!t) return;
@@ -322,6 +346,55 @@
             document.getElementById(icon).classList.toggle('open');
         }
 
+        // --- FUNCIÓN GENERAR WORD ---
+        async function generarWord(nombre, empresa, fIni, fFin, dias) {
+            const { Document, Packer, Paragraph, TextRun, AlignmentType } = docx;
+
+            const doc = new Document({
+                sections: [{
+                    properties: {},
+                    children: [
+                        new Paragraph({
+                            alignment: AlignmentType.CENTER,
+                            children: [
+                                new TextRun({ text: empresa.toUpperCase(), bold: true, size: 28 }),
+                            ],
+                        }),
+                        new Paragraph({ text: "", spacing: { before: 400 } }),
+                        new Paragraph({
+                            alignment: AlignmentType.CENTER,
+                            children: [
+                                new TextRun({ text: "COMUNICACIÓN DE VACACIONES", bold: true, underline: {}, size: 24 }),
+                            ],
+                        }),
+                        new Paragraph({ text: "", spacing: { before: 800 } }),
+                        new Paragraph({
+                            children: [
+                                new TextRun({ text: `Por la presente, se comunica que el trabajador `, size: 24 }),
+                                new TextRun({ text: nombre.toUpperCase(), bold: true, size: 24 }),
+                                new TextRun({ text: ` disfrutará de su periodo vacacional desde el día `, size: 24 }),
+                                new TextRun({ text: fIni, bold: true, size: 24 }),
+                                new TextRun({ text: ` hasta el día `, size: 24 }),
+                                new TextRun({ text: fFin, bold: true, size: 24 }),
+                                new TextRun({ text: ` (ambos inclusive), lo que supone un total de `, size: 24 }),
+                                new TextRun({ text: `${dias} días naturales.`, bold: true, size: 24 }),
+                            ],
+                        }),
+                        new Paragraph({ text: "", spacing: { before: 2000 } }),
+                        new Paragraph({
+                            children: [
+                                new TextRun({ text: "Firma de la Empresa:                                    Firma del Trabajador:", size: 24 }),
+                            ],
+                        }),
+                    ],
+                }],
+            });
+
+            Packer.toBlob(doc).then(blob => {
+                saveAs(blob, `Vacaciones_${nombre}_${fIni}.docx`);
+            });
+        }
+
         async function enviarYGuardar() {
             const nombreLimpio = document.getElementById('nombre').value.trim().toUpperCase();
             if (!nombreLimpio || !document.getElementById('fechaAltaCalc').value) return alert("Faltan datos obligatorios.");
@@ -345,7 +418,7 @@
 
         async function cargarDatosExcel() {
             const tbody = document.getElementById('tabla-datos');
-            tbody.innerHTML = "<tr><td colspan='7' class='py-8 text-center italic text-slate-500'>Cargando...</td></tr>";
+            tbody.innerHTML = "<tr><td colspan='7' class='py-8 text-center italic text-slate-500'>Cargando datos...</td></tr>";
             
             try {
                 const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0&t=${Date.now()}`;
@@ -384,7 +457,7 @@
                     let generadas = fAlta ? parseFloat(((fFinCalc - fAlta) / 86400000 * (30/365)).toFixed(1)) : 0;
                     const disfrutados = t.periodos.reduce((acc, p) => acc + p.dias, 0);
                     const saldo = (generadas - disfrutados).toFixed(1);
-                    t.saldo = saldo; // Guardamos para la pestaña de vaca
+                    t.saldo = saldo;
 
                     const tr = document.createElement('tr');
                     tr.className = `border-b border-slate-800 hover:bg-slate-800/50 cursor-pointer ${esBaja ? 'estado-baja' : ''}`;
@@ -398,14 +471,28 @@
                         <td class="py-4 px-2 text-center text-red-400 font-bold">${disfrutados}</td>
                         <td class="py-4 px-2 text-center"><span class="px-2 py-1 rounded text-xs font-black ${saldo > 0 ? 'bg-green-600' : 'bg-red-600'} text-white">${saldo}</span></td>
                         <td class="py-4 px-2 text-center space-x-2">
-                            <button onclick="editarTrabajador('${t.nombre.replace(/'/g, "\\'")}')" class="text-blue-400 hover:text-blue-200">✏️</button>
+                            <button onclick="editarTrabajador('${t.nombre.replace(/'/g, "\\'")}')" title="Editar Ficha" class="text-blue-400 hover:text-blue-200 text-lg">✏️</button>
                         </td>
                     `;
                     
                     const trDetalle = document.createElement('tr');
                     trDetalle.id = `det-${index}`;
                     trDetalle.className = "detalle-fila";
-                    trDetalle.innerHTML = `<td colspan="7" class="p-4 bg-slate-800/40 text-[11px]">${t.periodos.map(p => `• ${p.ini} al ${p.fin} (${p.dias} días)<br>`).join('') || 'Sin periodos registrados'}</td>`;
+                    trDetalle.innerHTML = `
+                        <td colspan="7" class="p-4 bg-slate-800/40">
+                            <div class="space-y-2">
+                                ${t.periodos.map(p => `
+                                    <div class="flex justify-between items-center bg-slate-900 p-2 rounded border border-slate-700">
+                                        <span class="text-[11px]">📅 <b>${p.ini}</b> al <b>${p.fin}</b> (${p.dias} días)</span>
+                                        <button onclick="generarWord('${t.nombre}', '${t.empresaFull}', '${p.ini}', '${p.fin}', '${p.dias}')" 
+                                                class="bg-blue-600/20 text-blue-400 border border-blue-500/50 px-2 py-1 rounded text-[10px] font-bold hover:bg-blue-600 hover:text-white transition-all">
+                                            📄 GENERAR WORD
+                                        </button>
+                                    </div>
+                                `).join('') || '<span class="text-xs italic text-slate-500 px-2">No hay periodos de vacaciones registrados.</span>'}
+                            </div>
+                        </td>
+                    `;
                     tbody.appendChild(tr); tbody.appendChild(trDetalle);
                 });
             } catch (e) { tbody.innerHTML = "<tr><td>Error de carga.</td></tr>"; }
