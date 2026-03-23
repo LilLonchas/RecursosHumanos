@@ -10,390 +10,430 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
-  *{font-family:'Inter',sans-serif;box-sizing:border-box}
-  body{background:#070d1a;color:#e2e8f0}
-  /* Nav */
-  .nav-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;cursor:pointer;transition:all .2s;font-size:13px;font-weight:600;color:#475569;user-select:none}
-  .nav-item:hover{background:#111d2e;color:#94a3b8}
-  .nav-item.active{background:linear-gradient(135deg,#1d4ed8,#2563eb);color:#fff;box-shadow:0 4px 18px rgba(37,99,235,.35)}
-  .nav-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:rgba(255,255,255,.07);font-size:14px;flex-shrink:0}
-  .nav-item.active .nav-icon{background:rgba(255,255,255,.15)}
-  /* Cards */
-  .card{background:#0d1829;border:1px solid #1a2840;border-radius:14px}
-  .kpi-card{background:linear-gradient(135deg,#0d1829,#152035);border:1px solid #1a2840;border-radius:14px;padding:20px}
-  /* Table */
-  .trow{border-bottom:1px solid #131f30;transition:background .15s}
-  .trow:hover{background:#111d2e}
-  .trow-baja{background:rgba(239,68,68,.03)!important}
-  .trow-baja td:first-child{border-left:3px solid #ef4444}
-  /* Badges */
-  .badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.02em}
-  .b-green{background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.25)}
-  .b-red{background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.25)}
-  .b-amber{background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.25)}
-  .b-blue{background:rgba(59,130,246,.12);color:#60a5fa;border:1px solid rgba(59,130,246,.25)}
-  /* Panels */
-  .tab-panel{display:none}
-  .tab-panel.active{display:block;animation:fadeUp .25s ease}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-  /* Inputs */
-  input,select{background:#111d2e!important;color:#e2e8f0!important;border:1px solid #1e3048!important;border-radius:10px!important;outline:none!important;transition:border-color .2s,box-shadow .2s!important}
-  input:focus,select:focus{border-color:#3b82f6!important;box-shadow:0 0 0 3px rgba(59,130,246,.12)!important}
-  input::placeholder{color:#334155!important}
-  /* Scroll */
-  ::-webkit-scrollbar{width:4px;height:4px}
-  ::-webkit-scrollbar-thumb{background:#1e3048;border-radius:10px}
-  /* Det row */
-  .det-row{display:none;background:#090f1d}
-  .det-row.open{display:table-row}
-  /* Dropdown */
-  .ddrop{position:absolute;top:100%;left:0;right:0;background:#111d2e;border:1px solid #1e3048;border-top:none;border-radius:0 0 10px 10px;z-index:100;max-height:200px;overflow-y:auto}
-  .ddrop-item{padding:10px 14px;cursor:pointer;font-size:12px;border-bottom:1px solid #131f30;transition:background .12s}
-  .ddrop-item:hover{background:#1e3048}
-  /* Login */
-  .login-glow{box-shadow:0 0 60px rgba(37,99,235,.15)}
-  /* Pulse dot */
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-  .pulse{animation:pulse 2s infinite}
-  /* Cal */
-  .cal-cell{min-height:78px;border-radius:8px;padding:5px;border:1px solid #131f30;transition:border-color .15s}
-  .cal-cell:hover{border-color:#1e3048}
-  .cal-today{border-color:#3b82f6!important;background:rgba(59,130,246,.04)}
-  .cal-evt{font-size:9px;padding:2px 5px;border-radius:3px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}
-  /* Audit */
-  .audit-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #131f30}
-  .audit-item:last-child{border:none}
+*{font-family:'Inter',sans-serif;box-sizing:border-box;margin:0;padding:0}
+body{background:#06080f;color:#e2e8f0}
+
+/* ── NAV ── */
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:9px;cursor:pointer;font-size:12px;font-weight:600;color:#3d5272;transition:all .18s;user-select:none;position:relative}
+.nav-item:hover{color:#94a3b8;background:#0c1525}
+.nav-item.active{color:#fff;background:#1541a0}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:#ef4444;position:absolute;top:7px;right:8px}
+
+/* ── PANELS ── */
+.panel{display:none}.panel.on{display:block;animation:fadeUp .22s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── CARD ── */
+.card{background:#0a1120;border:1px solid #111f35;border-radius:12px}
+.kpi{background:#0a1120;border:1px solid #111f35;border-radius:12px;padding:18px}
+
+/* ── TABLE ── */
+.tr-main{border-bottom:1px solid #0e1a2b;transition:background .12s;cursor:pointer}
+.tr-main:hover{background:#0c1525}
+.tr-baja td:first-child{border-left:3px solid #ef444488}
+.tr-baja{background:#0d100f}
+.det-row{display:none;background:#080d19}.det-row.open{display:table-row}
+
+/* ── BADGE ── */
+.bg{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:9px;font-weight:800;letter-spacing:.04em}
+.bg-g{background:#0d2e1a;color:#4ade80;border:1px solid #1a4a2a}
+.bg-r{background:#2a0d0d;color:#f87171;border:1px solid #4a1a1a}
+.bg-a{background:#2a1e09;color:#fbbf24;border:1px solid #4a3510}
+.bg-b{background:#0d1e3a;color:#60a5fa;border:1px solid #1a3060}
+
+/* ── INPUTS ── */
+input,select,textarea{background:#0c1525!important;color:#e2e8f0!important;border:1px solid #162038!important;border-radius:9px!important;outline:none!important}
+input:focus,select:focus{border-color:#2563eb!important;box-shadow:0 0 0 3px #2563eb1a!important}
+input::placeholder{color:#263752!important}
+::selection{background:#2563eb44}
+
+/* ── DRAWER ── */
+#drawer{position:fixed;top:0;right:0;height:100%;width:420px;background:#08101e;border-left:1px solid #111f35;z-index:200;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+#drawer.open{transform:translateX(0)}
+#drawer-overlay{position:fixed;inset:0;background:#00000055;z-index:199;display:none;backdrop-filter:blur(2px)}
+#drawer-overlay.on{display:block}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:#1a2d48;border-radius:4px}
+
+/* ── CALENDAR ── */
+.cal-day{min-height:70px;border-radius:8px;border:1px solid #0e1a2b;padding:4px;transition:border-color .15s}
+.cal-day:hover{border-color:#1a2d48}
+.cal-today{border-color:#2563eb!important;background:#2563eb08}
+.cal-evt{font-size:9px;padding:2px 5px;border-radius:3px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
+
+/* ── DROPDOWN ── */
+.drop{position:absolute;top:100%;left:0;right:0;background:#0c1525;border:1px solid #162038;border-top:none;border-radius:0 0 9px 9px;z-index:50;max-height:180px;overflow-y:auto}
+.drop-item{padding:10px 13px;cursor:pointer;font-size:12px;border-bottom:1px solid #0e1a2b}
+.drop-item:hover{background:#111f35}
+
+/* ── TABS dentro de panel ── */
+.ptab{padding:6px 14px;border-radius:7px;font-size:11px;font-weight:700;color:#3d5272;cursor:pointer;transition:all .15s}
+.ptab.on{background:#1541a0;color:#fff}
+
+/* ── AUDIT ── */
+.audit-line{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #0e1a2b}
+.audit-line:last-child{border:none}
+
+/* SALDO colors */
+.saldo-ok{color:#4ade80}.saldo-warn{color:#fbbf24}.saldo-crit{color:#f87171}
 </style>
 </head>
-<body class="h-screen overflow-hidden">
+<body class="h-screen overflow-hidden flex flex-col">
 
-<!-- ═══════════ LOGIN ═══════════ -->
-<div id="login-screen" class="fixed inset-0 bg-[#070d1a] z-[100] flex items-center justify-center p-4">
-  <div class="w-full max-w-xs space-y-8">
-    <div class="text-center space-y-1">
-      <div class="text-5xl font-black italic text-white tracking-tight">B</div>
-      <div class="text-xl font-black italic text-white tracking-tight">BELZUNCES</div>
-      <div class="text-[10px] text-slate-600 uppercase tracking-[.2em] font-semibold">Portal de Recursos Humanos</div>
+<!-- ═══ LOGIN ═══ -->
+<div id="login" class="fixed inset-0 bg-[#06080f] z-[300] flex items-center justify-center p-4">
+  <div class="w-full max-w-[300px] space-y-7">
+    <div class="text-center">
+      <div class="text-6xl font-black italic text-white mb-1">B</div>
+      <div class="text-[9px] text-[#1e3a5f] uppercase tracking-[.25em] font-bold">Portal de Recursos Humanos</div>
     </div>
-    <div class="card login-glow p-6 space-y-3">
-      <input type="password" id="passInput" placeholder="Contraseña de acceso"
-        class="w-full p-4 text-center text-sm font-semibold tracking-widest"
-        onkeydown="if(event.key==='Enter')validarAcceso()">
-      <button onclick="validarAcceso()"
-        class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3.5 rounded-xl font-bold uppercase text-xs tracking-widest transition-all active:scale-95">
-        Acceder
-      </button>
-      <p id="login-err" class="text-center text-red-400 text-xs hidden">Contraseña incorrecta</p>
+    <div class="card p-5 space-y-3">
+      <input id="pass" type="password" placeholder="Contraseña" class="w-full p-3.5 text-sm text-center tracking-widest font-bold" onkeydown="if(event.key==='Enter')login()">
+      <button onclick="login()" class="w-full bg-blue-700 hover:bg-blue-600 text-white py-3 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all active:scale-95">Acceder</button>
+      <div id="lerr" class="text-red-400 text-[10px] text-center hidden">Contraseña incorrecta</div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ APP ═══════════ -->
+<!-- ═══ DRAWER OVERLAY ═══ -->
+<div id="drawer-overlay" onclick="cerrarDrawer()"></div>
+
+<!-- ═══ DRAWER EMPLEADO ═══ -->
+<div id="drawer">
+  <!-- header -->
+  <div class="p-5 border-b border-[#111f35] flex justify-between items-start shrink-0">
+    <div>
+      <div class="text-[9px] text-[#3d5272] uppercase tracking-widest font-bold mb-1">Ficha de empleado</div>
+      <div id="dr-nombre" class="text-lg font-black text-white"></div>
+      <div id="dr-empresa" class="text-[10px] text-[#3d5272] mt-0.5 uppercase"></div>
+    </div>
+    <button onclick="cerrarDrawer()" class="w-8 h-8 bg-[#0c1525] rounded-lg text-[#3d5272] hover:text-white text-lg leading-none flex items-center justify-center transition-all">×</button>
+  </div>
+  <!-- mini KPIs -->
+  <div class="grid grid-cols-3 gap-2 p-4 border-b border-[#111f35] shrink-0">
+    <div class="bg-[#0c1525] rounded-xl p-3 text-center">
+      <div class="text-[8px] text-[#3d5272] uppercase font-bold tracking-widest">Generadas</div>
+      <div id="dr-gen" class="text-xl font-black text-white mt-1">—</div>
+    </div>
+    <div class="bg-[#0c1525] rounded-xl p-3 text-center">
+      <div class="text-[8px] text-[#3d5272] uppercase font-bold tracking-widest">Disfrutadas</div>
+      <div id="dr-dis" class="text-xl font-black text-white mt-1">—</div>
+    </div>
+    <div class="bg-[#0c1525] rounded-xl p-3 text-center">
+      <div class="text-[8px] text-[#3d5272] uppercase font-bold tracking-widest">Saldo</div>
+      <div id="dr-sal" class="text-xl font-black mt-1">—</div>
+    </div>
+  </div>
+  <!-- tabs -->
+  <div class="flex gap-1.5 px-4 py-3 border-b border-[#111f35] shrink-0">
+    <div class="ptab on" onclick="drTab('periodos',this)">Periodos</div>
+    <div class="ptab" onclick="drTab('ficha',this)">Ficha</div>
+    <div class="ptab" onclick="drTab('vacaciones',this)">+ Vacaciones</div>
+  </div>
+  <!-- content -->
+  <div class="flex-1 overflow-y-auto">
+    <!-- periodos -->
+    <div id="drt-periodos" class="p-4 space-y-2">
+      <div id="dr-periodos-list"></div>
+    </div>
+    <!-- ficha editar -->
+    <div id="drt-ficha" class="p-4 space-y-3 hidden">
+      <div>
+        <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Empresa</label>
+        <select id="dr-emp-sel" class="w-full p-3 mt-1.5 text-sm font-semibold">
+          <option>Transportes Antonio Belzunces S.L</option>
+          <option>Transportes Juan Belzunces S.L</option>
+          <option>Comercial Belzunces Rojas S.A</option>
+        </select>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">F. Alta Cálculo</label>
+          <input type="date" id="dr-fac" class="w-full p-3 mt-1.5 text-sm">
+        </div>
+        <div>
+          <label class="text-[9px] text-blue-500 uppercase font-bold tracking-widest">F. Alta Real</label>
+          <input type="date" id="dr-far" class="w-full p-3 mt-1.5 text-sm">
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Clave contrato</label>
+          <input type="text" id="dr-clave" class="w-full p-3 mt-1.5 text-sm" placeholder="300, 100…">
+        </div>
+        <div>
+          <label class="text-[9px] text-red-400 uppercase font-bold tracking-widest">F. Baja</label>
+          <input type="date" id="dr-baja" class="w-full p-3 mt-1.5 text-sm">
+        </div>
+      </div>
+      <button onclick="guardarFicha()" class="w-full bg-amber-600 hover:bg-amber-500 text-white py-3 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all active:scale-95">Actualizar Ficha</button>
+    </div>
+    <!-- añadir vacaciones -->
+    <div id="drt-vacaciones" class="p-4 space-y-4 hidden">
+      <div class="bg-[#0c1525] rounded-xl p-3 flex justify-between items-center">
+        <div class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Saldo disponible</div>
+        <div id="dr-saldo-vaca" class="text-2xl font-black text-blue-400">—</div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Inicio</label>
+          <input type="date" id="dr-vini" oninput="drCalcDias()" class="w-full p-3 mt-1.5 text-sm">
+        </div>
+        <div>
+          <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Fin</label>
+          <input type="date" id="dr-vfin" oninput="drCalcDias()" class="w-full p-3 mt-1.5 text-sm">
+        </div>
+      </div>
+      <div class="bg-[#0c1525] rounded-xl p-3 flex justify-between items-center border border-[#162038]">
+        <div>
+          <div class="text-[9px] text-[#3d5272] uppercase font-bold">Días a descontar</div>
+          <div id="dr-vwarn" class="text-[9px] text-amber-400 mt-0.5 hidden">⚠ Supera el saldo</div>
+        </div>
+        <div id="dr-vcount" class="text-3xl font-black text-blue-400">0</div>
+      </div>
+      <button onclick="guardarVacaDrawer()" class="w-full bg-blue-700 hover:bg-blue-600 text-white py-3 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all active:scale-95">Confirmar Vacaciones</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ APP ═══ -->
 <div id="app" class="hidden h-screen flex flex-col">
 
   <!-- TOPBAR -->
-  <header class="bg-[#090f1d] border-b border-[#131f30] px-5 py-3 flex items-center justify-between shrink-0">
-    <div class="flex items-center gap-3">
-      <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-black text-sm text-white">B</div>
-      <div>
-        <div class="font-bold text-xs text-white leading-tight">Transportes Belzunces</div>
-        <div class="text-[9px] text-slate-600 uppercase tracking-widest">Portal RRHH</div>
-      </div>
+  <header class="bg-[#08101e] border-b border-[#0e1a2b] px-5 h-12 flex items-center justify-between shrink-0">
+    <div class="flex items-center gap-2.5">
+      <div class="w-6 h-6 bg-blue-700 rounded-md flex items-center justify-center font-black text-xs text-white">B</div>
+      <span class="font-bold text-xs text-white">Transportes Belzunces</span>
+      <span class="text-[9px] text-[#1e3a5f] hidden sm:block ml-1">· Portal RRHH</span>
     </div>
     <div class="flex items-center gap-2">
-      <div id="sync-status" class="text-[10px] text-slate-600 hidden pulse">● Actualizando…</div>
-      <div id="last-sync" class="text-[10px] text-slate-600 mr-1"></div>
-      <button onclick="showTab('alertas')" class="relative w-8 h-8 bg-[#111d2e] rounded-lg flex items-center justify-center text-slate-500 hover:text-white hover:bg-[#1e3048] transition-all text-sm">
-        🔔<span id="notif-badge" class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[9px] font-black text-white items-center justify-center hidden">0</span>
-      </button>
-      <button onclick="cargarDatosExcel()" class="flex items-center gap-1.5 bg-blue-600/15 text-blue-400 border border-blue-500/25 px-3 py-2 rounded-lg text-[11px] font-bold hover:bg-blue-600 hover:text-white transition-all">
-        🔄 Sync
-      </button>
-      <button onclick="cerrarSesion()" class="text-[11px] text-slate-600 hover:text-white transition-all px-2 py-2">Salir</button>
+      <div id="sync-pulse" class="text-[9px] text-[#3d5272] hidden">● syncing…</div>
+      <div id="sync-ok" class="text-[9px] text-[#3d5272]"></div>
+      <button onclick="cargar()" class="text-[10px] font-bold text-[#3d5272] hover:text-blue-400 transition-all px-2 py-1.5 rounded-lg hover:bg-[#0c1525]">🔄 Sync</button>
+      <button onclick="cerrar()" class="text-[10px] text-[#3d5272] hover:text-white px-2 py-1.5 rounded-lg hover:bg-[#0c1525] transition-all">Salir</button>
     </div>
   </header>
 
-  <!-- BODY -->
+  <!-- LAYOUT -->
   <div class="flex flex-1 overflow-hidden">
 
     <!-- SIDEBAR -->
-    <nav class="w-52 bg-[#090f1d] border-r border-[#131f30] p-3 space-y-0.5 shrink-0 flex flex-col">
-      <div onclick="showTab('dashboard')" class="nav-item active" id="nav-dashboard">
-        <div class="nav-icon">📊</div>Dashboard
+    <nav class="w-44 bg-[#08101e] border-r border-[#0e1a2b] p-2.5 space-y-0.5 shrink-0 flex flex-col justify-between">
+      <div class="space-y-0.5">
+        <div class="nav-item active" id="nav-inicio" onclick="showPanel('inicio')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Inicio
+        </div>
+        <div class="nav-item" id="nav-personal" onclick="showPanel('personal')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>
+          Personal
+          <span id="badge-alerta" class="ml-auto hidden text-[9px] font-black bg-amber-500 text-black w-4 h-4 rounded-full flex items-center justify-center">0</span>
+        </div>
+        <div class="nav-item" id="nav-vacaciones" onclick="showPanel('vacaciones')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Vacaciones
+        </div>
+        <div class="nav-item" id="nav-alta" onclick="showPanel('alta')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/><path d="M19 8h6M22 5v6" stroke-width="2"/></svg>
+          Alta empleado
+        </div>
       </div>
-      <div onclick="showTab('personal')" class="nav-item" id="nav-personal">
-        <div class="nav-icon">👥</div>Personal
-        <span id="bdg-alertas" class="ml-auto hidden w-5 h-5 bg-amber-500 rounded-full text-[9px] font-black text-white flex items-center justify-center">0</span>
-      </div>
-      <div onclick="showTab('vacaciones')" class="nav-item" id="nav-vacaciones">
-        <div class="nav-icon">✈️</div>Vacaciones
-      </div>
-      <div onclick="showTab('calendario')" class="nav-item" id="nav-calendario">
-        <div class="nav-icon">🗓️</div>Calendario
-      </div>
-      <div onclick="showTab('gestion')" class="nav-item" id="nav-gestion">
-        <div class="nav-icon">✏️</div>Gestión / Alta
-      </div>
-      <div onclick="showTab('alertas')" class="nav-item" id="nav-alertas">
-        <div class="nav-icon">🔔</div>Alertas
-        <span id="bdg-alertas2" class="ml-auto hidden w-5 h-5 bg-red-500 rounded-full text-[9px] font-black text-white flex items-center justify-center">0</span>
-      </div>
-      <div onclick="showTab('historial')" class="nav-item" id="nav-historial">
-        <div class="nav-icon">📋</div>Historial
+      <div class="nav-item" id="nav-historial" onclick="showPanel('historial')">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>
+        Historial
       </div>
     </nav>
 
     <!-- MAIN -->
-    <main class="flex-1 overflow-y-auto p-5 bg-[#070d1a]" id="main">
+    <main class="flex-1 overflow-y-auto p-5 space-y-5" id="main-content">
 
-      <!-- ── DASHBOARD ── -->
-      <div id="tab-dashboard" class="tab-panel active space-y-5">
-        <div class="flex justify-between items-end">
-          <div>
-            <h2 class="text-lg font-bold text-white">Dashboard</h2>
-            <p class="text-[11px] text-slate-500 mt-0.5">Visión general del personal</p>
-          </div>
-        </div>
+      <!-- ══ INICIO ══ -->
+      <div id="panel-inicio" class="panel on space-y-5">
         <!-- KPIs -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <div class="kpi-card">
-            <div class="text-[9px] uppercase font-bold text-slate-600 tracking-widest mb-3">Total Empleados</div>
-            <div id="kpi-total" class="text-4xl font-black text-white">—</div>
-            <div class="text-[10px] text-slate-600 mt-1">Todas las empresas</div>
+          <div class="kpi">
+            <div class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest mb-2">Total</div>
+            <div id="k-total" class="text-4xl font-black text-white">—</div>
+            <div class="text-[9px] text-[#3d5272] mt-1">Empleados registrados</div>
           </div>
-          <div class="kpi-card">
-            <div class="text-[9px] uppercase font-bold text-slate-600 tracking-widest mb-3">Activos</div>
-            <div id="kpi-activos" class="text-4xl font-black text-green-400">—</div>
-            <div class="text-[10px] text-slate-600 mt-1">Sin fecha de baja</div>
+          <div class="kpi">
+            <div class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest mb-2">Activos</div>
+            <div id="k-act" class="text-4xl font-black text-green-400">—</div>
+            <div class="text-[9px] text-[#3d5272] mt-1">En plantilla</div>
           </div>
-          <div class="kpi-card">
-            <div class="text-[9px] uppercase font-bold text-slate-600 tracking-widest mb-3">Bajas</div>
-            <div id="kpi-bajas" class="text-4xl font-black text-red-400">—</div>
-            <div class="text-[10px] text-slate-600 mt-1">Contrato finalizado</div>
+          <div class="kpi">
+            <div class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest mb-2">Bajas</div>
+            <div id="k-baj" class="text-4xl font-black text-red-400">—</div>
+            <div class="text-[9px] text-[#3d5272] mt-1">Finalizados</div>
           </div>
-          <div class="kpi-card" style="border-color:rgba(245,158,11,.3)">
-            <div class="text-[9px] uppercase font-bold text-amber-500 tracking-widest mb-3">⚠ Saldo Bajo</div>
-            <div id="kpi-warn" class="text-4xl font-black text-amber-400">—</div>
-            <div class="text-[10px] text-slate-600 mt-1">Menos de 5 días</div>
+          <div class="kpi" style="border-color:#4a3510">
+            <div class="text-[9px] text-amber-600 uppercase font-bold tracking-widest mb-2">⚠ Saldo bajo</div>
+            <div id="k-warn" class="text-4xl font-black text-amber-400">—</div>
+            <div class="text-[9px] text-[#3d5272] mt-1">Menos de 5 días</div>
           </div>
         </div>
         <!-- Charts -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div class="card p-5">
-            <div class="text-sm font-semibold text-white mb-4">Empleados por empresa</div>
-            <div style="height:200px;position:relative"><canvas id="chart-emp"></canvas></div>
+            <div class="text-xs font-bold text-white mb-4">Distribución por empresa</div>
+            <div style="height:180px;position:relative"><canvas id="c-emp"></canvas></div>
           </div>
           <div class="card p-5">
-            <div class="text-sm font-semibold text-white mb-4">Vacaciones generadas vs disfrutadas</div>
-            <div style="height:200px;position:relative"><canvas id="chart-vac"></canvas></div>
+            <div class="text-xs font-bold text-white mb-4">Vacaciones generadas vs disfrutadas</div>
+            <div style="height:180px;position:relative"><canvas id="c-vac"></canvas></div>
           </div>
         </div>
-        <!-- Críticos -->
+        <!-- Alertas críticas -->
         <div class="card p-5">
-          <div class="text-sm font-semibold text-white mb-3">Empleados con saldo crítico <span class="text-slate-500 font-normal">(≤ 2 días)</span></div>
-          <div id="lista-criticos" class="text-sm text-slate-600 italic">Cargando…</div>
+          <div class="flex justify-between items-center mb-4">
+            <div class="text-xs font-bold text-white">Alertas de saldo</div>
+            <div class="text-[9px] text-[#3d5272]">Activos con ≤ 5 días restantes</div>
+          </div>
+          <div id="inicio-alertas"></div>
         </div>
       </div>
 
-      <!-- ── PERSONAL ── -->
-      <div id="tab-personal" class="tab-panel space-y-4">
-        <div class="flex flex-wrap justify-between items-center gap-3">
-          <div>
-            <h2 class="text-lg font-bold text-white">Personal</h2>
-            <p class="text-[11px] text-slate-500 mt-0.5">Todos los empleados</p>
-          </div>
+      <!-- ══ PERSONAL ══ -->
+      <div id="panel-personal" class="panel space-y-4">
+        <div class="flex flex-wrap gap-2 items-center justify-between">
+          <div class="text-sm font-bold text-white">Personal <span id="count-visible" class="text-[#3d5272] font-normal text-xs ml-1"></span></div>
           <div class="flex flex-wrap gap-2">
-            <select id="filtroEmpresa" onchange="filtrarTabla()" class="p-2 text-xs font-bold px-3 rounded-lg">
-              <option value="">🏢 Todas las empresas</option>
+            <select id="f-emp" onchange="filtrar()" class="p-2 text-[11px] font-bold px-3">
+              <option value="">Todas las empresas</option>
               <option value="ANTONIO">Antonio</option>
               <option value="JUAN">Juan</option>
               <option value="COMERCIAL">Comercial</option>
             </select>
-            <select id="filtroEstado" onchange="filtrarTabla()" class="p-2 text-xs font-bold px-3 rounded-lg">
-              <option value="">Todos los estados</option>
+            <select id="f-est" onchange="filtrar()" class="p-2 text-[11px] font-bold px-3">
+              <option value="">Todos</option>
               <option value="ACTIVO">Solo activos</option>
               <option value="BAJA">Solo bajas</option>
             </select>
-            <input type="text" id="buscador" oninput="filtrarTabla()" placeholder="🔍 Buscar nombre…" class="p-2 text-xs px-3 rounded-lg w-44">
+            <input id="f-nom" oninput="filtrar()" placeholder="🔍 Buscar…" class="p-2 text-[11px] px-3 w-36">
           </div>
         </div>
         <div class="card overflow-hidden">
-          <div class="overflow-auto" style="max-height:calc(100vh - 205px)">
+          <div class="overflow-auto" style="max-height:calc(100vh - 185px)">
             <table class="w-full text-left text-xs">
-              <thead class="sticky top-0 bg-[#0d1829] z-10">
-                <tr class="text-[9px] text-slate-600 uppercase tracking-widest font-extrabold border-b border-[#131f30]">
-                  <th class="py-3.5 px-4">Empleado</th>
-                  <th class="py-3.5 px-3">Empresa</th>
-                  <th class="py-3.5 px-3">F. Alta Real</th>
-                  <th class="py-3.5 px-3">Estado</th>
-                  <th class="py-3.5 px-3 text-center">Disfrutado</th>
-                  <th class="py-3.5 px-3 text-center">Saldo</th>
-                  <th class="py-3.5 px-3 text-center">Acc.</th>
+              <thead class="sticky top-0 bg-[#0a1120] z-10">
+                <tr class="text-[9px] text-[#3d5272] uppercase tracking-widest font-extrabold border-b border-[#0e1a2b]">
+                  <th class="py-3 px-4">Empleado</th>
+                  <th class="py-3 px-3">Empresa</th>
+                  <th class="py-3 px-3">F. Alta Real</th>
+                  <th class="py-3 px-3">Estado</th>
+                  <th class="py-3 px-3 text-center">Disf.</th>
+                  <th class="py-3 px-3 text-center">Saldo</th>
                 </tr>
               </thead>
-              <tbody id="tabla-datos"></tbody>
+              <tbody id="tbody"></tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <!-- ── VACACIONES ── -->
-      <div id="tab-vacaciones" class="tab-panel">
-        <div class="max-w-md mx-auto space-y-5">
-          <div>
-            <h2 class="text-lg font-bold text-white">Registrar Vacaciones</h2>
-            <p class="text-[11px] text-slate-500 mt-0.5">Selecciona empleado y periodo</p>
+      <!-- ══ VACACIONES (calendario + formulario) ══ -->
+      <div id="panel-vacaciones" class="panel space-y-4">
+        <div class="flex gap-2 items-center">
+          <div class="text-sm font-bold text-white">Vacaciones</div>
+          <div class="flex gap-1 ml-2">
+            <div class="ptab on" id="vt-cal" onclick="vtab('cal')">Calendario</div>
+            <div class="ptab" id="vt-form" onclick="vtab('form')">Registrar</div>
           </div>
-          <div class="card p-5 space-y-4">
+        </div>
+        <!-- Calendario -->
+        <div id="vc-cal" class="space-y-3">
+          <div class="flex flex-wrap gap-2 items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <button onclick="calNav(-1)" class="w-7 h-7 bg-[#0c1525] rounded-lg text-[#3d5272] hover:text-white text-lg leading-none flex items-center justify-center">‹</button>
+              <span id="cal-tit" class="font-bold text-sm text-white w-36 text-center"></span>
+              <button onclick="calNav(1)" class="w-7 h-7 bg-[#0c1525] rounded-lg text-[#3d5272] hover:text-white text-lg leading-none flex items-center justify-center">›</button>
+            </div>
+            <select id="cal-f" onchange="renderCal()" class="p-2 text-[11px] font-bold px-3">
+              <option value="">Todas las empresas</option>
+              <option value="ANTONIO">Antonio</option>
+              <option value="JUAN">Juan</option>
+              <option value="COMERCIAL">Comercial</option>
+            </select>
+          </div>
+          <div class="card p-4" id="cal-grid"></div>
+        </div>
+        <!-- Formulario registrar -->
+        <div id="vc-form" class="hidden">
+          <div class="max-w-md mx-auto card p-5 space-y-4">
             <div>
-              <label class="text-[9px] uppercase font-bold text-slate-500 tracking-widest">1 · Empresa</label>
-              <select id="vaca-filtro" class="w-full p-3 mt-1.5 text-sm font-semibold">
-                <option value="">Todas las empresas</option>
+              <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Empresa (filtro)</label>
+              <select id="vf-femp" class="w-full p-3 mt-1.5 text-sm font-semibold">
+                <option value="">Todas</option>
                 <option value="ANTONIO">Antonio Belzunces</option>
                 <option value="JUAN">Juan Belzunces</option>
                 <option value="COMERCIAL">Comercial Belzunces</option>
               </select>
             </div>
             <div>
-              <label class="text-[9px] uppercase font-bold text-slate-500 tracking-widest">2 · Buscar Empleado</label>
+              <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Empleado</label>
               <div class="relative mt-1.5">
-                <input type="text" id="vaca-search" oninput="buscarParaVaca(this.value)" placeholder="Escribe el nombre…" class="w-full p-3 text-sm">
-                <div id="vaca-results" class="ddrop hidden"></div>
+                <input id="vf-search" oninput="buscarVaca(this.value)" placeholder="Escribe el nombre…" class="w-full p-3 text-sm">
+                <div id="vf-drop" class="drop hidden"></div>
               </div>
             </div>
-            <div id="vaca-info" class="hidden bg-blue-600/8 border border-blue-500/20 rounded-xl p-4">
-              <div class="flex justify-between items-start">
-                <div>
-                  <p id="vaca-nom" class="font-bold text-white text-sm"></p>
-                  <p id="vaca-emp" class="text-[10px] text-slate-500 mt-0.5"></p>
-                </div>
-                <div class="text-right">
-                  <div class="text-[9px] text-slate-500 uppercase">Saldo</div>
-                  <div id="vaca-saldo" class="text-3xl font-black text-blue-400">0</div>
-                </div>
+            <div id="vf-info" class="hidden bg-blue-900/15 border border-blue-700/20 rounded-xl p-3 flex justify-between items-center">
+              <div>
+                <div id="vf-nom" class="font-bold text-white text-sm"></div>
+                <div id="vf-emp" class="text-[9px] text-[#3d5272] mt-0.5"></div>
               </div>
+              <div class="text-right"><div class="text-[8px] text-[#3d5272]">SALDO</div><div id="vf-sal" class="text-2xl font-black text-blue-400"></div></div>
             </div>
             <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="text-[9px] uppercase font-bold text-slate-500 tracking-widest">Inicio</label>
-                <input type="date" id="vaca-ini" oninput="calcDias()" class="w-full p-3 mt-1.5 text-sm">
-              </div>
-              <div>
-                <label class="text-[9px] uppercase font-bold text-slate-500 tracking-widest">Fin</label>
-                <input type="date" id="vaca-fin" oninput="calcDias()" class="w-full p-3 mt-1.5 text-sm">
-              </div>
+              <div><label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Inicio</label><input type="date" id="vf-ini" oninput="vfCalc()" class="w-full p-3 mt-1.5 text-sm"></div>
+              <div><label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Fin</label><input type="date" id="vf-fin" oninput="vfCalc()" class="w-full p-3 mt-1.5 text-sm"></div>
             </div>
-            <div class="bg-[#111d2e] rounded-xl p-4 flex justify-between items-center border border-[#1e3048]">
-              <div>
-                <div class="text-[9px] uppercase font-bold text-slate-500">Días a descontar</div>
-                <div id="vaca-warn" class="text-[9px] text-amber-400 mt-0.5 hidden">⚠ Supera el saldo disponible</div>
-              </div>
-              <div id="vaca-count" class="text-4xl font-black text-blue-400">0</div>
+            <div class="bg-[#0c1525] rounded-xl p-3 flex justify-between items-center border border-[#162038]">
+              <div><div class="text-[9px] text-[#3d5272] uppercase font-bold">Días naturales</div><div id="vf-warn" class="text-[9px] text-amber-400 hidden mt-0.5">⚠ Supera el saldo</div></div>
+              <div id="vf-count" class="text-3xl font-black text-blue-400">0</div>
             </div>
-            <button onclick="guardarVacaciones()"
-              class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3.5 rounded-xl font-bold uppercase text-xs tracking-widest transition-all active:scale-95">
-              Confirmar Vacaciones
-            </button>
+            <button onclick="guardarVacaForm()" class="w-full bg-blue-700 hover:bg-blue-600 text-white py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all active:scale-95">Confirmar Vacaciones</button>
           </div>
         </div>
       </div>
 
-      <!-- ── CALENDARIO ── -->
-      <div id="tab-calendario" class="tab-panel space-y-4">
-        <div class="flex flex-wrap justify-between items-center gap-3">
-          <div>
-            <h2 class="text-lg font-bold text-white">Calendario de Vacaciones</h2>
-            <p class="text-[11px] text-slate-500 mt-0.5">Vista mensual de periodos disfrutados</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <select id="cal-emp" onchange="renderCal()" class="p-2 text-xs font-bold px-3 rounded-lg">
-              <option value="">Todas las empresas</option>
-              <option value="ANTONIO">Antonio</option>
-              <option value="JUAN">Juan</option>
-              <option value="COMERCIAL">Comercial</option>
-            </select>
-            <button onclick="cambiarMes(-1)" class="w-8 h-8 bg-[#111d2e] rounded-lg text-slate-400 hover:text-white text-lg leading-none">‹</button>
-            <span id="cal-titulo" class="font-bold text-white text-sm w-36 text-center"></span>
-            <button onclick="cambiarMes(1)" class="w-8 h-8 bg-[#111d2e] rounded-lg text-slate-400 hover:text-white text-lg leading-none">›</button>
-          </div>
-        </div>
-        <div class="card p-4" id="cal-wrap"></div>
-      </div>
-
-      <!-- ── GESTIÓN ── -->
-      <div id="tab-gestion" class="tab-panel">
-        <div class="max-w-md mx-auto space-y-5">
-          <div class="flex justify-between items-center">
-            <div>
-              <h2 id="form-titulo" class="text-lg font-bold text-white">Ficha de Empleado</h2>
-              <p id="form-sub" class="text-[11px] text-slate-500 mt-0.5">Alta de nuevo empleado</p>
-            </div>
-            <button onclick="limpiarForm()" class="text-[11px] bg-[#111d2e] hover:bg-[#1e3048] text-slate-400 hover:text-white px-3 py-2 rounded-lg transition-all">+ Nuevo</button>
-          </div>
+      <!-- ══ ALTA ══ -->
+      <div id="panel-alta" class="panel">
+        <div class="max-w-md mx-auto space-y-4">
+          <div class="text-sm font-bold text-white">Alta de empleado</div>
           <div class="card p-5 space-y-4">
             <div>
-              <label class="text-[9px] uppercase font-bold text-slate-500 tracking-widest">Empresa</label>
-              <select id="empresa" class="w-full p-3 mt-1.5 text-sm font-semibold">
+              <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Empresa</label>
+              <select id="a-emp" class="w-full p-3 mt-1.5 text-sm font-semibold">
                 <option>Transportes Antonio Belzunces S.L</option>
                 <option>Transportes Juan Belzunces S.L</option>
                 <option>Comercial Belzunces Rojas S.A</option>
               </select>
             </div>
             <div>
-              <label class="text-[9px] uppercase font-bold text-slate-500 tracking-widest">Nombre Completo</label>
-              <input type="text" id="nombre" placeholder="NOMBRE APELLIDO APELLIDO" class="w-full p-3 mt-1.5 text-sm font-semibold uppercase">
+              <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Nombre completo</label>
+              <input type="text" id="a-nom" placeholder="NOMBRE APELLIDO APELLIDO" class="w-full p-3 mt-1.5 text-sm font-semibold uppercase">
             </div>
             <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="text-[9px] uppercase font-bold text-slate-500 tracking-widest">F. Alta Cálculo</label>
-                <input type="date" id="fechaAltaCalc" class="w-full p-3 mt-1.5 text-sm">
-              </div>
-              <div>
-                <label class="text-[9px] uppercase font-bold text-blue-400 tracking-widest">F. Alta Real</label>
-                <input type="date" id="fechaAltaReal" class="w-full p-3 mt-1.5 text-sm">
-              </div>
+              <div><label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">F. Alta Cálculo</label><input type="date" id="a-fac" class="w-full p-3 mt-1.5 text-sm"></div>
+              <div><label class="text-[9px] text-blue-500 uppercase font-bold tracking-widest">F. Alta Real</label><input type="date" id="a-far" class="w-full p-3 mt-1.5 text-sm"></div>
             </div>
             <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="text-[9px] uppercase font-bold text-slate-500 tracking-widest">Clave Contrato</label>
-                <input type="text" id="claveContrato" placeholder="300, 100…" class="w-full p-3 mt-1.5 text-sm">
-              </div>
-              <div>
-                <label class="text-[9px] uppercase font-bold text-red-400 tracking-widest">F. Baja (opcional)</label>
-                <input type="date" id="fechaBaja" class="w-full p-3 mt-1.5 text-sm">
-              </div>
+              <div><label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Clave contrato</label><input type="text" id="a-clave" placeholder="300, 100…" class="w-full p-3 mt-1.5 text-sm"></div>
+              <div><label class="text-[9px] text-red-400 uppercase font-bold tracking-widest">F. Baja (si aplica)</label><input type="date" id="a-baja" class="w-full p-3 mt-1.5 text-sm"></div>
             </div>
-            <button id="btn-guardar" onclick="enviarFicha()"
-              class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3.5 rounded-xl font-bold uppercase text-xs tracking-widest transition-all active:scale-95 mt-2">
-              Guardar Ficha
-            </button>
+            <button onclick="altaEmpleado()" class="w-full bg-blue-700 hover:bg-blue-600 text-white py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all active:scale-95">Crear Alta</button>
           </div>
         </div>
       </div>
 
-      <!-- ── ALERTAS ── -->
-      <div id="tab-alertas" class="tab-panel space-y-4">
-        <div>
-          <h2 class="text-lg font-bold text-white">Alertas de Saldo</h2>
-          <p class="text-[11px] text-slate-500 mt-0.5">Empleados con vacaciones pendientes bajas</p>
-        </div>
-        <div id="alertas-cont" class="space-y-2.5">
-          <div class="text-slate-600 italic text-sm">Cargando…</div>
-        </div>
-      </div>
-
-      <!-- ── HISTORIAL ── -->
-      <div id="tab-historial" class="tab-panel space-y-4">
+      <!-- ══ HISTORIAL ══ -->
+      <div id="panel-historial" class="panel space-y-4">
         <div class="flex justify-between items-center">
-          <div>
-            <h2 class="text-lg font-bold text-white">Historial de sesión</h2>
-            <p class="text-[11px] text-slate-500 mt-0.5">Acciones realizadas desde el inicio de sesión</p>
-          </div>
-          <button onclick="auditLog=[];renderHistorial()" class="text-[11px] text-slate-600 hover:text-white bg-[#111d2e] px-3 py-2 rounded-lg">Limpiar</button>
+          <div class="text-sm font-bold text-white">Historial de sesión</div>
+          <button onclick="log=[];renderLog()" class="text-[10px] text-[#3d5272] hover:text-white bg-[#0c1525] px-3 py-2 rounded-lg">Limpiar</button>
         </div>
-        <div class="card p-5">
-          <div id="audit-log"></div>
-        </div>
+        <div class="card p-4"><div id="log-cont"></div></div>
       </div>
 
     </main>
@@ -401,316 +441,302 @@
 </div>
 
 <script>
-const SCRIPT_URL="https://script.google.com/macros/s/AKfycbydLWtx3oVQUUYSrdVl_PFcgV7d9ycyM1aBP3rTIRQaFZ1TWc1FAFawBjgeQqsScJviGg/exec";
-const SHEET_ID="1u8I2q-Hz6COb6m0e9eeR5S_lOiGAIErHXEV_v3YxtGA";
-let G={},vacSel=null,editando=false,calM=new Date().getMonth(),calY=new Date().getFullYear();
-let auditLog=[],charts={};
+const SCRIPT="https://script.google.com/macros/s/AKfycbydLWtx3oVQUUYSrdVl_PFcgV7d9ycyM1aBP3rTIRQaFZ1TWc1FAFawBjgeQqsScJviGg/exec";
+const SID="1u8I2q-Hz6COb6m0e9eeR5S_lOiGAIErHXEV_v3YxtGA";
+let G={},vacSel=null,drEmp=null,cM=new Date().getMonth(),cY=new Date().getFullYear();
+let log=[],charts={};
+const MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const COLS=['#3b82f6','#8b5cf6','#10b981','#f59e0b','#ef4444','#06b6d4','#ec4899','#84cc16','#f97316','#a855f7'];
 
-// ─── AUTH ────────────────────────────────────────────
-function validarAcceso(){
-  if(document.getElementById('passInput').value==="b7e'O5P8Jasa"){
-    document.getElementById('login-screen').style.display='none';
+// ─ AUTH ─────────────────────────
+function login(){
+  if(document.getElementById('pass').value==="b7e'O5P8Jasa"){
+    document.getElementById('login').style.display='none';
     document.getElementById('app').classList.remove('hidden');
-    cargarDatosExcel();
-  } else {
-    document.getElementById('login-err').classList.remove('hidden');
-    document.getElementById('passInput').value='';
-    setTimeout(()=>document.getElementById('login-err').classList.add('hidden'),2000);
+    cargar();
+  }else{
+    const e=document.getElementById('lerr');e.classList.remove('hidden');
+    document.getElementById('pass').value='';
+    setTimeout(()=>e.classList.add('hidden'),2000);
   }
 }
-function cerrarSesion(){location.reload()}
+function cerrar(){location.reload()}
 
-// ─── NAVIGATION ──────────────────────────────────────
-function showTab(id){
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+// ─ NAV ─────────────────────────
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('tab-'+id).classList.add('active');
+  document.getElementById('panel-'+id).classList.add('on');
   document.getElementById('nav-'+id).classList.add('active');
-  if(id==='calendario') renderCal();
-  if(id==='historial') renderHistorial();
-  if(id==='alertas') renderAlertas();
+  if(id==='vacaciones')renderCal();
+  if(id==='historial')renderLog();
 }
 
-// ─── UTILS ───────────────────────────────────────────
-const limpiar=t=>t?t.replace(/"/g,'').trim():'';
-function fmtInput(s){
-  if(!s||['−','ACTIVO'].includes(s.toUpperCase()))return'';
+// ─ UTILS ────────────────────────
+const cl=t=>t?t.replace(/"/g,'').trim():'';
+function fmtIn(s){
+  if(!s||['−','ACTIVO'].includes((s||'').toUpperCase()))return'';
   if(s.includes('/')){const p=s.split('/');return`${p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`}
   return s;
 }
 function parseF(s){
-  if(!s||['-','ACTIVO',''].includes(s.trim()))return null;
+  if(!s||['-','ACTIVO',''].includes((s||'').trim()))return null;
   if(s.includes('/')){const p=s.split('/');return new Date(+p[2],+p[1]-1,+p[0])}
-  if(s.includes('-')&&s.length===10){const p=s.split('-');return p[0].length===4?new Date(+p[0],+p[1]-1,+p[2]):new Date(+p[2],+p[1]-1,+p[0])}
+  if(/^\d{4}-\d{2}-\d{2}$/.test(s)){const p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2])}
   const d=new Date(s);return isNaN(d)?null:d;
 }
-function empCorta(f){return f.replace('Transportes ','').replace(' S.L','').replace(' S.A','').replace('Comercial Belzunces Rojas','Comercial').trim()}
-function log(tipo,txt){auditLog.unshift({tipo,txt,hora:new Date().toLocaleTimeString('es-ES')})}
+const empC=f=>f.replace('Transportes ','').replace(' S.L','').replace(' S.A','').replace('Comercial Belzunces Rojas','Comercial').trim();
+function addLog(tipo,txt){log.unshift({tipo,txt,t:new Date().toLocaleTimeString('es-ES')})}
 
-// ─── CARGA ───────────────────────────────────────────
-async function cargarDatosExcel(){
-  document.getElementById('sync-status').classList.remove('hidden');
+// ─ CARGA ────────────────────────
+async function cargar(){
+  document.getElementById('sync-pulse').classList.remove('hidden');
   try{
-    const res=await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0&t=${Date.now()}`);
-    const csv=await res.text();
-    const rows=csv.split('\n').map(r=>r.split(','));
+    const r=await fetch(`https://docs.google.com/spreadsheets/d/${SID}/export?format=csv&gid=0&t=${Date.now()}`);
+    const csv=await r.text();
     G={};
-    for(let i=1;i<rows.length;i++){
-      const r=rows[i];if(!r[3])continue;
-      const nom=limpiar(r[3]);
-      if(!G[nom])G[nom]={nombre:nom,empresaFull:limpiar(r[1]),fAltaCalcRaw:fmtInput(limpiar(r[7])),fAltaRealRaw:fmtInput(limpiar(r[9])),fAltaRealDisp:limpiar(r[9]),clave:limpiar(r[10]),bajaRaw:limpiar(r[11])||'ACTIVO',periodos:[]};
-      if(limpiar(r[4])&&limpiar(r[5])&&limpiar(r[6])!='0')
-        G[nom].periodos.push({ini:limpiar(r[4]),fin:limpiar(r[5]),dias:Math.abs(parseInt(r[6]))||0});
-    }
+    csv.split('\n').slice(1).forEach(row=>{
+      const c=row.split(',');if(!c[3])return;
+      const n=cl(c[3]);
+      if(!G[n])G[n]={nombre:n,empresaFull:cl(c[1]),fAltaCalcRaw:fmtIn(cl(c[7])),fAltaRealRaw:fmtIn(cl(c[9])),fAltaRealDisp:cl(c[9]),clave:cl(c[10]),bajaRaw:cl(c[11])||'ACTIVO',periodos:[]};
+      if(cl(c[4])&&cl(c[5])&&cl(c[6])!='0')
+        G[n].periodos.push({ini:cl(c[4]),fin:cl(c[5]),dias:Math.abs(parseInt(c[6]))||0});
+    });
     Object.values(G).forEach(t=>{
       const baja=t.bajaRaw!=='ACTIVO'&&t.bajaRaw!==''&&t.bajaRaw!=='-';
       const fA=parseF(t.fAltaCalcRaw),fF=baja?(parseF(t.bajaRaw)||new Date()):new Date();
-      t.generadas=fA?parseFloat(((fF-fA)/86400000*(30/365)).toFixed(1)):0;
+      t.generadas=fA?+((fF-fA)/86400000*(30/365)).toFixed(1):0;
       t.disfrutados=t.periodos.reduce((a,p)=>a+p.dias,0);
-      t.saldo=parseFloat((t.generadas-t.disfrutados).toFixed(1));
+      t.saldo=+((t.generadas-t.disfrutados).toFixed(1));
       t.esBaja=baja;
     });
-    renderTabla();renderDash();renderAlertas();
-    document.getElementById('last-sync').innerText='✓ '+new Date().toLocaleTimeString('es-ES');
-    log('sync','Datos sincronizados desde Google Sheets');
+    renderTabla();renderDash();renderBadges();
+    document.getElementById('sync-ok').innerText='✓ '+new Date().toLocaleTimeString('es-ES');
+    addLog('sync','Datos sincronizados');
   }catch(e){console.error(e)}
-  document.getElementById('sync-status').classList.add('hidden');
+  document.getElementById('sync-pulse').classList.add('hidden');
 }
 
-// ─── TABLA ───────────────────────────────────────────
+// ─ TABLA ────────────────────────
 function renderTabla(){
-  const tb=document.getElementById('tabla-datos');tb.innerHTML='';
-  Object.values(G).sort((a,b)=>a.nombre.localeCompare(b.nombre)).forEach((t,i)=>{
-    const sb=t.saldo<=0?'b-red':t.saldo<=5?'b-amber':'b-green';
+  const tb=document.getElementById('tbody');tb.innerHTML='';
+  const list=Object.values(G).sort((a,b)=>a.nombre.localeCompare(b.nombre));
+  list.forEach((t,i)=>{
+    const sc=t.saldo<=0?'bg-r':t.saldo<=5?'bg-a':'bg-g';
     const tr=document.createElement('tr');
-    tr.className=`trow${t.esBaja?' trow-baja':''}`;
-    tr.dataset.n=t.nombre.toUpperCase();
-    tr.dataset.e=t.empresaFull.toUpperCase();
-    tr.dataset.s=t.esBaja?'BAJA':'ACTIVO';
+    tr.className=`tr-main${t.esBaja?' tr-baja':''}`;
+    tr.dataset.n=t.nombre.toUpperCase();tr.dataset.e=t.empresaFull.toUpperCase();tr.dataset.s=t.esBaja?'BAJA':'ACTIVO';
+    tr.onclick=()=>abrirDrawer(t.nombre);
     tr.innerHTML=`
       <td class="py-3.5 px-4">
-        <div class="flex items-center gap-2 cursor-pointer" onclick="toggleDet('d${i}','ic${i}')">
-          <span id="ic${i}" class="text-blue-600 text-[9px] transition-transform duration-200">▶</span>
+        <div class="flex items-center gap-1.5">
           <span class="font-semibold text-white text-[11px] uppercase">${t.nombre}</span>
-          ${t.saldo<=2&&!t.esBaja?'<span title="Saldo crítico" class="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block"></span>':''}
+          ${!t.esBaja&&t.saldo<=2?'<span class="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0" title="Saldo crítico"></span>':''}
+          ${!t.esBaja&&t.saldo<=5&&t.saldo>2?'<span class="w-1.5 h-1.5 rounded-full bg-yellow-600 flex-shrink-0" title="Saldo bajo"></span>':''}
         </div>
       </td>
-      <td class="py-3.5 px-3 text-[9px] font-bold text-slate-500 uppercase">${empCorta(t.empresaFull)}</td>
-      <td class="py-3.5 px-3 text-[10px] font-mono text-blue-400">${t.fAltaRealDisp||'—'}</td>
-      <td class="py-3.5 px-3"><span class="badge ${t.esBaja?'b-red':'b-green'}">${t.esBaja?'BAJA':'ACTIVO'}</span></td>
-      <td class="py-3.5 px-3 text-center text-[11px] text-slate-500 font-bold">${t.disfrutados}</td>
-      <td class="py-3.5 px-3 text-center"><span class="badge ${sb}">${t.saldo}</span></td>
-      <td class="py-3.5 px-3 text-center">
-        <button onclick="editarTrab('${t.nombre.replace(/'/g,"\\'")}')}" class="text-slate-600 hover:text-blue-400 transition-all text-[10px] px-2 py-1 rounded hover:bg-blue-500/10 font-bold">✏ Editar</button>
-      </td>`;
-    const td=document.createElement('tr');
-    td.id=`d${i}`;td.className='det-row';
-    td.innerHTML=`<td colspan="7" class="px-5 py-3">
-      <div class="text-[9px] uppercase font-bold text-slate-600 mb-2 tracking-widest">Periodos registrados</div>
-      <div class="space-y-1.5">
-        ${t.periodos.length?t.periodos.map(p=>`
-          <div class="flex justify-between items-center bg-[#0d1829] border border-[#1a2840] rounded-lg p-2.5">
-            <span class="text-[11px] text-slate-300">📅 <b>${p.ini}</b> → <b>${p.fin}</b> <span class="text-slate-600 ml-2">${p.dias} días naturales</span></span>
-            <button onclick="genWord('${t.nombre}','${t.empresaFull}','${p.ini}','${p.fin}',${p.dias})"
-              class="text-[9px] font-bold bg-blue-600/15 text-blue-400 border border-blue-500/25 px-2.5 py-1.5 rounded-lg hover:bg-blue-600 hover:text-white transition-all">📄 Word</button>
-          </div>`).join(''):'<div class="text-[11px] text-slate-600 italic py-1">Sin periodos registrados.</div>'}
-      </div></td>`;
-    tb.appendChild(tr);tb.appendChild(td);
+      <td class="py-3.5 px-3 text-[9px] font-bold text-[#3d5272] uppercase">${empC(t.empresaFull)}</td>
+      <td class="py-3.5 px-3 text-[10px] font-mono text-blue-500">${t.fAltaRealDisp||'—'}</td>
+      <td class="py-3.5 px-3"><span class="bg ${t.esBaja?'bg-r':'bg-g'}">${t.esBaja?'BAJA':'ACTIVO'}</span></td>
+      <td class="py-3.5 px-3 text-center text-[11px] text-[#3d5272] font-bold">${t.disfrutados}</td>
+      <td class="py-3.5 px-3 text-center"><span class="bg ${sc}">${t.saldo}</span></td>`;
+    tb.appendChild(tr);
   });
+  filtrar();
 }
-function toggleDet(id,ic){
-  const r=document.getElementById(id),i=document.getElementById(ic);
-  r.classList.toggle('open');i.style.transform=r.classList.contains('open')?'rotate(90deg)':'rotate(0)';
-}
-function filtrarTabla(){
-  const n=document.getElementById('buscador').value.toUpperCase().trim();
-  const e=document.getElementById('filtroEmpresa').value.toUpperCase();
-  const s=document.getElementById('filtroEstado').value.toUpperCase();
-  document.querySelectorAll('#tabla-datos tr:not(.det-row)').forEach(tr=>{
-    tr.style.display=((!n||tr.dataset.n?.includes(n))&&(!e||tr.dataset.e?.includes(e))&&(!s||tr.dataset.s===s))?'':'none';
+function filtrar(){
+  const n=document.getElementById('f-nom').value.toUpperCase().trim();
+  const e=document.getElementById('f-emp').value.toUpperCase();
+  const s=document.getElementById('f-est').value.toUpperCase();
+  let vis=0;
+  document.querySelectorAll('#tbody tr').forEach(tr=>{
+    const ok=(!n||tr.dataset.n?.includes(n))&&(!e||tr.dataset.e?.includes(e))&&(!s||tr.dataset.s===s);
+    tr.style.display=ok?'':'none';if(ok)vis++;
   });
+  const all=document.querySelectorAll('#tbody tr').length;
+  document.getElementById('count-visible').innerText=`${vis} de ${all} empleados`;
 }
 
-// ─── DASHBOARD ───────────────────────────────────────
+// ─ DRAWER ───────────────────────
+function abrirDrawer(nombre){
+  drEmp=G[nombre];if(!drEmp)return;
+  document.getElementById('dr-nombre').innerText=nombre;
+  document.getElementById('dr-empresa').innerText=drEmp.empresaFull;
+  document.getElementById('dr-gen').innerText=drEmp.generadas;
+  document.getElementById('dr-dis').innerText=drEmp.disfrutados;
+  const sal=document.getElementById('dr-sal');
+  sal.innerText=drEmp.saldo;
+  sal.className='text-xl font-black mt-1 '+(drEmp.saldo<=0?'saldo-crit':drEmp.saldo<=5?'saldo-warn':'saldo-ok');
+  // periodos
+  document.getElementById('dr-periodos-list').innerHTML=drEmp.periodos.length
+    ?drEmp.periodos.map(p=>`
+      <div class="flex justify-between items-center bg-[#0c1525] border border-[#162038] rounded-xl p-3 mb-2">
+        <div><div class="text-[11px] text-white font-semibold">📅 ${p.ini} → ${p.fin}</div><div class="text-[9px] text-[#3d5272] mt-0.5">${p.dias} días naturales</div></div>
+        <button onclick="genWord('${nombre}','${drEmp.empresaFull}','${p.ini}','${p.fin}',${p.dias})" class="text-[9px] font-bold text-blue-400 border border-blue-700/30 bg-blue-900/15 px-2.5 py-1.5 rounded-lg hover:bg-blue-700 hover:text-white transition-all">📄 Word</button>
+      </div>`).join('')
+    :'<div class="text-[11px] text-[#3d5272] italic py-2 text-center">Sin periodos registrados.</div>';
+  // ficha
+  document.getElementById('dr-emp-sel').value=drEmp.empresaFull;
+  document.getElementById('dr-fac').value=drEmp.fAltaCalcRaw;
+  document.getElementById('dr-far').value=drEmp.fAltaRealRaw;
+  document.getElementById('dr-clave').value=drEmp.clave;
+  document.getElementById('dr-baja').value=drEmp.bajaRaw==='ACTIVO'?'':drEmp.bajaRaw;
+  // vaca
+  document.getElementById('dr-saldo-vaca').innerText=drEmp.saldo;
+  document.getElementById('dr-vini').value='';document.getElementById('dr-vfin').value='';
+  document.getElementById('dr-vcount').innerText='0';document.getElementById('dr-vwarn').classList.add('hidden');
+  drTab('periodos',document.querySelector('.ptab'));
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawer-overlay').classList.add('on');
+}
+function cerrarDrawer(){
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawer-overlay').classList.remove('on');
+}
+function drTab(t,_){
+  ['periodos','ficha','vacaciones'].forEach(id=>{
+    document.getElementById('drt-'+id).classList.toggle('hidden',id!==t);
+  });
+  document.querySelectorAll('.ptab').forEach((el,i)=>{
+    const ids=['periodos','ficha','vacaciones'];
+    el.classList.toggle('on',ids[i]===t);
+  });
+}
+function drCalcDias(){
+  const f1=document.getElementById('dr-vini').value,f2=document.getElementById('dr-vfin').value;
+  if(f1&&f2){const d=Math.round((new Date(f2)-new Date(f1))/86400000+1);document.getElementById('dr-vcount').innerText=d>0?d:0;document.getElementById('dr-vwarn').classList[drEmp&&d>drEmp.saldo?'remove':'add']('hidden')}
+}
+async function guardarFicha(){
+  if(!drEmp)return;
+  const d={empresa:document.getElementById('dr-emp-sel').value,puesto:'CONDUCTOR',nombre:drEmp.nombre,inicio:'',fin:'',dias:0,fechaAlta:document.getElementById('dr-fac').value,fechaAltaReal:document.getElementById('dr-far').value,clave:document.getElementById('dr-clave').value,baja:document.getElementById('dr-baja').value||'ACTIVO',accion:'EDITAR'};
+  fetch(SCRIPT,{method:'POST',mode:'no-cors',body:JSON.stringify(d)});
+  addLog('edit','Ficha editada: '+drEmp.nombre);
+  alert('Ficha actualizada.');setTimeout(()=>location.reload(),1200);
+}
+async function guardarVacaDrawer(){
+  if(!drEmp)return;
+  const dias=parseInt(document.getElementById('dr-vcount').innerText);
+  if(dias<=0)return alert('Selecciona fechas válidas');
+  const d={nombre:drEmp.nombre,empresa:drEmp.empresaFull,inicio:document.getElementById('dr-vini').value,fin:document.getElementById('dr-vfin').value,dias,fechaAlta:drEmp.fAltaCalcRaw,fechaAltaReal:drEmp.fAltaRealRaw,clave:drEmp.clave,baja:drEmp.bajaRaw,accion:'NUEVO'};
+  fetch(SCRIPT,{method:'POST',mode:'no-cors',body:JSON.stringify(d)});
+  addLog('vaca',`Vacaciones ${d.inicio}→${d.fin} (${dias}d) · ${d.nombre}`);
+  alert('Vacaciones registradas.');setTimeout(()=>location.reload(),1200);
+}
+
+// ─ DASHBOARD ────────────────────
 function renderDash(){
   const all=Object.values(G),act=all.filter(t=>!t.esBaja),baj=all.filter(t=>t.esBaja),warn=act.filter(t=>t.saldo<=5);
-  document.getElementById('kpi-total').innerText=all.length;
-  document.getElementById('kpi-activos').innerText=act.length;
-  document.getElementById('kpi-bajas').innerText=baj.length;
-  document.getElementById('kpi-warn').innerText=warn.length;
-  // badges
-  if(warn.length>0){
-    ['bdg-alertas','bdg-alertas2'].forEach(id=>{const el=document.getElementById(id);el.innerText=warn.length;el.classList.remove('hidden')});
-    const nb=document.getElementById('notif-badge');nb.innerText=warn.length;nb.style.display='flex';
-  }
-  // criticos
-  const crit=act.filter(t=>t.saldo<=2).sort((a,b)=>a.saldo-b.saldo);
-  document.getElementById('lista-criticos').innerHTML=crit.length?crit.map(t=>`
-    <div class="flex justify-between items-center p-3 bg-amber-500/5 border border-amber-500/15 rounded-xl mb-2">
-      <div><div class="font-semibold text-white text-sm">${t.nombre}</div><div class="text-[9px] text-slate-600 uppercase mt-0.5">${empCorta(t.empresaFull)}</div></div>
-      <span class="badge b-amber">${t.saldo} días</span>
-    </div>`).join(''):'<div class="text-slate-600 text-sm italic text-center py-4">✓ Ningún empleado con saldo crítico</div>';
-  // charts
-  const emp={};act.forEach(t=>{const k=empCorta(t.empresaFull);emp[k]=(emp[k]||0)+1});
-  if(charts.emp)charts.emp.destroy();
-  charts.emp=new Chart(document.getElementById('chart-emp').getContext('2d'),{type:'doughnut',data:{labels:Object.keys(emp),datasets:[{data:Object.values(emp),backgroundColor:['#3b82f6','#8b5cf6','#10b981'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#475569',font:{size:10,weight:'bold'},padding:14,boxWidth:10}}}}});
-  const vE={};act.forEach(t=>{const k=empCorta(t.empresaFull);if(!vE[k])vE[k]={g:0,d:0};vE[k].g+=t.generadas;vE[k].d+=t.disfrutados});
-  if(charts.vac)charts.vac.destroy();
-  charts.vac=new Chart(document.getElementById('chart-vac').getContext('2d'),{type:'bar',data:{labels:Object.keys(vE),datasets:[{label:'Generadas',data:Object.values(vE).map(v=>Math.round(v.g)),backgroundColor:'rgba(59,130,246,.55)',borderRadius:5,borderSkipped:false},{label:'Disfrutadas',data:Object.values(vE).map(v=>v.d),backgroundColor:'rgba(16,185,129,.55)',borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#475569',font:{size:10,weight:'bold'},padding:14,boxWidth:10}}},scales:{x:{grid:{color:'#131f30'},ticks:{color:'#475569',font:{size:10}}},y:{grid:{color:'#131f30'},ticks:{color:'#475569',font:{size:10}}}}}});
-}
-
-// ─── ALERTAS ─────────────────────────────────────────
-function renderAlertas(){
-  const cont=document.getElementById('alertas-cont');
-  const act=Object.values(G).filter(t=>!t.esBaja);
-  const warn=act.filter(t=>t.saldo<=5).sort((a,b)=>a.saldo-b.saldo);
-  if(!warn.length){cont.innerHTML='<div class="card p-8 text-center text-slate-600 italic text-sm">✓ Todos los empleados tienen saldo suficiente.</div>';return}
+  ['k-total','k-act','k-baj','k-warn'].forEach((id,i)=>document.getElementById(id).innerText=[all.length,act.length,baj.length,warn.length][i]);
+  // alertas inicio
+  const crit=act.filter(t=>t.saldo<=5).sort((a,b)=>a.saldo-b.saldo);
   const col=s=>s<=0?'#ef4444':s<=2?'#f97316':'#f59e0b';
-  const lbl=s=>s<=0?'🔴 Saldo agotado':s<=2?'🟠 Saldo crítico':'🟡 Saldo bajo';
-  cont.innerHTML=warn.map(t=>`
-    <div class="card p-4 flex justify-between items-center" style="border-left:3px solid ${col(t.saldo)}">
+  document.getElementById('inicio-alertas').innerHTML=crit.length?crit.map(t=>`
+    <div class="flex justify-between items-center py-2.5 border-b border-[#0e1a2b] last:border-none">
       <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-full bg-[#111d2e] flex items-center justify-center text-sm font-black text-white">${t.nombre.charAt(0)}</div>
-        <div>
-          <div class="font-semibold text-white text-sm">${t.nombre}</div>
-          <div class="text-[9px] text-slate-600 uppercase mt-0.5">${empCorta(t.empresaFull)} · ${lbl(t.saldo)}</div>
-        </div>
+        <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black text-white" style="background:${col(t.saldo)}22;border:1px solid ${col(t.saldo)}44;color:${col(t.saldo)}">${t.nombre.charAt(0)}</div>
+        <div><div class="text-xs font-semibold text-white">${t.nombre}</div><div class="text-[9px] text-[#3d5272] uppercase">${empC(t.empresaFull)}</div></div>
       </div>
-      <div class="text-right">
-        <div class="text-2xl font-black" style="color:${col(t.saldo)}">${t.saldo}</div>
-        <div class="text-[9px] text-slate-600">días restantes</div>
-      </div>
-    </div>`).join('');
+      <div class="font-black text-sm" style="color:${col(t.saldo)}">${t.saldo}d</div>
+    </div>`).join(''):'<div class="text-[#3d5272] text-xs italic text-center py-4">✓ Todos los empleados con saldo suficiente.</div>';
+  // charts
+  const emp={};act.forEach(t=>{const k=empC(t.empresaFull);emp[k]=(emp[k]||0)+1});
+  if(charts.e)charts.e.destroy();
+  charts.e=new Chart(document.getElementById('c-emp').getContext('2d'),{type:'doughnut',data:{labels:Object.keys(emp),datasets:[{data:Object.values(emp),backgroundColor:['#1d4ed8','#6d28d9','#065f46'],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#3d5272',font:{size:9,weight:'bold'},padding:12,boxWidth:8}}}}});
+  const vE={};act.forEach(t=>{const k=empC(t.empresaFull);if(!vE[k])vE[k]={g:0,d:0};vE[k].g+=t.generadas;vE[k].d+=t.disfrutados});
+  if(charts.v)charts.v.destroy();
+  charts.v=new Chart(document.getElementById('c-vac').getContext('2d'),{type:'bar',data:{labels:Object.keys(vE),datasets:[{label:'Generadas',data:Object.values(vE).map(v=>Math.round(v.g)),backgroundColor:'#1d4ed855',borderRadius:4,borderSkipped:false},{label:'Disfrutadas',data:Object.values(vE).map(v=>v.d),backgroundColor:'#06503055',borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#3d5272',font:{size:9,weight:'bold'},padding:12,boxWidth:8}}},scales:{x:{grid:{color:'#0e1a2b'},ticks:{color:'#3d5272',font:{size:9}}},y:{grid:{color:'#0e1a2b'},ticks:{color:'#3d5272',font:{size:9}}}}}});
+}
+function renderBadges(){
+  const warn=Object.values(G).filter(t=>!t.esBaja&&t.saldo<=5).length;
+  const b=document.getElementById('badge-alerta');
+  if(warn>0){b.innerText=warn;b.classList.remove('hidden')}else b.classList.add('hidden');
 }
 
-// ─── CALENDARIO ──────────────────────────────────────
-const MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-const COLS=['#3b82f6','#8b5cf6','#10b981','#f59e0b','#ef4444','#06b6d4','#ec4899','#84cc16'];
-function cambiarMes(d){calM+=d;if(calM>11){calM=0;calY++}if(calM<0){calM=11;calY--}renderCal()}
+// ─ CALENDARIO ───────────────────
+function calNav(d){cM+=d;if(cM>11){cM=0;cY++}if(cM<0){cM=11;cY--}renderCal()}
 function renderCal(){
-  document.getElementById('cal-titulo').innerText=`${MESES[calM]} ${calY}`;
-  const filtro=(document.getElementById('cal-emp')?.value||'').toUpperCase();
-  const primerDia=new Date(calY,calM,1),ultimo=new Date(calY,calM+1,0).getDate();
-  let dow=primerDia.getDay();dow=dow===0?6:dow-1;
+  document.getElementById('cal-tit').innerText=`${MESES[cM]} ${cY}`;
+  const flt=(document.getElementById('cal-f')?.value||'').toUpperCase();
+  const primerDia=new Date(cY,cM,1);let dow=primerDia.getDay();dow=dow===0?6:dow-1;
+  const ultDia=new Date(cY,cM+1,0).getDate();
   const vM={},cMap={};let ci=0;
   Object.values(G).forEach(t=>{
-    if(filtro&&!t.empresaFull.toUpperCase().includes(filtro))return;
+    if(flt&&!t.empresaFull.toUpperCase().includes(flt))return;
     if(!cMap[t.nombre]){cMap[t.nombre]=COLS[ci%COLS.length];ci++}
     t.periodos.forEach(p=>{
       const ini=parseF(p.ini),fin=parseF(p.fin);if(!ini||!fin)return;
       let cur=new Date(ini);
-      while(cur<=fin){if(cur.getMonth()===calM&&cur.getFullYear()===calY){const d=cur.getDate();if(!vM[d])vM[d]=[];vM[d].push({nom:t.nombre,col:cMap[t.nombre]})}cur.setDate(cur.getDate()+1)}
+      while(cur<=fin){if(cur.getMonth()===cM&&cur.getFullYear()===cY){const d=cur.getDate();if(!vM[d])vM[d]=[];vM[d].push({nom:t.nombre,col:cMap[t.nombre]})}cur.setDate(cur.getDate()+1)}
     });
   });
   const hoy=new Date();
-  let h=`<div class="grid grid-cols-7 gap-1 mb-2">${['L','M','X','J','V','S','D'].map(d=>`<div class="text-center text-[9px] font-bold text-slate-600 uppercase py-2">${d}</div>`).join('')}</div><div class="grid grid-cols-7 gap-1">`;
+  let h=`<div class="grid grid-cols-7 gap-1 mb-2">${['L','M','X','J','V','S','D'].map(d=>`<div class="text-center text-[8px] font-bold text-[#3d5272] uppercase py-1.5">${d}</div>`).join('')}</div><div class="grid grid-cols-7 gap-1">`;
   for(let i=0;i<dow;i++)h+='<div></div>';
-  for(let d=1;d<=ultimo;d++){
-    const isHoy=d===hoy.getDate()&&calM===hoy.getMonth()&&calY===hoy.getFullYear();
+  for(let d=1;d<=ultDia;d++){
+    const isH=d===hoy.getDate()&&cM===hoy.getMonth()&&cY===hoy.getFullYear();
     const evts=vM[d]||[];
-    h+=`<div class="cal-cell${isHoy?' cal-today':''}">
-      <div class="text-[10px] font-bold ${isHoy?'text-blue-400':'text-slate-600'} mb-0.5">${d}</div>
-      ${evts.slice(0,3).map(e=>`<div class="cal-evt" style="background:${e.col}1a;border-left:2px solid ${e.col};color:${e.col}" title="${e.nom}">${e.nom.split(' ')[0]}</div>`).join('')}
-      ${evts.length>3?`<div class="text-[8px] text-slate-600 mt-0.5">+${evts.length-3}</div>`:''}
+    h+=`<div class="cal-day${isH?' cal-today':''}">
+      <div class="text-[9px] font-bold mb-0.5 ${isH?'text-blue-400':'text-[#3d5272]'}">${d}</div>
+      ${evts.slice(0,3).map(e=>`<div class="cal-evt" style="background:${e.col}18;border-left:2px solid ${e.col};color:${e.col}" title="${e.nom}">${e.nom.split(' ')[0]}</div>`).join('')}
+      ${evts.length>3?`<div class="text-[8px] text-[#3d5272] mt-0.5">+${evts.length-3}</div>`:''}
     </div>`;
   }
   h+='</div>';
-  if(Object.keys(cMap).length){
-    h+=`<div class="mt-4 pt-4 border-t border-[#131f30] flex flex-wrap gap-3">`;
-    Object.entries(cMap).forEach(([n,c])=>{h+=`<div class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full" style="background:${c}"></div><span class="text-[9px] text-slate-500 font-medium">${n}</span></div>`});
-    h+='</div>';
-  }
-  document.getElementById('cal-wrap').innerHTML=h;
+  if(Object.keys(cMap).length){h+=`<div class="mt-3 pt-3 border-t border-[#0e1a2b] flex flex-wrap gap-3">`;Object.entries(cMap).forEach(([n,c])=>{h+=`<div class="flex items-center gap-1.5"><div class="w-1.5 h-1.5 rounded-full" style="background:${c}"></div><span class="text-[9px] text-[#3d5272] font-medium">${n}</span></div>`});h+='</div>';}
+  document.getElementById('cal-grid').innerHTML=h;
 }
 
-// ─── VACACIONES ──────────────────────────────────────
-function buscarParaVaca(v){
-  const res=document.getElementById('vaca-results');
-  const flt=(document.getElementById('vaca-filtro').value||'').toUpperCase();
+// ─ VACACIONES FORM ──────────────
+function buscarVaca(v){
+  const res=document.getElementById('vf-drop'),flt=(document.getElementById('vf-femp').value||'').toUpperCase();
   if(!v){res.classList.add('hidden');return}
   const m=Object.values(G).filter(t=>t.nombre.includes(v.toUpperCase())&&(!flt||t.empresaFull.toUpperCase().includes(flt))).slice(0,8);
-  if(m.length){res.innerHTML=m.map(t=>`<div class="ddrop-item" onclick="selVaca('${t.nombre.replace(/'/g,"\\'")}')"><div class="font-semibold text-sm">${t.nombre}</div><div class="text-[9px] text-blue-400 mt-0.5">${empCorta(t.empresaFull)}</div></div>`).join('');res.classList.remove('hidden')}
+  if(m.length){res.innerHTML=m.map(t=>`<div class="drop-item" onclick="selVaca('${t.nombre.replace(/'/g,"\\'")}')"><div class="font-semibold text-sm">${t.nombre}</div><div class="text-[9px] text-blue-400 mt-0.5">${empC(t.empresaFull)}</div></div>`).join('');res.classList.remove('hidden')}
   else res.classList.add('hidden');
 }
 function selVaca(n){
   vacSel=G[n];
-  document.getElementById('vaca-search').value=n;
-  document.getElementById('vaca-results').classList.add('hidden');
-  document.getElementById('vaca-nom').innerText=n;
-  document.getElementById('vaca-emp').innerText=vacSel.empresaFull;
-  document.getElementById('vaca-saldo').innerText=vacSel.saldo;
-  document.getElementById('vaca-info').classList.remove('hidden');
+  document.getElementById('vf-search').value=n;
+  document.getElementById('vf-drop').classList.add('hidden');
+  document.getElementById('vf-nom').innerText=n;
+  document.getElementById('vf-emp').innerText=vacSel.empresaFull;
+  document.getElementById('vf-sal').innerText=vacSel.saldo;
+  document.getElementById('vf-info').classList.remove('hidden');
 }
-function calcDias(){
-  const f1=document.getElementById('vaca-ini').value,f2=document.getElementById('vaca-fin').value;
-  if(f1&&f2){
-    const d=(new Date(f2)-new Date(f1))/86400000+1;
-    const dias=d>0?Math.round(d):0;
-    document.getElementById('vaca-count').innerText=dias;
-    document.getElementById('vaca-warn').classList[vacSel&&dias>vacSel.saldo?'remove':'add']('hidden');
-  }
+function vfCalc(){
+  const f1=document.getElementById('vf-ini').value,f2=document.getElementById('vf-fin').value;
+  if(f1&&f2){const d=Math.round((new Date(f2)-new Date(f1))/86400000+1);document.getElementById('vf-count').innerText=d>0?d:0;document.getElementById('vf-warn').classList[vacSel&&d>vacSel.saldo?'remove':'add']('hidden')}
 }
-async function guardarVacaciones(){
-  if(!vacSel)return alert('Selecciona un empleado primero');
-  const dias=parseInt(document.getElementById('vaca-count').innerText);
+async function guardarVacaForm(){
+  if(!vacSel)return alert('Selecciona un empleado');
+  const dias=parseInt(document.getElementById('vf-count').innerText);
   if(dias<=0)return alert('Selecciona fechas válidas');
-  const d={nombre:vacSel.nombre,empresa:vacSel.empresaFull,inicio:document.getElementById('vaca-ini').value,fin:document.getElementById('vaca-fin').value,dias,fechaAlta:vacSel.fAltaCalcRaw,fechaAltaReal:vacSel.fAltaRealRaw,clave:vacSel.clave,baja:vacSel.bajaRaw,accion:'NUEVO'};
-  fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(d)});
-  log('vaca',`Vacaciones ${d.inicio}→${d.fin} (${dias}d) · ${d.nombre}`);
-  alert('Vacaciones registradas correctamente.');
-  setTimeout(()=>location.reload(),1200);
+  const d={nombre:vacSel.nombre,empresa:vacSel.empresaFull,inicio:document.getElementById('vf-ini').value,fin:document.getElementById('vf-fin').value,dias,fechaAlta:vacSel.fAltaCalcRaw,fechaAltaReal:vacSel.fAltaRealRaw,clave:vacSel.clave,baja:vacSel.bajaRaw,accion:'NUEVO'};
+  fetch(SCRIPT,{method:'POST',mode:'no-cors',body:JSON.stringify(d)});
+  addLog('vaca',`Vacaciones ${d.inicio}→${d.fin} (${dias}d) · ${d.nombre}`);
+  alert('Vacaciones registradas.');setTimeout(()=>location.reload(),1200);
 }
 
-// ─── GESTIÓN ─────────────────────────────────────────
-function editarTrab(n){
-  const t=G[n];if(!t)return;
-  editando=true;
-  document.getElementById('form-titulo').innerText=`Editando: ${n}`;
-  document.getElementById('form-sub').innerText='Modificando ficha existente';
-  document.getElementById('btn-guardar').innerText='Actualizar Ficha';
-  document.getElementById('btn-guardar').classList.replace('bg-blue-600','bg-amber-600');
-  document.getElementById('empresa').value=t.empresaFull;
-  document.getElementById('nombre').value=t.nombre;
-  document.getElementById('nombre').readOnly=true;
-  document.getElementById('fechaAltaCalc').value=t.fAltaCalcRaw;
-  document.getElementById('fechaAltaReal').value=t.fAltaRealRaw;
-  document.getElementById('claveContrato').value=t.clave;
-  document.getElementById('fechaBaja').value=t.bajaRaw==='ACTIVO'?'':t.bajaRaw;
-  showTab('gestion');
-}
-function limpiarForm(){
-  editando=false;
-  document.getElementById('form-titulo').innerText='Ficha de Empleado';
-  document.getElementById('form-sub').innerText='Alta de nuevo empleado';
-  document.getElementById('btn-guardar').innerText='Guardar Ficha';
-  document.getElementById('btn-guardar').classList.replace('bg-amber-600','bg-blue-600');
-  document.getElementById('nombre').readOnly=false;
-  ['nombre','fechaAltaCalc','fechaAltaReal','claveContrato','fechaBaja'].forEach(id=>document.getElementById(id).value='');
-}
-async function enviarFicha(){
-  const nom=document.getElementById('nombre').value.trim().toUpperCase();
-  if(!nom||!document.getElementById('fechaAltaCalc').value)return alert('Faltan datos obligatorios.');
-  const d={empresa:document.getElementById('empresa').value,puesto:'CONDUCTOR',nombre:nom,inicio:'',fin:'',dias:0,fechaAlta:document.getElementById('fechaAltaCalc').value,fechaAltaReal:document.getElementById('fechaAltaReal').value,clave:document.getElementById('claveContrato').value,baja:document.getElementById('fechaBaja').value||'ACTIVO',accion:editando?'EDITAR':'NUEVO'};
-  fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(d)});
-  log(editando?'edit':'alta',`${editando?'Ficha editada':'Alta creada'}: ${nom}`);
-  alert('Ficha guardada correctamente.');
-  setTimeout(()=>location.reload(),1200);
+// ─ ALTA ─────────────────────────
+async function altaEmpleado(){
+  const nom=document.getElementById('a-nom').value.trim().toUpperCase();
+  if(!nom||!document.getElementById('a-fac').value)return alert('Faltan datos obligatorios');
+  const d={empresa:document.getElementById('a-emp').value,puesto:'CONDUCTOR',nombre:nom,inicio:'',fin:'',dias:0,fechaAlta:document.getElementById('a-fac').value,fechaAltaReal:document.getElementById('a-far').value,clave:document.getElementById('a-clave').value,baja:document.getElementById('a-baja').value||'ACTIVO',accion:'NUEVO'};
+  fetch(SCRIPT,{method:'POST',mode:'no-cors',body:JSON.stringify(d)});
+  addLog('alta','Alta creada: '+nom);
+  alert('Alta guardada.');setTimeout(()=>location.reload(),1200);
 }
 
-// ─── HISTORIAL ───────────────────────────────────────
-function renderHistorial(){
-  const c=document.getElementById('audit-log');
-  if(!auditLog.length){c.innerHTML='<div class="text-slate-600 italic text-sm text-center py-6">No hay acciones en esta sesión.</div>';return}
+// ─ HISTORIAL ────────────────────
+function renderLog(){
+  const c=document.getElementById('log-cont');
+  if(!log.length){c.innerHTML='<div class="text-[#3d5272] text-xs italic text-center py-5">No hay acciones en esta sesión.</div>';return}
   const ic={sync:'🔄',vaca:'✈️',edit:'✏️',alta:'👤'};
-  const col={sync:'#3b82f6',vaca:'#10b981',edit:'#f59e0b',alta:'#8b5cf6'};
-  c.innerHTML=auditLog.map(a=>`
-    <div class="audit-item">
-      <div style="width:9px;height:9px;border-radius:50%;background:${col[a.tipo]||'#475569'};margin-top:4px;flex-shrink:0"></div>
-      <div><div class="text-sm text-white font-medium">${ic[a.tipo]||'·'} ${a.txt}</div><div class="text-[9px] text-slate-600 mt-0.5">${a.hora}</div></div>
-    </div>`).join('');
+  const cl={sync:'#3b82f6',vaca:'#10b981',edit:'#f59e0b',alta:'#8b5cf6'};
+  c.innerHTML=log.map(a=>`<div class="audit-line"><div style="width:8px;height:8px;border-radius:50%;background:${cl[a.tipo]||'#3d5272'};margin-top:5px;flex-shrink:0"></div><div><div class="text-xs text-white font-medium">${ic[a.tipo]||'·'} ${a.txt}</div><div class="text-[9px] text-[#3d5272] mt-0.5">${a.t}</div></div></div>`).join('');
 }
 
-// ─── WORD ─────────────────────────────────────────────
+// ─ WORD ─────────────────────────
 async function genWord(n,emp,fi,ff,dias){
   const{Document,Packer,Paragraph,TextRun,AlignmentType}=docx;
   const doc=new Document({sections:[{children:[
@@ -723,7 +749,16 @@ async function genWord(n,emp,fi,ff,dias){
     new Paragraph({children:[new TextRun({text:'Firma de la Empresa:                                    Firma del Trabajador:',size:24})]})
   ]}]});
   Packer.toBlob(doc).then(b=>saveAs(b,`Vacaciones_${n}_${fi}.docx`));
-  log('vaca',`Word generado · ${n} (${fi})`);
+  addLog('vaca',`Word generado · ${n}`);
+}
+
+// ─ TABS vacaciones ───────────────
+function vtab(t){
+  document.getElementById('vc-cal').classList.toggle('hidden',t!=='cal');
+  document.getElementById('vc-form').classList.toggle('hidden',t!=='form');
+  document.getElementById('vt-cal').classList.toggle('on',t==='cal');
+  document.getElementById('vt-form').classList.toggle('on',t==='form');
+  if(t==='cal')renderCal();
 }
 </script>
 </body>
