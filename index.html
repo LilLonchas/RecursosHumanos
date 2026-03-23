@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portal RRHH · Belzunces</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -12,76 +11,55 @@
 <style>
 *{font-family:'Inter',sans-serif;box-sizing:border-box;margin:0;padding:0}
 body{background:#06080f;color:#e2e8f0}
-
-/* ── NAV ── */
-.nav-item{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:9px;cursor:pointer;font-size:12px;font-weight:600;color:#3d5272;transition:all .18s;user-select:none;position:relative}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:9px;cursor:pointer;font-size:12px;font-weight:600;color:#3d5272;transition:all .18s;user-select:none}
 .nav-item:hover{color:#94a3b8;background:#0c1525}
 .nav-item.active{color:#fff;background:#1541a0}
-.nav-dot{width:6px;height:6px;border-radius:50%;background:#ef4444;position:absolute;top:7px;right:8px}
-
-/* ── PANELS ── */
 .panel{display:none}.panel.on{display:block;animation:fadeUp .22s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
-/* ── CARD ── */
 .card{background:#0a1120;border:1px solid #111f35;border-radius:12px}
 .kpi{background:#0a1120;border:1px solid #111f35;border-radius:12px;padding:18px}
-
-/* ── TABLE ── */
 .tr-main{border-bottom:1px solid #0e1a2b;transition:background .12s;cursor:pointer}
 .tr-main:hover{background:#0c1525}
 .tr-baja td:first-child{border-left:3px solid #ef444488}
 .tr-baja{background:#0d100f}
-.det-row{display:none;background:#080d19}.det-row.open{display:table-row}
-
-/* ── BADGE ── */
-.bg{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:9px;font-weight:800;letter-spacing:.04em}
+.bg{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:9px;font-weight:800;letter-spacing:.04em}
 .bg-g{background:#0d2e1a;color:#4ade80;border:1px solid #1a4a2a}
 .bg-r{background:#2a0d0d;color:#f87171;border:1px solid #4a1a1a}
 .bg-a{background:#2a1e09;color:#fbbf24;border:1px solid #4a3510}
 .bg-b{background:#0d1e3a;color:#60a5fa;border:1px solid #1a3060}
-
-/* ── INPUTS ── */
-input,select,textarea{background:#0c1525!important;color:#e2e8f0!important;border:1px solid #162038!important;border-radius:9px!important;outline:none!important}
+input,select{background:#0c1525!important;color:#e2e8f0!important;border:1px solid #162038!important;border-radius:9px!important;outline:none!important}
 input:focus,select:focus{border-color:#2563eb!important;box-shadow:0 0 0 3px #2563eb1a!important}
 input::placeholder{color:#263752!important}
-::selection{background:#2563eb44}
-
-/* ── DRAWER ── */
-#drawer{position:fixed;top:0;right:0;height:100%;width:420px;background:#08101e;border-left:1px solid #111f35;z-index:200;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
-#drawer.open{transform:translateX(0)}
-#drawer-overlay{position:fixed;inset:0;background:#00000055;z-index:199;display:none;backdrop-filter:blur(2px)}
-#drawer-overlay.on{display:block}
-
-/* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:#1a2d48;border-radius:4px}
-
-/* ── CALENDAR ── */
-.cal-day{min-height:70px;border-radius:8px;border:1px solid #0e1a2b;padding:4px;transition:border-color .15s}
-.cal-day:hover{border-color:#1a2d48}
-.cal-today{border-color:#2563eb!important;background:#2563eb08}
-.cal-evt{font-size:9px;padding:2px 5px;border-radius:3px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
-
-/* ── DROPDOWN ── */
+#drawer{position:fixed;top:0;right:0;height:100%;width:430px;background:#08101e;border-left:1px solid #111f35;z-index:200;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+#drawer.open{transform:translateX(0)}
+#ov{position:fixed;inset:0;background:#00000055;z-index:199;display:none;backdrop-filter:blur(2px)}
+#ov.on{display:block}
+#srch-modal{position:fixed;inset:0;z-index:300;display:none;align-items:flex-start;justify-content:center;padding-top:14vh;background:#00000077;backdrop-filter:blur(4px)}
+#srch-modal.on{display:flex}
+.sres{padding:10px 14px;cursor:pointer;border-bottom:1px solid #0e1a2b;transition:background .12s}
+.sres:hover{background:#111f35}
 .drop{position:absolute;top:100%;left:0;right:0;background:#0c1525;border:1px solid #162038;border-top:none;border-radius:0 0 9px 9px;z-index:50;max-height:180px;overflow-y:auto}
 .drop-item{padding:10px 13px;cursor:pointer;font-size:12px;border-bottom:1px solid #0e1a2b}
 .drop-item:hover{background:#111f35}
-
-/* ── TABS dentro de panel ── */
-.ptab{padding:6px 14px;border-radius:7px;font-size:11px;font-weight:700;color:#3d5272;cursor:pointer;transition:all .15s}
+.ptab{padding:5px 12px;border-radius:7px;font-size:11px;font-weight:700;color:#3d5272;cursor:pointer;transition:all .15s;white-space:nowrap}
 .ptab.on{background:#1541a0;color:#fff}
-
-/* ── AUDIT ── */
+.cal-day{min-height:68px;border-radius:8px;border:1px solid #0e1a2b;padding:4px;transition:border-color .15s}
+.cal-day:hover{border-color:#1a2d48}
+.cal-today{border-color:#2563eb!important;background:#2563eb08}
+.cal-fest{background:#1c0f05!important;border-color:#5c2d0e!important}
+.cal-evt{font-size:9px;padding:2px 5px;border-radius:3px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
+.pill{display:flex;background:#0c1525;border:1px solid #162038;border-radius:8px;padding:3px;gap:2px}
+.pill-opt{padding:4px 12px;border-radius:6px;font-size:10px;font-weight:700;color:#3d5272;cursor:pointer;transition:all .15s}
+.pill-opt.on{background:#1541a0;color:#fff}
 .audit-line{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #0e1a2b}
 .audit-line:last-child{border:none}
-
-/* SALDO colors */
-.saldo-ok{color:#4ade80}.saldo-warn{color:#fbbf24}.saldo-crit{color:#f87171}
+.sc-ok{color:#4ade80}.sc-warn{color:#fbbf24}.sc-crit{color:#f87171}
 </style>
 </head>
 <body class="h-screen overflow-hidden flex flex-col">
 
-<!-- ═══ LOGIN ═══ -->
+<!-- LOGIN -->
 <div id="login" class="fixed inset-0 bg-[#06080f] z-[300] flex items-center justify-center p-4">
   <div class="w-full max-w-[300px] space-y-7">
     <div class="text-center">
@@ -89,105 +67,105 @@ input::placeholder{color:#263752!important}
       <div class="text-[9px] text-[#1e3a5f] uppercase tracking-[.25em] font-bold">Portal de Recursos Humanos</div>
     </div>
     <div class="card p-5 space-y-3">
-      <input id="pass" type="password" placeholder="Contraseña" class="w-full p-3.5 text-sm text-center tracking-widest font-bold" onkeydown="if(event.key==='Enter')login()">
-      <button onclick="login()" class="w-full bg-blue-700 hover:bg-blue-600 text-white py-3 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all active:scale-95">Acceder</button>
+      <input id="pass" type="password" placeholder="Contraseña" class="w-full p-3.5 text-sm text-center tracking-widest font-bold" onkeydown="if(event.key==='Enter')doLogin()">
+      <button onclick="doLogin()" class="w-full bg-blue-700 hover:bg-blue-600 text-white py-3 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all active:scale-95">Acceder</button>
       <div id="lerr" class="text-red-400 text-[10px] text-center hidden">Contraseña incorrecta</div>
     </div>
   </div>
 </div>
 
-<!-- ═══ DRAWER OVERLAY ═══ -->
-<div id="drawer-overlay" onclick="cerrarDrawer()"></div>
+<!-- OVERLAY -->
+<div id="ov" onclick="cerrarDrawer()"></div>
 
-<!-- ═══ DRAWER EMPLEADO ═══ -->
+<!-- BÚSQUEDA GLOBAL Ctrl+K -->
+<div id="srch-modal" onclick="if(event.target.id==='srch-modal')cerrarSearch()">
+  <div class="card overflow-hidden shadow-2xl mx-4 w-full max-w-lg">
+    <div class="flex items-center gap-3 px-4 py-3.5 border-b border-[#111f35]">
+      <svg width="13" height="13" fill="none" stroke="#3d5272" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="srch-in" oninput="buscarGlobal(this.value)" placeholder="Nombre, empresa…"
+        style="background:transparent!important;border:none!important;box-shadow:none!important;flex:1;font-size:14px;font-weight:600;outline:none;color:#e2e8f0">
+      <span class="text-[9px] text-[#3d5272] bg-[#0c1525] px-1.5 py-1 rounded font-bold">ESC</span>
+    </div>
+    <div id="srch-res" class="max-h-64 overflow-y-auto">
+      <div class="px-4 py-3 text-[10px] text-[#3d5272]">Escribe para buscar un empleado…</div>
+    </div>
+    <div class="px-4 py-2 border-t border-[#111f35] text-[9px] text-[#3d5272]">↵ abrir ficha · ESC cerrar · Ctrl+K abrir</div>
+  </div>
+</div>
+
+<!-- DRAWER EMPLEADO -->
 <div id="drawer">
-  <!-- header -->
   <div class="p-5 border-b border-[#111f35] flex justify-between items-start shrink-0">
     <div>
       <div class="text-[9px] text-[#3d5272] uppercase tracking-widest font-bold mb-1">Ficha de empleado</div>
-      <div id="dr-nombre" class="text-lg font-black text-white"></div>
+      <div id="dr-nombre" class="text-lg font-black text-white leading-tight"></div>
       <div id="dr-empresa" class="text-[10px] text-[#3d5272] mt-0.5 uppercase"></div>
     </div>
-    <button onclick="cerrarDrawer()" class="w-8 h-8 bg-[#0c1525] rounded-lg text-[#3d5272] hover:text-white text-lg leading-none flex items-center justify-center transition-all">×</button>
+    <button onclick="cerrarDrawer()" class="w-8 h-8 bg-[#0c1525] rounded-lg text-[#3d5272] hover:text-white text-xl flex items-center justify-center">×</button>
   </div>
-  <!-- mini KPIs -->
-  <div class="grid grid-cols-3 gap-2 p-4 border-b border-[#111f35] shrink-0">
-    <div class="bg-[#0c1525] rounded-xl p-3 text-center">
-      <div class="text-[8px] text-[#3d5272] uppercase font-bold tracking-widest">Generadas</div>
-      <div id="dr-gen" class="text-xl font-black text-white mt-1">—</div>
+  <div class="grid grid-cols-4 gap-2 p-3 border-b border-[#111f35] shrink-0">
+    <div class="bg-[#0c1525] rounded-xl p-2.5 text-center">
+      <div class="text-[8px] text-[#3d5272] uppercase font-bold">Antigüedad</div>
+      <div id="dr-ant" class="text-sm font-black text-white mt-1">—</div>
     </div>
-    <div class="bg-[#0c1525] rounded-xl p-3 text-center">
-      <div class="text-[8px] text-[#3d5272] uppercase font-bold tracking-widest">Disfrutadas</div>
-      <div id="dr-dis" class="text-xl font-black text-white mt-1">—</div>
+    <div class="bg-[#0c1525] rounded-xl p-2.5 text-center">
+      <div class="text-[8px] text-[#3d5272] uppercase font-bold">Generadas</div>
+      <div id="dr-gen" class="text-sm font-black text-white mt-1">—</div>
     </div>
-    <div class="bg-[#0c1525] rounded-xl p-3 text-center">
-      <div class="text-[8px] text-[#3d5272] uppercase font-bold tracking-widest">Saldo</div>
-      <div id="dr-sal" class="text-xl font-black mt-1">—</div>
+    <div class="bg-[#0c1525] rounded-xl p-2.5 text-center">
+      <div class="text-[8px] text-[#3d5272] uppercase font-bold">Disfrutadas</div>
+      <div id="dr-dis" class="text-sm font-black text-white mt-1">—</div>
+    </div>
+    <div class="bg-[#0c1525] rounded-xl p-2.5 text-center">
+      <div class="text-[8px] text-[#3d5272] uppercase font-bold">Saldo</div>
+      <div id="dr-sal" class="text-sm font-black mt-1">—</div>
     </div>
   </div>
-  <!-- tabs -->
-  <div class="flex gap-1.5 px-4 py-3 border-b border-[#111f35] shrink-0">
-    <div class="ptab on" onclick="drTab('periodos',this)">Periodos</div>
-    <div class="ptab" onclick="drTab('ficha',this)">Ficha</div>
-    <div class="ptab" onclick="drTab('vacaciones',this)">+ Vacaciones</div>
+  <div class="flex gap-1 px-4 py-2.5 border-b border-[#111f35] shrink-0 overflow-x-auto">
+    <div class="ptab on" id="drtab-periodos" onclick="drTab('periodos')">Periodos</div>
+    <div class="ptab" id="drtab-anual" onclick="drTab('anual')">Histórico anual</div>
+    <div class="ptab" id="drtab-ficha" onclick="drTab('ficha')">Ficha</div>
+    <div class="ptab" id="drtab-vaca" onclick="drTab('vaca')">+ Vacaciones</div>
   </div>
-  <!-- content -->
   <div class="flex-1 overflow-y-auto">
-    <!-- periodos -->
-    <div id="drt-periodos" class="p-4 space-y-2">
-      <div id="dr-periodos-list"></div>
-    </div>
-    <!-- ficha editar -->
+    <!-- PERIODOS -->
+    <div id="drt-periodos" class="p-4"><div id="dr-per-list"></div></div>
+    <!-- HISTÓRICO ANUAL -->
+    <div id="drt-anual" class="p-4 hidden"><div id="dr-anual"></div></div>
+    <!-- FICHA -->
     <div id="drt-ficha" class="p-4 space-y-3 hidden">
-      <div>
-        <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Empresa</label>
+      <div><label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Empresa</label>
         <select id="dr-emp-sel" class="w-full p-3 mt-1.5 text-sm font-semibold">
-          <option>Transportes Antonio Belzunces S.L</option>
-          <option>Transportes Juan Belzunces S.L</option>
-          <option>Comercial Belzunces Rojas S.A</option>
+          <option>Transportes Antonio Belzunces S.L</option><option>Transportes Juan Belzunces S.L</option><option>Comercial Belzunces Rojas S.A</option>
         </select>
       </div>
       <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">F. Alta Cálculo</label>
-          <input type="date" id="dr-fac" class="w-full p-3 mt-1.5 text-sm">
-        </div>
-        <div>
-          <label class="text-[9px] text-blue-500 uppercase font-bold tracking-widest">F. Alta Real</label>
-          <input type="date" id="dr-far" class="w-full p-3 mt-1.5 text-sm">
-        </div>
+        <div><label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">F. Alta Cálculo</label><input type="date" id="dr-fac" class="w-full p-3 mt-1.5 text-sm"></div>
+        <div><label class="text-[9px] text-blue-500 uppercase font-bold tracking-widest">F. Alta Real</label><input type="date" id="dr-far" class="w-full p-3 mt-1.5 text-sm"></div>
       </div>
       <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Clave contrato</label>
-          <input type="text" id="dr-clave" class="w-full p-3 mt-1.5 text-sm" placeholder="300, 100…">
-        </div>
-        <div>
-          <label class="text-[9px] text-red-400 uppercase font-bold tracking-widest">F. Baja</label>
-          <input type="date" id="dr-baja" class="w-full p-3 mt-1.5 text-sm">
-        </div>
+        <div><label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Clave contrato</label><input type="text" id="dr-clave" placeholder="300, 100…" class="w-full p-3 mt-1.5 text-sm"></div>
+        <div><label class="text-[9px] text-red-400 uppercase font-bold tracking-widest">F. Baja</label><input type="date" id="dr-baja" class="w-full p-3 mt-1.5 text-sm"></div>
       </div>
       <button onclick="guardarFicha()" class="w-full bg-amber-600 hover:bg-amber-500 text-white py-3 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all active:scale-95">Actualizar Ficha</button>
     </div>
-    <!-- añadir vacaciones -->
-    <div id="drt-vacaciones" class="p-4 space-y-4 hidden">
+    <!-- VACACIONES DRAWER -->
+    <div id="drt-vaca" class="p-4 space-y-4 hidden">
       <div class="bg-[#0c1525] rounded-xl p-3 flex justify-between items-center">
-        <div class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Saldo disponible</div>
-        <div id="dr-saldo-vaca" class="text-2xl font-black text-blue-400">—</div>
+        <div class="text-[9px] text-[#3d5272] uppercase font-bold">Saldo disponible</div>
+        <div id="dr-saldo-v" class="text-2xl font-black text-blue-400">—</div>
       </div>
       <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Inicio</label>
-          <input type="date" id="dr-vini" oninput="drCalcDias()" class="w-full p-3 mt-1.5 text-sm">
-        </div>
-        <div>
-          <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Fin</label>
-          <input type="date" id="dr-vfin" oninput="drCalcDias()" class="w-full p-3 mt-1.5 text-sm">
-        </div>
+        <div><label class="text-[9px] text-[#3d5272] uppercase font-bold">Inicio</label><input type="date" id="dr-vini" oninput="drCalcD()" class="w-full p-3 mt-1.5 text-sm"></div>
+        <div><label class="text-[9px] text-[#3d5272] uppercase font-bold">Fin</label><input type="date" id="dr-vfin" oninput="drCalcD()" class="w-full p-3 mt-1.5 text-sm"></div>
+      </div>
+      <div class="pill">
+        <div class="pill-opt on" id="dr-pnat" onclick="drSetMode('nat')">Días naturales</div>
+        <div class="pill-opt" id="dr-plab" onclick="drSetMode('lab')">Días laborables</div>
       </div>
       <div class="bg-[#0c1525] rounded-xl p-3 flex justify-between items-center border border-[#162038]">
         <div>
-          <div class="text-[9px] text-[#3d5272] uppercase font-bold">Días a descontar</div>
+          <div class="text-[9px] text-[#3d5272] uppercase font-bold">Días a registrar</div>
           <div id="dr-vwarn" class="text-[9px] text-amber-400 mt-0.5 hidden">⚠ Supera el saldo</div>
         </div>
         <div id="dr-vcount" class="text-3xl font-black text-blue-400">0</div>
@@ -197,98 +175,70 @@ input::placeholder{color:#263752!important}
   </div>
 </div>
 
-<!-- ═══ APP ═══ -->
+<!-- APP -->
 <div id="app" class="hidden h-screen flex flex-col">
-
-  <!-- TOPBAR -->
   <header class="bg-[#08101e] border-b border-[#0e1a2b] px-5 h-12 flex items-center justify-between shrink-0">
     <div class="flex items-center gap-2.5">
       <div class="w-6 h-6 bg-blue-700 rounded-md flex items-center justify-center font-black text-xs text-white">B</div>
       <span class="font-bold text-xs text-white">Transportes Belzunces</span>
-      <span class="text-[9px] text-[#1e3a5f] hidden sm:block ml-1">· Portal RRHH</span>
+      <span class="text-[9px] text-[#1e3a5f] hidden sm:block">· Portal RRHH</span>
     </div>
     <div class="flex items-center gap-2">
-      <div id="sync-pulse" class="text-[9px] text-[#3d5272] hidden">● syncing…</div>
-      <div id="sync-ok" class="text-[9px] text-[#3d5272]"></div>
-      <button onclick="cargar()" class="text-[10px] font-bold text-[#3d5272] hover:text-blue-400 transition-all px-2 py-1.5 rounded-lg hover:bg-[#0c1525]">🔄 Sync</button>
-      <button onclick="cerrar()" class="text-[10px] text-[#3d5272] hover:text-white px-2 py-1.5 rounded-lg hover:bg-[#0c1525] transition-all">Salir</button>
+      <button onclick="abrirSearch()" class="flex items-center gap-2 bg-[#0c1525] hover:bg-[#111f35] border border-[#162038] text-[#3d5272] hover:text-slate-300 px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all">
+        <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+        Buscar empleado
+        <span class="bg-[#162038] px-1.5 py-0.5 rounded text-[8px] font-bold">Ctrl+K</span>
+      </button>
+      <div id="sync-lbl" class="text-[9px] text-[#3d5272]"></div>
+      <button onclick="cargar()" class="text-[10px] font-bold text-[#3d5272] hover:text-blue-400 transition-all px-2 py-1.5 rounded-lg hover:bg-[#0c1525]">🔄</button>
+      <button onclick="location.reload()" class="text-[10px] text-[#3d5272] hover:text-white px-2 py-1.5 rounded-lg hover:bg-[#0c1525]">Salir</button>
     </div>
   </header>
-
-  <!-- LAYOUT -->
   <div class="flex flex-1 overflow-hidden">
-
     <!-- SIDEBAR -->
     <nav class="w-44 bg-[#08101e] border-r border-[#0e1a2b] p-2.5 space-y-0.5 shrink-0 flex flex-col justify-between">
       <div class="space-y-0.5">
         <div class="nav-item active" id="nav-inicio" onclick="showPanel('inicio')">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-          Inicio
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Inicio
         </div>
         <div class="nav-item" id="nav-personal" onclick="showPanel('personal')">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>
-          Personal
-          <span id="badge-alerta" class="ml-auto hidden text-[9px] font-black bg-amber-500 text-black w-4 h-4 rounded-full flex items-center justify-center">0</span>
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>Personal
+          <span id="badge-warn" class="ml-auto hidden text-[9px] font-black bg-amber-500 text-black w-4 h-4 rounded-full flex items-center justify-center">0</span>
         </div>
         <div class="nav-item" id="nav-vacaciones" onclick="showPanel('vacaciones')">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-          Vacaciones
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Vacaciones
+        </div>
+        <div class="nav-item" id="nav-festivos" onclick="showPanel('festivos')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Festivos
         </div>
         <div class="nav-item" id="nav-alta" onclick="showPanel('alta')">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/><path d="M19 8h6M22 5v6" stroke-width="2"/></svg>
-          Alta empleado
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>Alta empleado
         </div>
       </div>
       <div class="nav-item" id="nav-historial" onclick="showPanel('historial')">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>
-        Historial
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>Historial
       </div>
     </nav>
 
     <!-- MAIN -->
-    <main class="flex-1 overflow-y-auto p-5 space-y-5" id="main-content">
+    <main class="flex-1 overflow-y-auto p-5 space-y-5">
 
       <!-- ══ INICIO ══ -->
       <div id="panel-inicio" class="panel on space-y-5">
-        <!-- KPIs -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <div class="kpi">
-            <div class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest mb-2">Total</div>
-            <div id="k-total" class="text-4xl font-black text-white">—</div>
-            <div class="text-[9px] text-[#3d5272] mt-1">Empleados registrados</div>
-          </div>
-          <div class="kpi">
-            <div class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest mb-2">Activos</div>
-            <div id="k-act" class="text-4xl font-black text-green-400">—</div>
-            <div class="text-[9px] text-[#3d5272] mt-1">En plantilla</div>
-          </div>
-          <div class="kpi">
-            <div class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest mb-2">Bajas</div>
-            <div id="k-baj" class="text-4xl font-black text-red-400">—</div>
-            <div class="text-[9px] text-[#3d5272] mt-1">Finalizados</div>
-          </div>
-          <div class="kpi" style="border-color:#4a3510">
-            <div class="text-[9px] text-amber-600 uppercase font-bold tracking-widest mb-2">⚠ Saldo bajo</div>
-            <div id="k-warn" class="text-4xl font-black text-amber-400">—</div>
-            <div class="text-[9px] text-[#3d5272] mt-1">Menos de 5 días</div>
-          </div>
+          <div class="kpi"><div class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest mb-2">Total</div><div id="k-total" class="text-4xl font-black text-white">—</div><div class="text-[9px] text-[#3d5272] mt-1">Empleados</div></div>
+          <div class="kpi"><div class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest mb-2">Activos</div><div id="k-act" class="text-4xl font-black text-green-400">—</div><div class="text-[9px] text-[#3d5272] mt-1">En plantilla</div></div>
+          <div class="kpi"><div class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest mb-2">Bajas</div><div id="k-baj" class="text-4xl font-black text-red-400">—</div><div class="text-[9px] text-[#3d5272] mt-1">Finalizados</div></div>
+          <div class="kpi" style="border-color:#4a3510"><div class="text-[9px] text-amber-600 uppercase font-bold tracking-widest mb-2">⚠ Saldo bajo</div><div id="k-warn" class="text-4xl font-black text-amber-400">—</div><div class="text-[9px] text-[#3d5272] mt-1">Menos de 5 días</div></div>
         </div>
-        <!-- Charts -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div class="card p-5">
-            <div class="text-xs font-bold text-white mb-4">Distribución por empresa</div>
-            <div style="height:180px;position:relative"><canvas id="c-emp"></canvas></div>
-          </div>
-          <div class="card p-5">
-            <div class="text-xs font-bold text-white mb-4">Vacaciones generadas vs disfrutadas</div>
-            <div style="height:180px;position:relative"><canvas id="c-vac"></canvas></div>
-          </div>
+          <div class="card p-5"><div class="text-xs font-bold text-white mb-4">Distribución por empresa</div><div style="height:180px;position:relative"><canvas id="c-emp"></canvas></div></div>
+          <div class="card p-5"><div class="text-xs font-bold text-white mb-4">Vacaciones generadas vs disfrutadas</div><div style="height:180px;position:relative"><canvas id="c-vac"></canvas></div></div>
         </div>
-        <!-- Alertas críticas -->
         <div class="card p-5">
           <div class="flex justify-between items-center mb-4">
             <div class="text-xs font-bold text-white">Alertas de saldo</div>
-            <div class="text-[9px] text-[#3d5272]">Activos con ≤ 5 días restantes</div>
+            <div class="text-[9px] text-[#3d5272]">Activos con ≤ 5 días · clic para abrir ficha</div>
           </div>
           <div id="inicio-alertas"></div>
         </div>
@@ -297,18 +247,13 @@ input::placeholder{color:#263752!important}
       <!-- ══ PERSONAL ══ -->
       <div id="panel-personal" class="panel space-y-4">
         <div class="flex flex-wrap gap-2 items-center justify-between">
-          <div class="text-sm font-bold text-white">Personal <span id="count-visible" class="text-[#3d5272] font-normal text-xs ml-1"></span></div>
+          <div class="text-sm font-bold text-white">Personal <span id="count-vis" class="text-[#3d5272] font-normal text-xs ml-1"></span></div>
           <div class="flex flex-wrap gap-2">
             <select id="f-emp" onchange="filtrar()" class="p-2 text-[11px] font-bold px-3">
-              <option value="">Todas las empresas</option>
-              <option value="ANTONIO">Antonio</option>
-              <option value="JUAN">Juan</option>
-              <option value="COMERCIAL">Comercial</option>
+              <option value="">Todas las empresas</option><option value="ANTONIO">Antonio</option><option value="JUAN">Juan</option><option value="COMERCIAL">Comercial</option>
             </select>
             <select id="f-est" onchange="filtrar()" class="p-2 text-[11px] font-bold px-3">
-              <option value="">Todos</option>
-              <option value="ACTIVO">Solo activos</option>
-              <option value="BAJA">Solo bajas</option>
+              <option value="">Todos</option><option value="ACTIVO">Solo activos</option><option value="BAJA">Solo bajas</option>
             </select>
             <input id="f-nom" oninput="filtrar()" placeholder="🔍 Buscar…" class="p-2 text-[11px] px-3 w-36">
           </div>
@@ -318,12 +263,9 @@ input::placeholder{color:#263752!important}
             <table class="w-full text-left text-xs">
               <thead class="sticky top-0 bg-[#0a1120] z-10">
                 <tr class="text-[9px] text-[#3d5272] uppercase tracking-widest font-extrabold border-b border-[#0e1a2b]">
-                  <th class="py-3 px-4">Empleado</th>
-                  <th class="py-3 px-3">Empresa</th>
-                  <th class="py-3 px-3">F. Alta Real</th>
-                  <th class="py-3 px-3">Estado</th>
-                  <th class="py-3 px-3 text-center">Disf.</th>
-                  <th class="py-3 px-3 text-center">Saldo</th>
+                  <th class="py-3 px-4">Empleado</th><th class="py-3 px-3">Empresa</th>
+                  <th class="py-3 px-3">Alta Real</th><th class="py-3 px-3">Antigüedad</th>
+                  <th class="py-3 px-3">Estado</th><th class="py-3 px-3 text-center">Disf.</th><th class="py-3 px-3 text-center">Saldo</th>
                 </tr>
               </thead>
               <tbody id="tbody"></tbody>
@@ -332,64 +274,59 @@ input::placeholder{color:#263752!important}
         </div>
       </div>
 
-      <!-- ══ VACACIONES (calendario + formulario) ══ -->
+      <!-- ══ VACACIONES ══ -->
       <div id="panel-vacaciones" class="panel space-y-4">
-        <div class="flex gap-2 items-center">
+        <div class="flex gap-2 items-center flex-wrap">
           <div class="text-sm font-bold text-white">Vacaciones</div>
-          <div class="flex gap-1 ml-2">
+          <div class="flex gap-1 ml-1">
             <div class="ptab on" id="vt-cal" onclick="vtab('cal')">Calendario</div>
             <div class="ptab" id="vt-form" onclick="vtab('form')">Registrar</div>
           </div>
         </div>
-        <!-- Calendario -->
         <div id="vc-cal" class="space-y-3">
           <div class="flex flex-wrap gap-2 items-center justify-between">
             <div class="flex items-center gap-1.5">
-              <button onclick="calNav(-1)" class="w-7 h-7 bg-[#0c1525] rounded-lg text-[#3d5272] hover:text-white text-lg leading-none flex items-center justify-center">‹</button>
+              <button onclick="calNav(-1)" class="w-7 h-7 bg-[#0c1525] rounded-lg text-[#3d5272] hover:text-white flex items-center justify-center text-lg leading-none">‹</button>
               <span id="cal-tit" class="font-bold text-sm text-white w-36 text-center"></span>
-              <button onclick="calNav(1)" class="w-7 h-7 bg-[#0c1525] rounded-lg text-[#3d5272] hover:text-white text-lg leading-none flex items-center justify-center">›</button>
+              <button onclick="calNav(1)" class="w-7 h-7 bg-[#0c1525] rounded-lg text-[#3d5272] hover:text-white flex items-center justify-center text-lg leading-none">›</button>
             </div>
             <select id="cal-f" onchange="renderCal()" class="p-2 text-[11px] font-bold px-3">
-              <option value="">Todas las empresas</option>
-              <option value="ANTONIO">Antonio</option>
-              <option value="JUAN">Juan</option>
-              <option value="COMERCIAL">Comercial</option>
+              <option value="">Todas</option><option value="ANTONIO">Antonio</option><option value="JUAN">Juan</option><option value="COMERCIAL">Comercial</option>
             </select>
           </div>
           <div class="card p-4" id="cal-grid"></div>
+          <div class="flex items-center gap-4 text-[9px] text-[#3d5272]">
+            <div class="flex items-center gap-1.5"><div class="w-2.5 h-2.5 rounded" style="background:#1c0f05;border:1px solid #5c2d0e"></div>Festivo</div>
+            <div class="flex items-center gap-1.5"><div class="w-2.5 h-2.5 rounded bg-[#2563eb08]" style="border:1px solid #2563eb44"></div>Hoy</div>
+          </div>
         </div>
-        <!-- Formulario registrar -->
         <div id="vc-form" class="hidden">
           <div class="max-w-md mx-auto card p-5 space-y-4">
-            <div>
-              <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Empresa (filtro)</label>
+            <div><label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Empresa (filtro)</label>
               <select id="vf-femp" class="w-full p-3 mt-1.5 text-sm font-semibold">
-                <option value="">Todas</option>
-                <option value="ANTONIO">Antonio Belzunces</option>
-                <option value="JUAN">Juan Belzunces</option>
-                <option value="COMERCIAL">Comercial Belzunces</option>
+                <option value="">Todas</option><option value="ANTONIO">Antonio Belzunces</option><option value="JUAN">Juan Belzunces</option><option value="COMERCIAL">Comercial Belzunces</option>
               </select>
             </div>
-            <div>
-              <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Empleado</label>
+            <div><label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Empleado</label>
               <div class="relative mt-1.5">
                 <input id="vf-search" oninput="buscarVaca(this.value)" placeholder="Escribe el nombre…" class="w-full p-3 text-sm">
                 <div id="vf-drop" class="drop hidden"></div>
               </div>
             </div>
-            <div id="vf-info" class="hidden bg-blue-900/15 border border-blue-700/20 rounded-xl p-3 flex justify-between items-center">
-              <div>
-                <div id="vf-nom" class="font-bold text-white text-sm"></div>
-                <div id="vf-emp" class="text-[9px] text-[#3d5272] mt-0.5"></div>
-              </div>
+            <div id="vf-info" class="hidden bg-blue-900/10 border border-blue-700/20 rounded-xl p-3 flex justify-between items-center">
+              <div><div id="vf-nom" class="font-bold text-white text-sm"></div><div id="vf-emp2" class="text-[9px] text-[#3d5272] mt-0.5"></div></div>
               <div class="text-right"><div class="text-[8px] text-[#3d5272]">SALDO</div><div id="vf-sal" class="text-2xl font-black text-blue-400"></div></div>
             </div>
             <div class="grid grid-cols-2 gap-3">
-              <div><label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Inicio</label><input type="date" id="vf-ini" oninput="vfCalc()" class="w-full p-3 mt-1.5 text-sm"></div>
-              <div><label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Fin</label><input type="date" id="vf-fin" oninput="vfCalc()" class="w-full p-3 mt-1.5 text-sm"></div>
+              <div><label class="text-[9px] text-[#3d5272] uppercase font-bold">Inicio</label><input type="date" id="vf-ini" oninput="vfCalc()" class="w-full p-3 mt-1.5 text-sm"></div>
+              <div><label class="text-[9px] text-[#3d5272] uppercase font-bold">Fin</label><input type="date" id="vf-fin" oninput="vfCalc()" class="w-full p-3 mt-1.5 text-sm"></div>
+            </div>
+            <div class="pill">
+              <div class="pill-opt on" id="vf-pnat" onclick="vfSetMode('nat')">Días naturales</div>
+              <div class="pill-opt" id="vf-plab" onclick="vfSetMode('lab')">Días laborables</div>
             </div>
             <div class="bg-[#0c1525] rounded-xl p-3 flex justify-between items-center border border-[#162038]">
-              <div><div class="text-[9px] text-[#3d5272] uppercase font-bold">Días naturales</div><div id="vf-warn" class="text-[9px] text-amber-400 hidden mt-0.5">⚠ Supera el saldo</div></div>
+              <div><div class="text-[9px] text-[#3d5272] uppercase font-bold">Días a registrar</div><div id="vf-warn" class="text-[9px] text-amber-400 hidden mt-0.5">⚠ Supera el saldo</div></div>
               <div id="vf-count" class="text-3xl font-black text-blue-400">0</div>
             </div>
             <button onclick="guardarVacaForm()" class="w-full bg-blue-700 hover:bg-blue-600 text-white py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all active:scale-95">Confirmar Vacaciones</button>
@@ -397,21 +334,37 @@ input::placeholder{color:#263752!important}
         </div>
       </div>
 
+      <!-- ══ FESTIVOS ══ -->
+      <div id="panel-festivos" class="panel space-y-4">
+        <div class="flex flex-wrap justify-between items-center gap-3">
+          <div>
+            <div class="text-sm font-bold text-white">Festivos y días no laborables</div>
+            <div class="text-[10px] text-[#3d5272] mt-0.5">Usados al calcular días laborables · marcados en el calendario</div>
+          </div>
+          <select id="fest-yr" onchange="renderFestivos()" class="p-2 text-[11px] font-bold px-3">
+            <option value="2024">2024</option><option value="2025" selected>2025</option><option value="2026">2026</option>
+          </select>
+        </div>
+        <div class="card p-4">
+          <div class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest mb-3">Añadir festivo personalizado</div>
+          <div class="flex gap-2 flex-wrap">
+            <input type="date" id="fest-date" class="p-2.5 text-sm flex-1 min-w-0">
+            <input type="text" id="fest-name" placeholder="Nombre del festivo…" class="p-2.5 text-sm flex-1 min-w-0">
+            <button onclick="addFestivo()" class="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2.5 rounded-xl text-[11px] font-bold transition-all whitespace-nowrap">Añadir</button>
+          </div>
+        </div>
+        <div id="fest-list" class="space-y-1.5"></div>
+      </div>
+
       <!-- ══ ALTA ══ -->
       <div id="panel-alta" class="panel">
         <div class="max-w-md mx-auto space-y-4">
           <div class="text-sm font-bold text-white">Alta de empleado</div>
           <div class="card p-5 space-y-4">
-            <div>
-              <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Empresa</label>
-              <select id="a-emp" class="w-full p-3 mt-1.5 text-sm font-semibold">
-                <option>Transportes Antonio Belzunces S.L</option>
-                <option>Transportes Juan Belzunces S.L</option>
-                <option>Comercial Belzunces Rojas S.A</option>
-              </select>
+            <div><label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Empresa</label>
+              <select id="a-emp" class="w-full p-3 mt-1.5 text-sm font-semibold"><option>Transportes Antonio Belzunces S.L</option><option>Transportes Juan Belzunces S.L</option><option>Comercial Belzunces Rojas S.A</option></select>
             </div>
-            <div>
-              <label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Nombre completo</label>
+            <div><label class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest">Nombre completo</label>
               <input type="text" id="a-nom" placeholder="NOMBRE APELLIDO APELLIDO" class="w-full p-3 mt-1.5 text-sm font-semibold uppercase">
             </div>
             <div class="grid grid-cols-2 gap-3">
@@ -431,7 +384,7 @@ input::placeholder{color:#263752!important}
       <div id="panel-historial" class="panel space-y-4">
         <div class="flex justify-between items-center">
           <div class="text-sm font-bold text-white">Historial de sesión</div>
-          <button onclick="log=[];renderLog()" class="text-[10px] text-[#3d5272] hover:text-white bg-[#0c1525] px-3 py-2 rounded-lg">Limpiar</button>
+          <button onclick="auditLog=[];renderLog()" class="text-[10px] text-[#3d5272] hover:text-white bg-[#0c1525] px-3 py-2 rounded-lg">Limpiar</button>
         </div>
         <div class="card p-4"><div id="log-cont"></div></div>
       </div>
@@ -443,26 +396,113 @@ input::placeholder{color:#263752!important}
 <script>
 const SCRIPT="https://script.google.com/macros/s/AKfycbydLWtx3oVQUUYSrdVl_PFcgV7d9ycyM1aBP3rTIRQaFZ1TWc1FAFawBjgeQqsScJviGg/exec";
 const SID="1u8I2q-Hz6COb6m0e9eeR5S_lOiGAIErHXEV_v3YxtGA";
-let G={},vacSel=null,drEmp=null,cM=new Date().getMonth(),cY=new Date().getFullYear();
-let log=[],charts={};
+let G={},drEmp=null,vacSel=null,drMode='nat',vfMode='nat';
+let cM=new Date().getMonth(),cY=new Date().getFullYear();
+let auditLog=[],charts={};
 const MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-const COLS=['#3b82f6','#8b5cf6','#10b981','#f59e0b','#ef4444','#06b6d4','#ec4899','#84cc16','#f97316','#a855f7'];
+const ECOLS=['#3b82f6','#8b5cf6','#10b981','#f59e0b','#ef4444','#06b6d4','#ec4899','#84cc16','#f97316','#a855f7'];
 
-// ─ AUTH ─────────────────────────
-function login(){
+// ─── FESTIVOS ────────────────────────────────────────
+let festivosData=[
+  {d:'2024-01-01',n:'Año Nuevo',t:'n'},{d:'2024-01-06',n:'Epifanía del Señor',t:'n'},
+  {d:'2024-03-29',n:'Viernes Santo',t:'n'},{d:'2024-05-01',n:'Día del Trabajo',t:'n'},
+  {d:'2024-08-15',n:'Asunción de la Virgen',t:'n'},{d:'2024-10-12',n:'Fiesta Nacional',t:'n'},
+  {d:'2024-11-01',n:'Todos los Santos',t:'n'},{d:'2024-12-06',n:'Día de la Constitución',t:'n'},
+  {d:'2024-12-09',n:'Puente Constitución',t:'n'},{d:'2024-12-25',n:'Navidad',t:'n'},
+  {d:'2025-01-01',n:'Año Nuevo',t:'n'},{d:'2025-01-06',n:'Epifanía del Señor',t:'n'},
+  {d:'2025-04-18',n:'Viernes Santo',t:'n'},{d:'2025-05-01',n:'Día del Trabajo',t:'n'},
+  {d:'2025-08-15',n:'Asunción de la Virgen',t:'n'},{d:'2025-10-12',n:'Fiesta Nacional',t:'n'},
+  {d:'2025-11-01',n:'Todos los Santos',t:'n'},{d:'2025-12-06',n:'Día de la Constitución',t:'n'},
+  {d:'2025-12-08',n:'Inmaculada Concepción',t:'n'},{d:'2025-12-25',n:'Navidad',t:'n'},
+  {d:'2026-01-01',n:'Año Nuevo',t:'n'},{d:'2026-01-06',n:'Epifanía del Señor',t:'n'},
+  {d:'2026-04-03',n:'Viernes Santo',t:'n'},{d:'2026-05-01',n:'Día del Trabajo',t:'n'},
+  {d:'2026-08-15',n:'Asunción de la Virgen',t:'n'},{d:'2026-10-12',n:'Fiesta Nacional',t:'n'},
+  {d:'2026-11-01',n:'Todos los Santos',t:'n'},{d:'2026-12-07',n:'Puente Constitución',t:'n'},
+  {d:'2026-12-08',n:'Inmaculada Concepción',t:'n'},{d:'2026-12-25',n:'Navidad',t:'n'},
+];
+const festSet=()=>new Set(festivosData.map(f=>f.d));
+
+function renderFestivos(){
+  const yr=document.getElementById('fest-yr').value;
+  const lista=festivosData.filter(f=>f.d.startsWith(yr)).sort((a,b)=>a.d.localeCompare(b.d));
+  document.getElementById('fest-list').innerHTML=lista.length?`<div class="card overflow-hidden">${lista.map(f=>`
+    <div class="flex justify-between items-center px-4 py-3 border-b border-[#0e1a2b] last:border-none hover:bg-[#0c1525]">
+      <div class="flex items-center gap-3">
+        <div class="text-[9px] font-mono text-orange-400 font-bold w-16">${f.d.slice(5).replace('-','/')}</div>
+        <div><div class="text-xs font-semibold text-white">${f.n}</div>
+        <div class="text-[9px] text-[#3d5272] mt-0.5">${f.t==='n'?'Nacional':'Personalizado'}</div></div>
+      </div>
+      ${f.t!=='n'?`<button onclick="removeFestivo('${f.d}')" class="text-[9px] text-red-500 hover:text-red-400 bg-red-900/10 border border-red-900/20 px-2.5 py-1 rounded-lg">✕</button>`
+      :'<span class="text-[9px] text-[#263752] bg-[#0c1525] px-2 py-1 rounded">Fijo</span>'}
+    </div>`).join('')}</div>`
+  :'<div class="text-[#3d5272] text-xs italic text-center py-4">Sin festivos para este año.</div>';
+}
+function addFestivo(){
+  const d=document.getElementById('fest-date').value,n=document.getElementById('fest-name').value.trim();
+  if(!d||!n)return alert('Indica fecha y nombre');
+  if(festivosData.find(f=>f.d===d))return alert('Ya existe este festivo');
+  festivosData.push({d,n,t:'c'});
+  addLog('fest','Festivo añadido: '+n+' ('+d+')');
+  renderFestivos();
+}
+function removeFestivo(d){festivosData=festivosData.filter(f=>f.d!==d);renderFestivos()}
+
+// ─── DAYS CALC ───────────────────────────────────────
+const toDS=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const parseL=s=>{if(!s)return null;const p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2])};
+function calcLab(ini,fin){
+  if(!ini||!fin)return 0;
+  const fs=festSet();let n=0,c=parseL(ini),e=parseL(fin);
+  while(c<=e){const dw=c.getDay();if(dw!==0&&dw!==6&&!fs.has(toDS(c)))n++;c.setDate(c.getDate()+1)}
+  return n;
+}
+function calcNat(ini,fin){
+  if(!ini||!fin)return 0;
+  return Math.max(0,Math.round((parseL(fin)-parseL(ini))/86400000+1));
+}
+
+// ─── AUTH ─────────────────────────────────────────────
+function doLogin(){
   if(document.getElementById('pass').value==="b7e'O5P8Jasa"){
     document.getElementById('login').style.display='none';
     document.getElementById('app').classList.remove('hidden');
     cargar();
-  }else{
+  } else {
     const e=document.getElementById('lerr');e.classList.remove('hidden');
     document.getElementById('pass').value='';
     setTimeout(()=>e.classList.add('hidden'),2000);
   }
 }
-function cerrar(){location.reload()}
 
-// ─ NAV ─────────────────────────
+// ─── GLOBAL SEARCH ───────────────────────────────────
+function abrirSearch(){
+  document.getElementById('srch-modal').classList.add('on');
+  document.getElementById('srch-in').value='';
+  document.getElementById('srch-res').innerHTML='<div class="px-4 py-3 text-[10px] text-[#3d5272]">Escribe para buscar…</div>';
+  setTimeout(()=>document.getElementById('srch-in').focus(),40);
+}
+function cerrarSearch(){document.getElementById('srch-modal').classList.remove('on')}
+function buscarGlobal(v){
+  const res=document.getElementById('srch-res');
+  if(!v){res.innerHTML='<div class="px-4 py-3 text-[10px] text-[#3d5272]">Escribe para buscar…</div>';return}
+  const m=Object.values(G).filter(t=>t.nombre.includes(v.toUpperCase())||t.empresaFull.toUpperCase().includes(v.toUpperCase())).slice(0,10);
+  res.innerHTML=m.length?m.map(t=>`
+    <div class="sres flex justify-between items-center" onclick="cerrarSearch();abrirDrawer('${t.nombre.replace(/'/g,"\\'")}')">
+      <div><div class="font-semibold text-sm text-white">${t.nombre}</div>
+      <div class="text-[9px] text-[#3d5272] uppercase mt-0.5">${empC(t.empresaFull)}</div></div>
+      <div class="flex items-center gap-2">
+        <span class="bg ${t.esBaja?'bg-r':'bg-g'}">${t.esBaja?'BAJA':'ACTIVO'}</span>
+        <span class="text-xs font-bold ${t.saldo<=0?'sc-crit':t.saldo<=5?'sc-warn':'sc-ok'}">${t.saldo}d</span>
+      </div>
+    </div>`).join('')
+  :'<div class="px-4 py-3 text-[10px] text-[#3d5272] italic">Sin resultados.</div>';
+}
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();abrirSearch()}
+  if(e.key==='Escape'){cerrarSearch();cerrarDrawer()}
+});
+
+// ─── NAV ─────────────────────────────────────────────
 function showPanel(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -470,9 +510,10 @@ function showPanel(id){
   document.getElementById('nav-'+id).classList.add('active');
   if(id==='vacaciones')renderCal();
   if(id==='historial')renderLog();
+  if(id==='festivos')renderFestivos();
 }
 
-// ─ UTILS ────────────────────────
+// ─── UTILS ───────────────────────────────────────────
 const cl=t=>t?t.replace(/"/g,'').trim():'';
 function fmtIn(s){
   if(!s||['−','ACTIVO'].includes((s||'').toUpperCase()))return'';
@@ -486,57 +527,58 @@ function parseF(s){
   const d=new Date(s);return isNaN(d)?null:d;
 }
 const empC=f=>f.replace('Transportes ','').replace(' S.L','').replace(' S.A','').replace('Comercial Belzunces Rojas','Comercial').trim();
-function addLog(tipo,txt){log.unshift({tipo,txt,t:new Date().toLocaleTimeString('es-ES')})}
+function addLog(tipo,txt){auditLog.unshift({tipo,txt,t:new Date().toLocaleTimeString('es-ES')})}
+function antiguedad(s){
+  if(!s)return'—';
+  const d=Math.floor((new Date()-parseL(s))/86400000);
+  if(d<30)return d+'d';if(d<365)return Math.floor(d/30)+'m';
+  const y=Math.floor(d/365),m=Math.floor((d%365)/30);
+  return y+'a'+(m?' '+m+'m':'');
+}
 
-// ─ CARGA ────────────────────────
+// ─── CARGA ───────────────────────────────────────────
 async function cargar(){
-  document.getElementById('sync-pulse').classList.remove('hidden');
+  document.getElementById('sync-lbl').innerText='● cargando…';
   try{
     const r=await fetch(`https://docs.google.com/spreadsheets/d/${SID}/export?format=csv&gid=0&t=${Date.now()}`);
-    const csv=await r.text();
-    G={};
+    const csv=await r.text();G={};
     csv.split('\n').slice(1).forEach(row=>{
       const c=row.split(',');if(!c[3])return;
       const n=cl(c[3]);
       if(!G[n])G[n]={nombre:n,empresaFull:cl(c[1]),fAltaCalcRaw:fmtIn(cl(c[7])),fAltaRealRaw:fmtIn(cl(c[9])),fAltaRealDisp:cl(c[9]),clave:cl(c[10]),bajaRaw:cl(c[11])||'ACTIVO',periodos:[]};
-      if(cl(c[4])&&cl(c[5])&&cl(c[6])!='0')
-        G[n].periodos.push({ini:cl(c[4]),fin:cl(c[5]),dias:Math.abs(parseInt(c[6]))||0});
+      if(cl(c[4])&&cl(c[5])&&cl(c[6])!='0')G[n].periodos.push({ini:cl(c[4]),fin:cl(c[5]),dias:Math.abs(parseInt(c[6]))||0});
     });
     Object.values(G).forEach(t=>{
-      const baja=t.bajaRaw!=='ACTIVO'&&t.bajaRaw!==''&&t.bajaRaw!=='-';
-      const fA=parseF(t.fAltaCalcRaw),fF=baja?(parseF(t.bajaRaw)||new Date()):new Date();
+      const b=t.bajaRaw!=='ACTIVO'&&t.bajaRaw!==''&&t.bajaRaw!=='-';
+      const fA=parseF(t.fAltaCalcRaw),fF=b?(parseF(t.bajaRaw)||new Date()):new Date();
       t.generadas=fA?+((fF-fA)/86400000*(30/365)).toFixed(1):0;
       t.disfrutados=t.periodos.reduce((a,p)=>a+p.dias,0);
       t.saldo=+((t.generadas-t.disfrutados).toFixed(1));
-      t.esBaja=baja;
+      t.esBaja=b;
     });
     renderTabla();renderDash();renderBadges();
-    document.getElementById('sync-ok').innerText='✓ '+new Date().toLocaleTimeString('es-ES');
+    document.getElementById('sync-lbl').innerText='✓ '+new Date().toLocaleTimeString('es-ES');
     addLog('sync','Datos sincronizados');
-  }catch(e){console.error(e)}
-  document.getElementById('sync-pulse').classList.add('hidden');
+  }catch(e){document.getElementById('sync-lbl').innerText='⚠ Error';console.error(e)}
 }
 
-// ─ TABLA ────────────────────────
+// ─── TABLA ───────────────────────────────────────────
 function renderTabla(){
   const tb=document.getElementById('tbody');tb.innerHTML='';
-  const list=Object.values(G).sort((a,b)=>a.nombre.localeCompare(b.nombre));
-  list.forEach((t,i)=>{
+  Object.values(G).sort((a,b)=>a.nombre.localeCompare(b.nombre)).forEach(t=>{
     const sc=t.saldo<=0?'bg-r':t.saldo<=5?'bg-a':'bg-g';
     const tr=document.createElement('tr');
     tr.className=`tr-main${t.esBaja?' tr-baja':''}`;
     tr.dataset.n=t.nombre.toUpperCase();tr.dataset.e=t.empresaFull.toUpperCase();tr.dataset.s=t.esBaja?'BAJA':'ACTIVO';
     tr.onclick=()=>abrirDrawer(t.nombre);
     tr.innerHTML=`
-      <td class="py-3.5 px-4">
-        <div class="flex items-center gap-1.5">
-          <span class="font-semibold text-white text-[11px] uppercase">${t.nombre}</span>
-          ${!t.esBaja&&t.saldo<=2?'<span class="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0" title="Saldo crítico"></span>':''}
-          ${!t.esBaja&&t.saldo<=5&&t.saldo>2?'<span class="w-1.5 h-1.5 rounded-full bg-yellow-600 flex-shrink-0" title="Saldo bajo"></span>':''}
-        </div>
-      </td>
+      <td class="py-3.5 px-4"><div class="flex items-center gap-1.5">
+        <span class="font-semibold text-white text-[11px] uppercase">${t.nombre}</span>
+        ${!t.esBaja&&t.saldo<=2?'<span class="w-1.5 h-1.5 rounded-full bg-amber-400" title="Saldo crítico"></span>':''}
+      </div></td>
       <td class="py-3.5 px-3 text-[9px] font-bold text-[#3d5272] uppercase">${empC(t.empresaFull)}</td>
       <td class="py-3.5 px-3 text-[10px] font-mono text-blue-500">${t.fAltaRealDisp||'—'}</td>
+      <td class="py-3.5 px-3 text-[10px] text-[#3d5272]">${antiguedad(t.fAltaRealRaw)}</td>
       <td class="py-3.5 px-3"><span class="bg ${t.esBaja?'bg-r':'bg-g'}">${t.esBaja?'BAJA':'ACTIVO'}</span></td>
       <td class="py-3.5 px-3 text-center text-[11px] text-[#3d5272] font-bold">${t.disfrutados}</td>
       <td class="py-3.5 px-3 text-center"><span class="bg ${sc}">${t.saldo}</span></td>`;
@@ -548,63 +590,132 @@ function filtrar(){
   const n=document.getElementById('f-nom').value.toUpperCase().trim();
   const e=document.getElementById('f-emp').value.toUpperCase();
   const s=document.getElementById('f-est').value.toUpperCase();
-  let vis=0;
+  let vis=0,all=0;
   document.querySelectorAll('#tbody tr').forEach(tr=>{
+    all++;
     const ok=(!n||tr.dataset.n?.includes(n))&&(!e||tr.dataset.e?.includes(e))&&(!s||tr.dataset.s===s);
     tr.style.display=ok?'':'none';if(ok)vis++;
   });
-  const all=document.querySelectorAll('#tbody tr').length;
-  document.getElementById('count-visible').innerText=`${vis} de ${all} empleados`;
+  document.getElementById('count-vis').innerText=`${vis} de ${all}`;
 }
 
-// ─ DRAWER ───────────────────────
+// ─── DRAWER ──────────────────────────────────────────
 function abrirDrawer(nombre){
   drEmp=G[nombre];if(!drEmp)return;
   document.getElementById('dr-nombre').innerText=nombre;
   document.getElementById('dr-empresa').innerText=drEmp.empresaFull;
+  document.getElementById('dr-ant').innerText=antiguedad(drEmp.fAltaRealRaw);
   document.getElementById('dr-gen').innerText=drEmp.generadas;
   document.getElementById('dr-dis').innerText=drEmp.disfrutados;
   const sal=document.getElementById('dr-sal');
   sal.innerText=drEmp.saldo;
-  sal.className='text-xl font-black mt-1 '+(drEmp.saldo<=0?'saldo-crit':drEmp.saldo<=5?'saldo-warn':'saldo-ok');
-  // periodos
-  document.getElementById('dr-periodos-list').innerHTML=drEmp.periodos.length
-    ?drEmp.periodos.map(p=>`
-      <div class="flex justify-between items-center bg-[#0c1525] border border-[#162038] rounded-xl p-3 mb-2">
-        <div><div class="text-[11px] text-white font-semibold">📅 ${p.ini} → ${p.fin}</div><div class="text-[9px] text-[#3d5272] mt-0.5">${p.dias} días naturales</div></div>
-        <button onclick="genWord('${nombre}','${drEmp.empresaFull}','${p.ini}','${p.fin}',${p.dias})" class="text-[9px] font-bold text-blue-400 border border-blue-700/30 bg-blue-900/15 px-2.5 py-1.5 rounded-lg hover:bg-blue-700 hover:text-white transition-all">📄 Word</button>
-      </div>`).join('')
-    :'<div class="text-[11px] text-[#3d5272] italic py-2 text-center">Sin periodos registrados.</div>';
-  // ficha
+  sal.className='text-sm font-black mt-1 '+(drEmp.saldo<=0?'sc-crit':drEmp.saldo<=5?'sc-warn':'sc-ok');
+  renderDrPeriodos();renderDrAnual();
   document.getElementById('dr-emp-sel').value=drEmp.empresaFull;
   document.getElementById('dr-fac').value=drEmp.fAltaCalcRaw;
   document.getElementById('dr-far').value=drEmp.fAltaRealRaw;
   document.getElementById('dr-clave').value=drEmp.clave;
   document.getElementById('dr-baja').value=drEmp.bajaRaw==='ACTIVO'?'':drEmp.bajaRaw;
-  // vaca
-  document.getElementById('dr-saldo-vaca').innerText=drEmp.saldo;
+  document.getElementById('dr-saldo-v').innerText=drEmp.saldo;
   document.getElementById('dr-vini').value='';document.getElementById('dr-vfin').value='';
   document.getElementById('dr-vcount').innerText='0';document.getElementById('dr-vwarn').classList.add('hidden');
-  drTab('periodos',document.querySelector('.ptab'));
+  drMode='nat';document.getElementById('dr-pnat').classList.add('on');document.getElementById('dr-plab').classList.remove('on');
+  drTab('periodos');
   document.getElementById('drawer').classList.add('open');
-  document.getElementById('drawer-overlay').classList.add('on');
+  document.getElementById('ov').classList.add('on');
 }
 function cerrarDrawer(){
   document.getElementById('drawer').classList.remove('open');
-  document.getElementById('drawer-overlay').classList.remove('on');
+  document.getElementById('ov').classList.remove('on');
 }
-function drTab(t,_){
-  ['periodos','ficha','vacaciones'].forEach(id=>{
+function drTab(t){
+  ['periodos','anual','ficha','vaca'].forEach(id=>{
     document.getElementById('drt-'+id).classList.toggle('hidden',id!==t);
-  });
-  document.querySelectorAll('.ptab').forEach((el,i)=>{
-    const ids=['periodos','ficha','vacaciones'];
-    el.classList.toggle('on',ids[i]===t);
+    document.getElementById('drtab-'+id).classList.toggle('on',id===t);
   });
 }
-function drCalcDias(){
+
+function renderDrPeriodos(){
+  if(!drEmp)return;
+  document.getElementById('dr-per-list').innerHTML=drEmp.periodos.length
+    ?drEmp.periodos.map((p,i)=>{
+        const ini=fmtIn(p.ini)||p.ini,fin=fmtIn(p.fin)||p.fin;
+        const lab=ini&&fin?calcLab(ini,fin):0;
+        return`<div class="flex justify-between items-center bg-[#0c1525] border border-[#162038] rounded-xl p-3 mb-2">
+          <div>
+            <div class="text-[11px] text-white font-semibold">📅 ${p.ini} → ${p.fin}</div>
+            <div class="text-[9px] text-[#3d5272] mt-0.5">${p.dias} nat · ${lab} laborables</div>
+          </div>
+          <div class="flex gap-1.5">
+            <button onclick="genWord('${drEmp.nombre}','${drEmp.empresaFull}','${p.ini}','${p.fin}',${p.dias})"
+              class="text-[9px] font-bold text-blue-400 border border-blue-700/30 bg-blue-900/10 px-2 py-1.5 rounded-lg hover:bg-blue-700 hover:text-white transition-all">📄</button>
+            <button onclick="eliminarPeriodo(${i})"
+              class="text-[9px] font-bold text-red-400 border border-red-700/30 bg-red-900/10 px-2 py-1.5 rounded-lg hover:bg-red-700 hover:text-white transition-all">🗑</button>
+          </div>
+        </div>`}).join('')
+    :'<div class="text-[11px] text-[#3d5272] italic text-center py-3">Sin periodos registrados.</div>';
+}
+
+function renderDrAnual(){
+  if(!drEmp)return;
+  const por={};
+  drEmp.periodos.forEach(p=>{
+    const s=p.ini||'';
+    let yr=s.includes('/')?s.split('/')[2]:s.includes('-')?(s.split('-')[0].length===4?s.split('-')[0]:s.split('-')[2]):'?';
+    if(!por[yr])por[yr]={dias:0,count:0};
+    por[yr].dias+=p.dias;por[yr].count++;
+  });
+  const years=Object.keys(por).filter(y=>y!=='?').sort();
+  if(!years.length){document.getElementById('dr-anual').innerHTML='<div class="text-[11px] text-[#3d5272] italic text-center py-4">Sin datos históricos.</div>';return}
+  const mx=Math.max(...years.map(y=>por[y].dias),1);
+  document.getElementById('dr-anual').innerHTML=`
+    <div class="text-[9px] text-[#3d5272] uppercase font-bold tracking-widest mb-3">Días disfrutados por año</div>
+    <div class="space-y-3">
+      ${years.map(y=>`
+        <div>
+          <div class="flex justify-between text-[10px] font-bold mb-1.5">
+            <span class="text-white">${y}</span>
+            <span class="text-[#3d5272]">${por[y].dias} días · ${por[y].count} periodo${por[y].count!==1?'s':''}</span>
+          </div>
+          <div class="bg-[#0c1525] rounded-full h-1.5 overflow-hidden">
+            <div class="h-1.5 rounded-full transition-all" style="width:${(por[y].dias/mx*100).toFixed(0)}%;background:linear-gradient(90deg,#1d4ed8,#3b82f6)"></div>
+          </div>
+        </div>`).join('')}
+    </div>
+    <div class="mt-4 pt-4 border-t border-[#0e1a2b] flex justify-between text-[10px]">
+      <span class="text-[#3d5272]">Total histórico</span>
+      <span class="font-black text-white">${drEmp.disfrutados} días · ${drEmp.periodos.length} periodos</span>
+    </div>`;
+}
+
+function eliminarPeriodo(i){
+  if(!drEmp||!confirm(`¿Eliminar periodo ${drEmp.periodos[i].ini} → ${drEmp.periodos[i].fin}?`))return;
+  const p=drEmp.periodos[i];
+  fetch(SCRIPT,{method:'POST',mode:'no-cors',body:JSON.stringify({accion:'ELIMINAR_PERIODO',nombre:drEmp.nombre,empresa:drEmp.empresaFull,inicio:p.ini,fin:p.fin,dias:p.dias})});
+  addLog('del',`Periodo eliminado · ${drEmp.nombre} (${p.ini}→${p.fin})`);
+  drEmp.periodos.splice(i,1);
+  drEmp.disfrutados=drEmp.periodos.reduce((a,p)=>a+p.dias,0);
+  drEmp.saldo=+((drEmp.generadas-drEmp.disfrutados).toFixed(1));
+  document.getElementById('dr-dis').innerText=drEmp.disfrutados;
+  const sal=document.getElementById('dr-sal');sal.innerText=drEmp.saldo;
+  sal.className='text-sm font-black mt-1 '+(drEmp.saldo<=0?'sc-crit':drEmp.saldo<=5?'sc-warn':'sc-ok');
+  renderDrPeriodos();renderDrAnual();renderTabla();renderDash();
+}
+
+// ─── DRAWER VACA ────────────────────────────────────
+function drSetMode(m){
+  drMode=m;
+  document.getElementById('dr-pnat').classList.toggle('on',m==='nat');
+  document.getElementById('dr-plab').classList.toggle('on',m==='lab');
+  drCalcD();
+}
+function drCalcD(){
   const f1=document.getElementById('dr-vini').value,f2=document.getElementById('dr-vfin').value;
-  if(f1&&f2){const d=Math.round((new Date(f2)-new Date(f1))/86400000+1);document.getElementById('dr-vcount').innerText=d>0?d:0;document.getElementById('dr-vwarn').classList[drEmp&&d>drEmp.saldo?'remove':'add']('hidden')}
+  if(f1&&f2){
+    const d=drMode==='lab'?calcLab(f1,f2):calcNat(f1,f2);
+    document.getElementById('dr-vcount').innerText=d;
+    document.getElementById('dr-vwarn').classList[drEmp&&d>drEmp.saldo?'remove':'add']('hidden');
+  }
 }
 async function guardarFicha(){
   if(!drEmp)return;
@@ -616,29 +727,26 @@ async function guardarFicha(){
 async function guardarVacaDrawer(){
   if(!drEmp)return;
   const dias=parseInt(document.getElementById('dr-vcount').innerText);
-  if(dias<=0)return alert('Selecciona fechas válidas');
+  if(!dias)return alert('Selecciona fechas válidas');
   const d={nombre:drEmp.nombre,empresa:drEmp.empresaFull,inicio:document.getElementById('dr-vini').value,fin:document.getElementById('dr-vfin').value,dias,fechaAlta:drEmp.fAltaCalcRaw,fechaAltaReal:drEmp.fAltaRealRaw,clave:drEmp.clave,baja:drEmp.bajaRaw,accion:'NUEVO'};
   fetch(SCRIPT,{method:'POST',mode:'no-cors',body:JSON.stringify(d)});
-  addLog('vaca',`Vacaciones ${d.inicio}→${d.fin} (${dias}d) · ${d.nombre}`);
+  addLog('vaca',`Vacaciones ${d.inicio}→${d.fin} (${dias}d ${drMode==='lab'?'lab':'nat'}) · ${d.nombre}`);
   alert('Vacaciones registradas.');setTimeout(()=>location.reload(),1200);
 }
 
-// ─ DASHBOARD ────────────────────
+// ─── DASHBOARD ───────────────────────────────────────
 function renderDash(){
   const all=Object.values(G),act=all.filter(t=>!t.esBaja),baj=all.filter(t=>t.esBaja),warn=act.filter(t=>t.saldo<=5);
   ['k-total','k-act','k-baj','k-warn'].forEach((id,i)=>document.getElementById(id).innerText=[all.length,act.length,baj.length,warn.length][i]);
-  // alertas inicio
-  const crit=act.filter(t=>t.saldo<=5).sort((a,b)=>a.saldo-b.saldo);
   const col=s=>s<=0?'#ef4444':s<=2?'#f97316':'#f59e0b';
-  document.getElementById('inicio-alertas').innerHTML=crit.length?crit.map(t=>`
-    <div class="flex justify-between items-center py-2.5 border-b border-[#0e1a2b] last:border-none">
-      <div class="flex items-center gap-3">
-        <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black text-white" style="background:${col(t.saldo)}22;border:1px solid ${col(t.saldo)}44;color:${col(t.saldo)}">${t.nombre.charAt(0)}</div>
+  document.getElementById('inicio-alertas').innerHTML=warn.length?warn.sort((a,b)=>a.saldo-b.saldo).map(t=>`
+    <div class="flex justify-between items-center py-2.5 border-b border-[#0e1a2b] last:border-none cursor-pointer hover:bg-[#0c1525] rounded-lg px-2 -mx-2" onclick="abrirDrawer('${t.nombre.replace(/'/g,"\\'")}')">
+      <div class="flex items-center gap-2.5">
+        <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black" style="background:${col(t.saldo)}15;border:1px solid ${col(t.saldo)}30;color:${col(t.saldo)}">${t.nombre.charAt(0)}</div>
         <div><div class="text-xs font-semibold text-white">${t.nombre}</div><div class="text-[9px] text-[#3d5272] uppercase">${empC(t.empresaFull)}</div></div>
       </div>
-      <div class="font-black text-sm" style="color:${col(t.saldo)}">${t.saldo}d</div>
-    </div>`).join(''):'<div class="text-[#3d5272] text-xs italic text-center py-4">✓ Todos los empleados con saldo suficiente.</div>';
-  // charts
+      <span class="font-black text-sm" style="color:${col(t.saldo)}">${t.saldo}d</span>
+    </div>`).join(''):'<div class="text-[#3d5272] text-xs italic text-center py-4">✓ Todos con saldo suficiente.</div>';
   const emp={};act.forEach(t=>{const k=empC(t.empresaFull);emp[k]=(emp[k]||0)+1});
   if(charts.e)charts.e.destroy();
   charts.e=new Chart(document.getElementById('c-emp').getContext('2d'),{type:'doughnut',data:{labels:Object.keys(emp),datasets:[{data:Object.values(emp),backgroundColor:['#1d4ed8','#6d28d9','#065f46'],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#3d5272',font:{size:9,weight:'bold'},padding:12,boxWidth:8}}}}});
@@ -647,46 +755,71 @@ function renderDash(){
   charts.v=new Chart(document.getElementById('c-vac').getContext('2d'),{type:'bar',data:{labels:Object.keys(vE),datasets:[{label:'Generadas',data:Object.values(vE).map(v=>Math.round(v.g)),backgroundColor:'#1d4ed855',borderRadius:4,borderSkipped:false},{label:'Disfrutadas',data:Object.values(vE).map(v=>v.d),backgroundColor:'#06503055',borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#3d5272',font:{size:9,weight:'bold'},padding:12,boxWidth:8}}},scales:{x:{grid:{color:'#0e1a2b'},ticks:{color:'#3d5272',font:{size:9}}},y:{grid:{color:'#0e1a2b'},ticks:{color:'#3d5272',font:{size:9}}}}}});
 }
 function renderBadges(){
-  const warn=Object.values(G).filter(t=>!t.esBaja&&t.saldo<=5).length;
-  const b=document.getElementById('badge-alerta');
-  if(warn>0){b.innerText=warn;b.classList.remove('hidden')}else b.classList.add('hidden');
+  const w=Object.values(G).filter(t=>!t.esBaja&&t.saldo<=5).length;
+  const b=document.getElementById('badge-warn');
+  b.innerText=w;b.classList.toggle('hidden',!w);
 }
 
-// ─ CALENDARIO ───────────────────
+// ─── CALENDAR ────────────────────────────────────────
 function calNav(d){cM+=d;if(cM>11){cM=0;cY++}if(cM<0){cM=11;cY--}renderCal()}
 function renderCal(){
   document.getElementById('cal-tit').innerText=`${MESES[cM]} ${cY}`;
   const flt=(document.getElementById('cal-f')?.value||'').toUpperCase();
-  const primerDia=new Date(cY,cM,1);let dow=primerDia.getDay();dow=dow===0?6:dow-1;
+  const fs=festSet();
+  let dow=new Date(cY,cM,1).getDay();dow=dow===0?6:dow-1;
   const ultDia=new Date(cY,cM+1,0).getDate();
   const vM={},cMap={};let ci=0;
   Object.values(G).forEach(t=>{
     if(flt&&!t.empresaFull.toUpperCase().includes(flt))return;
-    if(!cMap[t.nombre]){cMap[t.nombre]=COLS[ci%COLS.length];ci++}
+    if(!cMap[t.nombre]){cMap[t.nombre]=ECOLS[ci%ECOLS.length];ci++}
     t.periodos.forEach(p=>{
-      const ini=parseF(p.ini),fin=parseF(p.fin);if(!ini||!fin)return;
-      let cur=new Date(ini);
-      while(cur<=fin){if(cur.getMonth()===cM&&cur.getFullYear()===cY){const d=cur.getDate();if(!vM[d])vM[d]=[];vM[d].push({nom:t.nombre,col:cMap[t.nombre]})}cur.setDate(cur.getDate()+1)}
+      const ini=parseF(fmtIn(p.ini)||p.ini),fin=parseF(fmtIn(p.fin)||p.fin);if(!ini||!fin)return;
+      let cur=new Date(ini.getFullYear(),ini.getMonth(),ini.getDate());
+      const finL=new Date(fin.getFullYear(),fin.getMonth(),fin.getDate());
+      while(cur<=finL){
+        if(cur.getMonth()===cM&&cur.getFullYear()===cY){const d=cur.getDate();if(!vM[d])vM[d]=[];vM[d].push({nom:t.nombre,col:cMap[t.nombre]})}
+        cur.setDate(cur.getDate()+1);
+      }
     });
   });
   const hoy=new Date();
   let h=`<div class="grid grid-cols-7 gap-1 mb-2">${['L','M','X','J','V','S','D'].map(d=>`<div class="text-center text-[8px] font-bold text-[#3d5272] uppercase py-1.5">${d}</div>`).join('')}</div><div class="grid grid-cols-7 gap-1">`;
   for(let i=0;i<dow;i++)h+='<div></div>';
   for(let d=1;d<=ultDia;d++){
+    const ds=`${cY}-${String(cM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const isH=d===hoy.getDate()&&cM===hoy.getMonth()&&cY===hoy.getFullYear();
+    const isF=fs.has(ds);
+    const fd=isF?festivosData.find(f=>f.d===ds):null;
     const evts=vM[d]||[];
-    h+=`<div class="cal-day${isH?' cal-today':''}">
-      <div class="text-[9px] font-bold mb-0.5 ${isH?'text-blue-400':'text-[#3d5272]'}">${d}</div>
-      ${evts.slice(0,3).map(e=>`<div class="cal-evt" style="background:${e.col}18;border-left:2px solid ${e.col};color:${e.col}" title="${e.nom}">${e.nom.split(' ')[0]}</div>`).join('')}
-      ${evts.length>3?`<div class="text-[8px] text-[#3d5272] mt-0.5">+${evts.length-3}</div>`:''}
+    h+=`<div class="cal-day${isH?' cal-today':''}${isF?' cal-fest':''}" title="${fd?fd.n:''}">
+      <div class="flex justify-between items-start">
+        <span class="text-[9px] font-bold ${isH?'text-blue-400':isF?'text-orange-400':'text-[#3d5272]'}">${d}</span>
+        ${isF?`<span class="text-[8px] text-orange-500" title="${fd?.n||''}">★</span>`:''}
+      </div>
+      ${evts.slice(0,2).map(e=>`<div class="cal-evt" style="background:${e.col}18;border-left:2px solid ${e.col};color:${e.col}">${e.nom.split(' ')[0]}</div>`).join('')}
+      ${evts.length>2?`<div class="text-[8px] text-[#3d5272] mt-0.5">+${evts.length-2}</div>`:''}
     </div>`;
   }
   h+='</div>';
-  if(Object.keys(cMap).length){h+=`<div class="mt-3 pt-3 border-t border-[#0e1a2b] flex flex-wrap gap-3">`;Object.entries(cMap).forEach(([n,c])=>{h+=`<div class="flex items-center gap-1.5"><div class="w-1.5 h-1.5 rounded-full" style="background:${c}"></div><span class="text-[9px] text-[#3d5272] font-medium">${n}</span></div>`});h+='</div>';}
+  if(Object.keys(cMap).length){
+    h+=`<div class="mt-3 pt-3 border-t border-[#0e1a2b] flex flex-wrap gap-3">`;
+    Object.entries(cMap).forEach(([n,c])=>{h+=`<div class="flex items-center gap-1.5"><div class="w-1.5 h-1.5 rounded-full" style="background:${c}"></div><span class="text-[9px] text-[#3d5272]">${n}</span></div>`});
+    h+='</div>';
+  }
   document.getElementById('cal-grid').innerHTML=h;
 }
 
-// ─ VACACIONES FORM ──────────────
+// ─── VAC FORM ────────────────────────────────────────
+function vtab(t){
+  ['cal','form'].forEach(id=>{document.getElementById('vc-'+id).classList.toggle('hidden',id!==t);document.getElementById('vt-'+id).classList.toggle('on',id===t)});
+  if(t==='cal')renderCal();
+}
+function vfSetMode(m){
+  vfMode=m;
+  document.getElementById('vf-pnat').classList.toggle('on',m==='nat');
+  document.getElementById('vf-plab').classList.toggle('on',m==='lab');
+  vfCalc();
+}
 function buscarVaca(v){
   const res=document.getElementById('vf-drop'),flt=(document.getElementById('vf-femp').value||'').toUpperCase();
   if(!v){res.classList.add('hidden');return}
@@ -696,47 +829,44 @@ function buscarVaca(v){
 }
 function selVaca(n){
   vacSel=G[n];
-  document.getElementById('vf-search').value=n;
-  document.getElementById('vf-drop').classList.add('hidden');
-  document.getElementById('vf-nom').innerText=n;
-  document.getElementById('vf-emp').innerText=vacSel.empresaFull;
-  document.getElementById('vf-sal').innerText=vacSel.saldo;
-  document.getElementById('vf-info').classList.remove('hidden');
+  document.getElementById('vf-search').value=n;document.getElementById('vf-drop').classList.add('hidden');
+  document.getElementById('vf-nom').innerText=n;document.getElementById('vf-emp2').innerText=vacSel.empresaFull;
+  document.getElementById('vf-sal').innerText=vacSel.saldo;document.getElementById('vf-info').classList.remove('hidden');
 }
 function vfCalc(){
   const f1=document.getElementById('vf-ini').value,f2=document.getElementById('vf-fin').value;
-  if(f1&&f2){const d=Math.round((new Date(f2)-new Date(f1))/86400000+1);document.getElementById('vf-count').innerText=d>0?d:0;document.getElementById('vf-warn').classList[vacSel&&d>vacSel.saldo?'remove':'add']('hidden')}
+  if(f1&&f2){const d=vfMode==='lab'?calcLab(f1,f2):calcNat(f1,f2);document.getElementById('vf-count').innerText=d;document.getElementById('vf-warn').classList[vacSel&&d>vacSel.saldo?'remove':'add']('hidden')}
 }
 async function guardarVacaForm(){
   if(!vacSel)return alert('Selecciona un empleado');
   const dias=parseInt(document.getElementById('vf-count').innerText);
-  if(dias<=0)return alert('Selecciona fechas válidas');
+  if(!dias)return alert('Selecciona fechas válidas');
   const d={nombre:vacSel.nombre,empresa:vacSel.empresaFull,inicio:document.getElementById('vf-ini').value,fin:document.getElementById('vf-fin').value,dias,fechaAlta:vacSel.fAltaCalcRaw,fechaAltaReal:vacSel.fAltaRealRaw,clave:vacSel.clave,baja:vacSel.bajaRaw,accion:'NUEVO'};
   fetch(SCRIPT,{method:'POST',mode:'no-cors',body:JSON.stringify(d)});
   addLog('vaca',`Vacaciones ${d.inicio}→${d.fin} (${dias}d) · ${d.nombre}`);
   alert('Vacaciones registradas.');setTimeout(()=>location.reload(),1200);
 }
 
-// ─ ALTA ─────────────────────────
+// ─── ALTA ────────────────────────────────────────────
 async function altaEmpleado(){
   const nom=document.getElementById('a-nom').value.trim().toUpperCase();
   if(!nom||!document.getElementById('a-fac').value)return alert('Faltan datos obligatorios');
   const d={empresa:document.getElementById('a-emp').value,puesto:'CONDUCTOR',nombre:nom,inicio:'',fin:'',dias:0,fechaAlta:document.getElementById('a-fac').value,fechaAltaReal:document.getElementById('a-far').value,clave:document.getElementById('a-clave').value,baja:document.getElementById('a-baja').value||'ACTIVO',accion:'NUEVO'};
   fetch(SCRIPT,{method:'POST',mode:'no-cors',body:JSON.stringify(d)});
-  addLog('alta','Alta creada: '+nom);
+  addLog('alta','Alta: '+nom);
   alert('Alta guardada.');setTimeout(()=>location.reload(),1200);
 }
 
-// ─ HISTORIAL ────────────────────
+// ─── HISTORIAL ───────────────────────────────────────
 function renderLog(){
   const c=document.getElementById('log-cont');
-  if(!log.length){c.innerHTML='<div class="text-[#3d5272] text-xs italic text-center py-5">No hay acciones en esta sesión.</div>';return}
-  const ic={sync:'🔄',vaca:'✈️',edit:'✏️',alta:'👤'};
-  const cl={sync:'#3b82f6',vaca:'#10b981',edit:'#f59e0b',alta:'#8b5cf6'};
-  c.innerHTML=log.map(a=>`<div class="audit-line"><div style="width:8px;height:8px;border-radius:50%;background:${cl[a.tipo]||'#3d5272'};margin-top:5px;flex-shrink:0"></div><div><div class="text-xs text-white font-medium">${ic[a.tipo]||'·'} ${a.txt}</div><div class="text-[9px] text-[#3d5272] mt-0.5">${a.t}</div></div></div>`).join('');
+  if(!auditLog.length){c.innerHTML='<div class="text-[#3d5272] text-xs italic text-center py-5">Sin acciones en esta sesión.</div>';return}
+  const ic={sync:'🔄',vaca:'✈️',edit:'✏️',alta:'👤',del:'🗑️',fest:'⭐'};
+  const lc={sync:'#3b82f6',vaca:'#10b981',edit:'#f59e0b',alta:'#8b5cf6',del:'#ef4444',fest:'#f97316'};
+  c.innerHTML=auditLog.map(a=>`<div class="audit-line"><div style="width:7px;height:7px;border-radius:50%;background:${lc[a.tipo]||'#3d5272'};margin-top:5px;flex-shrink:0"></div><div><div class="text-xs text-white font-medium">${ic[a.tipo]||'·'} ${a.txt}</div><div class="text-[9px] text-[#3d5272] mt-0.5">${a.t}</div></div></div>`).join('');
 }
 
-// ─ WORD ─────────────────────────
+// ─── WORD ────────────────────────────────────────────
 async function genWord(n,emp,fi,ff,dias){
   const{Document,Packer,Paragraph,TextRun,AlignmentType}=docx;
   const doc=new Document({sections:[{children:[
@@ -749,16 +879,7 @@ async function genWord(n,emp,fi,ff,dias){
     new Paragraph({children:[new TextRun({text:'Firma de la Empresa:                                    Firma del Trabajador:',size:24})]})
   ]}]});
   Packer.toBlob(doc).then(b=>saveAs(b,`Vacaciones_${n}_${fi}.docx`));
-  addLog('vaca',`Word generado · ${n}`);
-}
-
-// ─ TABS vacaciones ───────────────
-function vtab(t){
-  document.getElementById('vc-cal').classList.toggle('hidden',t!=='cal');
-  document.getElementById('vc-form').classList.toggle('hidden',t!=='form');
-  document.getElementById('vt-cal').classList.toggle('on',t==='cal');
-  document.getElementById('vt-form').classList.toggle('on',t==='form');
-  if(t==='cal')renderCal();
+  addLog('vaca',`Word · ${n}`);
 }
 </script>
 </body>
